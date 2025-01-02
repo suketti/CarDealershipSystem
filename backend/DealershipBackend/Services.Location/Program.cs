@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using Services.Location.Context;
 using Services.Location.Mappings;
+using Services.Location.Services;
 
 namespace Services.Location;
 
@@ -15,6 +16,7 @@ public class Program
         // Add services to the container.
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
+        builder.Services.AddScoped<LocationService>();
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
