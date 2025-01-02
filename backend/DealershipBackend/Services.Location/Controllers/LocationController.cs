@@ -5,7 +5,7 @@ using Services.Location.Services;
 namespace Services.Location.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("locations")]
     public class LocationController : ControllerBase
     {
         private readonly LocationService _locationService;

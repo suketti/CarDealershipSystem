@@ -14,7 +14,7 @@ public class Address
     public int PrefectureId { get; set; }
 
     [Required]
-    public Prefecture Prefecture { get; set; }
+    public virtual Prefecture Prefecture { get; set; }
 
     [Required]
     public string City { get; set; }

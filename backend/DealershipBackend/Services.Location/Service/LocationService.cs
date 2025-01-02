@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services.Location.Context;
@@ -18,9 +19,12 @@ namespace Services.Location.Services
             _context = context;
         }
 
-        public async Task<List<Entities.Location>> GetAllLocationsAsync()
+        public async Task<List<LocationDto>> GetAllLocationsAsync()
         {
-            return await _context.Locations.ToListAsync();
+            var locations = await _context.Locations.ToListAsync();
+            var locationDtos = _mapper.Map<List<LocationDto>>(locations);
+
+            return locationDtos;
         }
 
         public async Task<LocationDto> GetLocationByIdAsync(int id)

@@ -66,8 +66,10 @@ public class ApplicationDbContext : DbContext
             new Prefecture { Id = 46, Name = "Kagoshima", NameJP = "鹿児島県" },
             new Prefecture { Id = 47, Name = "Okinawa", NameJP = "沖縄県" }
         );
-        
-        
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
     }
 }
 
