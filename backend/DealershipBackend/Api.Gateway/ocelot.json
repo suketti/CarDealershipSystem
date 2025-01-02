@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "locationservice",
           "Port": 5001
         }
       ],
@@ -17,15 +17,12 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "locationservice",
           "Port": 5001
         }
       ],
       "UpstreamPathTemplate": "/api/locations/{id}",
       "UpstreamHttpMethod": [ "Get", "Post" ]
     }
-  ],
-  "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000"
-  }
+  ]
 }

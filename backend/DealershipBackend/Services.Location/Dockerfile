@@ -1,24 +1,13 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-EXPOSE 5001
-EXPOSE 7001
-
-
+﻿
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["Services.Location/Services.Location.csproj", "Services.Location/"]
-RUN dotnet restore "Services.Location/Services.Location.csproj"
-COPY . .
-WORKDIR "/src/Services.Location"
-RUN dotnet build "Services.Location.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR /App
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Services.Location.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+COPY . ./
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app/publish .
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /App
+COPY --from=build /App/out .
 ENTRYPOINT ["dotnet", "Services.Location.dll"]
+EXPOSE 5001

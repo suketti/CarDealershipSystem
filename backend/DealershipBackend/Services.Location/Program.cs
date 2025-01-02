@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using Services.Location.Context;
@@ -11,8 +12,6 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
-        //connectionString = connectionString.Replace("{dbpass}", dbPassword);
         // Add services to the container.
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -23,9 +22,11 @@ public class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //TODO: When dockerized, make the password an ENV variable. Do not store it in the connection string. (Left like that for DEV purposes as of now)
+            //The DefaultConnection env variable has to set for this to work.
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+        builder.WebHost.ConfigureKestrel(options => options.Listen(IPAddress.Any, 5001));
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
