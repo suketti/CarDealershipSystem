@@ -13,6 +13,7 @@ public class LocationDto
     [Required]
     public AddressDto Address { get; set; }
     [Required]
+    [MaxLength(15)]
     public required string PhoneNumber { get; set; }
     
 }

@@ -16,7 +16,8 @@ public class Location
     [Required]
     [ForeignKey("AddressId")]
     public virtual Address Address { get; set; }
-
+    
     [Required]
+    [MaxLength(15)]
     public string PhoneNumber { get; set; }
 }

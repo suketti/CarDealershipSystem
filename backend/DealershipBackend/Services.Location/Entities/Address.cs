@@ -7,9 +7,11 @@ public class Address
 {
     public int Id { get; set; }
 
+    [MaxLength(30)]
     [Required]
     public string PostalCode { get; set; }
 
+    
     [Required]
     public int PrefectureId { get; set; }
 

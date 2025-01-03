@@ -5,7 +5,7 @@ namespace Services.Location.DTO;
 
 public class AddressDto
 {
-    
+    [MaxLength(7)]
     [Required]  
     public string PostalCode { get; set; }
 
