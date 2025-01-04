@@ -1,6 +1,0 @@
-@Services.Location_HostAddress = http://localhost:5001
-
-GET {{Services.Location_HostAddress}}/locations/
-Accept: application/json
-
-###
