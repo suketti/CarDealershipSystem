@@ -18,6 +18,13 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new PrefectureConfiguration());
+        
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.ID);
+            entity.Property(e => e.ID).IsRequired();
+        });
+        
         modelBuilder.Entity<Prefecture>().HasData(
             new Prefecture { Id = 1, Name = "Hokkaido", NameJP = "北海道" },
             new Prefecture { Id = 2, Name = "Aomori", NameJP = "青森県" },
@@ -67,6 +74,8 @@ public class ApplicationDbContext : DbContext
             new Prefecture { Id = 46, Name = "Kagoshima", NameJP = "鹿児島県" },
             new Prefecture { Id = 47, Name = "Okinawa", NameJP = "沖縄県" }
         );
+        
+        
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

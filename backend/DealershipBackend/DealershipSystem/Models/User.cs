@@ -4,8 +4,7 @@ namespace DealershipSystem.Models;
 
 public class User
 {
-    [Key]
-    public int ID { get; set; }
+    [Key] public Guid ID { get; set; } = Guid.NewGuid();
     [Required]
     [MaxLength(70)]
     public string Name { get; set; }
