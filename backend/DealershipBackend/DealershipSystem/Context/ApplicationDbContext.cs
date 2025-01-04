@@ -2,10 +2,12 @@ using System.Configuration;
 using DealershipSystem.Configurations;
 using DealershipSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DealershipSystem.Context;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -19,11 +21,17 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new PrefectureConfiguration());
         
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.ID);
-            entity.Property(e => e.ID).IsRequired();
-        });
+        modelBuilder.Entity<IdentityUserLogin<string>>()
+            .HasKey(e => e.UserId);  
+
+        modelBuilder.Entity<IdentityUserRole<string>>()
+            .HasKey(e => new { e.UserId, e.RoleId }); 
+
+        modelBuilder.Entity<IdentityUserClaim<string>>()
+            .HasKey(e => e.Id);  
+
+        modelBuilder.Entity<IdentityUserToken<string>>()
+            .HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
         
         modelBuilder.Entity<Prefecture>().HasData(
             new Prefecture { Id = 1, Name = "Hokkaido", NameJP = "北海道" },

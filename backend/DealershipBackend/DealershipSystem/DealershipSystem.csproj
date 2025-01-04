@@ -9,6 +9,8 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
           <PrivateAssets>all</PrivateAssets>
@@ -22,10 +24,6 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Interaces\" />
     </ItemGroup>
 
 </Project>

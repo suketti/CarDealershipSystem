@@ -1,4 +1,6 @@
 using AutoMapper;
+using DealershipSystem.DTO;
+using DealershipSystem.Models;
 
 
 namespace DealershipSystem.Mappings;
@@ -8,12 +10,15 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         //Forward mappings
-        CreateMap<Models.Location, LocationDto>();
-        CreateMap<Models.Address, AddressDto>();
-        CreateMap<Models.Prefecture, PrefectureDTO>();
+        CreateMap<Location, LocationDto>();
+        CreateMap<Address, AddressDto>();
+        CreateMap<Prefecture, PrefectureDTO>();
+
+        CreateMap<User, UserDTO>();
         //Reverse mappings
-        CreateMap<LocationDto, Models.Location>();
-        CreateMap<AddressDto, Models.Address>();
-        CreateMap<PrefectureDTO, Models.Prefecture>();
+        CreateMap<LocationDto, Location>();
+        CreateMap<AddressDto, Address>();
+        CreateMap<PrefectureDTO, Prefecture>();
+        CreateMap<UserDTO, User>();
     }
 }
