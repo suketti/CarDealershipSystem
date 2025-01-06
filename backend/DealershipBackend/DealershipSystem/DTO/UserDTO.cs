@@ -20,5 +20,6 @@ public class UserDTO
     public string PhoneNumber { get; set; }
     [Required]
     [MaxLength(2)]
+    [RegularExpression("^(en|jp|hu)$", ErrorMessage = "PreferredLanguage must be 'en', 'jp' or 'hu'.")]
     public string PreferredLanguage { get; set; }
 }
