@@ -14,7 +14,7 @@ namespace DealershipSystem;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,7 @@ public class Program
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<JWTService>(); 
+        builder.Services.AddScoped<RoleService>();
         
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -72,7 +73,14 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-
-        app.Run();
+        
+        
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            await SeedRoles.Initialize(services);
+        }
+        
+        await app.RunAsync();
     }
 }
