@@ -2,6 +2,7 @@ using DealershipSystem.DTO;
 using DealershipSystem.Interfaces;
 using DealershipSystem.Models;
 using DealershipSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,11 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterDto registerDto)
     {
+        if (await _userManager.FindByEmailAsync(registerDto.Email) != null)
+        {
+            return BadRequest();
+        }
+
         var result = await _authService.RegisterAsync(registerDto);
 
         if (result.Succeeded)
@@ -33,5 +39,19 @@ public class UserController : ControllerBase
         }
 
         return BadRequest(new { errors = result.Errors });
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
+    {
+        var user = await _userManager.FindByEmailAsync(loginDto.Email);
+
+        if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
+        {
+            var token = _authService.GenerateJwtTokenAsync(user);
+            return Ok(new { Token = token });
+        }
+
+        return Unauthorized();
     }
 }

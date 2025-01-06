@@ -33,6 +33,10 @@ public class ApplicationDbContext : IdentityDbContext<User>
         modelBuilder.Entity<IdentityUserToken<string>>()
             .HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
         
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+        
         modelBuilder.Entity<Prefecture>().HasData(
             new Prefecture { Id = 1, Name = "Hokkaido", NameJP = "北海道" },
             new Prefecture { Id = 2, Name = "Aomori", NameJP = "青森県" },
