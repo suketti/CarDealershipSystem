@@ -12,6 +12,7 @@ public class UserDTO
     public string NameKanji { get; set; }
     [Required]
     [MaxLength(254)]
+    [EmailAddress]
     public string Email { get; set; }
     [Required]
     public string UserName { get; set; }
