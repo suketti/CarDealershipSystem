@@ -91,7 +91,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //optionsBuilder.UseLazyLoadingProxies();
+        optionsBuilder.UseLazyLoadingProxies();
     }
 }
 

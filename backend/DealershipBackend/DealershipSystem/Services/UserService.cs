@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using DealershipSystem.Context;
 using DealershipSystem.DTO;
@@ -46,8 +47,45 @@ public class UserService : IUserService
         return result;
     }
     
+    public async Task<(bool IsValid, List<ValidationResult> Errors)> ValidateUserDtoAsync(UserDTO userDto)
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(userDto);
+
+        var isValid = Validator.TryValidateObject(userDto, validationContext, validationResults, true);
+
+        return (isValid, validationResults);
+    }
+    
+    public async Task<User?> GetUserByIdAsync(Guid userId)
+    {
+        return await _userManager.FindByIdAsync(userId.ToString());
+    }
+    
     public async Task<string> GenerateJwtTokenAsync(User user)
     {
         return _jwtService.GenerateToken(user);
+    }
+    
+    public async Task<bool> UpdateUserAsync(Guid id, UserDTO userDto)
+    {
+        var user = await GetUserByIdAsync(id);
+        if (user == null)
+        {
+            return false;
+        }
+        
+        _mapper.Map(userDto, user);
+
+        try
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return true; 
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

@@ -32,7 +32,7 @@ public class JWTService
     {
         var claims = new ClaimsIdentity();
         claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-        claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+        claims.AddClaim(new Claim("Id", user.Id.ToString()));
         return claims;
     }
 }

@@ -1,5 +1,7 @@
 using AutoMapper;
 using DealershipSystem.Context;
+using DealershipSystem.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -53,5 +55,55 @@ public class LocationService
         await _context.SaveChangesAsync();
 
         return new CreatedAtActionResult("GetById", "Location", new { id = entity.ID }, location);
+    }
+    
+    public async Task<Location> UpdateLocationAsync(LocationDto locationDto)
+    {
+        var existingLocation = await _context.Locations.FindAsync(locationDto.Id);
+        if (existingLocation == null)
+        {
+            return null; // Location not found
+        }
+        existingLocation.LocationName = locationDto.LocationName;
+        existingLocation.Address.City = locationDto.Address.City;
+        existingLocation.Address.CityRomanized = locationDto.Address.CityRomanized;
+        existingLocation.Address.Street = locationDto.Address.Street;
+        existingLocation.Address.StreetRomanized = locationDto.Address.StreetRomanized;
+        existingLocation.Address.Prefecture.Name = locationDto.Address.Prefecture.Name;
+        existingLocation.Address.Prefecture.NameJP = locationDto.Address.Prefecture.NameJP;
+        existingLocation.PhoneNumber = locationDto.PhoneNumber;
+
+        try
+        {
+            _context.Locations.Update(existingLocation);
+            await _context.SaveChangesAsync();
+
+            return existingLocation; 
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error updating location", ex);
+        }
+    }
+
+    public async Task<bool> DeleteLocationAsync(int locationId)
+    {
+        var location = await _context.Locations.FindAsync(locationId);
+        if (location == null)
+        {
+            return false; 
+        }
+
+        try
+        {
+            _context.Locations.Remove(location);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error deleting location", ex);
+        }
     }
 }
