@@ -11,6 +11,8 @@ public class LocationDto
     [Required]
     public AddressDto Address { get; set; }
     [Required]
+    public int MaxCapacity { get; set; }
+    [Required]
     [MaxLength(15)]
     public required string PhoneNumber { get; set; }
     

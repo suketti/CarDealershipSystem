@@ -60,6 +60,7 @@ public class LocationController : ControllerBase
 
         try
         {
+            
             var updatedLocation = await _locationService.UpdateLocationAsync(locationDto);
             
             if (updatedLocation == null)

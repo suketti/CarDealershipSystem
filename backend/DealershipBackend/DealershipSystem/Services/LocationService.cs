@@ -72,6 +72,7 @@ public class LocationService
         existingLocation.Address.Prefecture.Name = locationDto.Address.Prefecture.Name;
         existingLocation.Address.Prefecture.NameJP = locationDto.Address.Prefecture.NameJP;
         existingLocation.PhoneNumber = locationDto.PhoneNumber;
+        existingLocation.MaxCapacity = locationDto.MaxCapacity;
 
         try
         {
