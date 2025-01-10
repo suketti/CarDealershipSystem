@@ -21,4 +21,11 @@ public class RoleService
             await _userManager.AddToRoleAsync(user, role);
         }
     }
+
+    public async Task<IList<string>> GetRole(string UserId)
+    {
+        var user = await _userManager.FindByIdAsync(UserId);
+        var role = await _userManager.GetRolesAsync(user);
+        return role;
+    }
 }
