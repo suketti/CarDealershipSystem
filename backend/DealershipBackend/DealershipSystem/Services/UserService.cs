@@ -5,6 +5,7 @@ using DealershipSystem.DTO;
 using DealershipSystem.Interfaces;
 using DealershipSystem.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace DealershipSystem.Services;
 
@@ -64,7 +65,7 @@ public class UserService : IUserService
     
     public async Task<string> GenerateJwtTokenAsync(User user)
     {
-        return _jwtService.GenerateToken(user);
+        return await _jwtService.GenerateToken(user);
     }
     
     public async Task<bool> UpdateUserAsync(Guid id, UserDTO userDto)
@@ -87,5 +88,31 @@ public class UserService : IUserService
         {
             return false;
         }
+    }
+
+    public async Task<bool> DeleteUserAsync(Guid id, UserDTO userDto)
+    {
+        var userFromDto = await _userManager.FindByEmailAsync(userDto.Email);
+        var userFromID = await _userManager.FindByIdAsync(id.ToString());
+        
+        if (userFromDto == userFromID)
+        try
+        {
+            _context.Users.Remove(userFromID);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+    public async Task<UserDTO[]> GetAllUsersAsync()
+    {
+        List<User> userList = await _context.Users.ToListAsync();
+        UserDTO[] userDtos = _mapper.Map<UserDTO[]>(userList);
+        return userDtos;
     }
 }

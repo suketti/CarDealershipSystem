@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using DealershipSystem.DTO;
 using DealershipSystem.Interfaces;
 using DealershipSystem.Models;
@@ -16,11 +17,13 @@ public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly UserManager<User> _userManager;
-
-    public UserController(IUserService userService, UserManager<User> userManager)
+    private readonly IMapper _mapper;
+    
+    public UserController(IUserService userService, UserManager<User> userManager, IMapper mapper)
     {
         _userService = userService;
         _userManager = userManager;
+        _mapper = mapper;
     }
 
     [HttpPost("register")]
@@ -58,7 +61,8 @@ public class UserController : ControllerBase
         if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
         {
             var token = await _userService.GenerateJwtTokenAsync(user);
-            return Ok(new { Token = token });
+            var userDto = _mapper.Map<User, UserDTO>(user);
+            return Ok(new { Token = token, User = userDto});
         }
 
         return Unauthorized();
@@ -80,7 +84,7 @@ public class UserController : ControllerBase
             });
         }
         
-        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
         var user = await _userService.GetUserByIdAsync(Guid.Parse(userIdFromToken));
         if (userIdFromToken == null || user == null)
         {
@@ -96,4 +100,42 @@ public class UserController : ControllerBase
         return Ok(new { Message = "User updated successfully." });
     }
 
+    [HttpDelete("delete")]
+    [Authorize]
+    public async Task<IActionResult> DeleteUserAsync([FromBody] UserDTO userDto)
+    {
+        var (isValid, validationErrors) = await _userService.ValidateUserDtoAsync(userDto);
+        if (!isValid)
+        {
+            return BadRequest(new
+            {
+                Message = "Validation failed.",
+                Errors = validationErrors.Select(v => v.ErrorMessage)
+            });
+        }
+
+        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+        if (userIdFromToken == null)
+        {
+            return NoContent();
+        }
+
+        var didSucceed = await _userService.DeleteUserAsync(Guid.Parse(userIdFromToken), userDto);
+        if (!didSucceed)
+        {
+            return StatusCode(400, new { Message = "Couldn't delete user" });
+        }
+
+        return Ok();
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+
+    public async Task<IActionResult> GetAllUsersAsync()
+    {
+        UserDTO[] users = await _userService.GetAllUsersAsync();
+        return Ok(users);
+
+    }
 }

@@ -12,5 +12,7 @@ public interface IUserService
     Task<(bool IsValid, List<ValidationResult> Errors)> ValidateUserDtoAsync(UserDTO userDto);
     Task<User?> GetUserByIdAsync(Guid userId);
     Task<bool> UpdateUserAsync(Guid id, UserDTO userDto);
-    
+    Task<bool> DeleteUserAsync(Guid id, UserDTO userDto);
+    Task<UserDTO[]> GetAllUsersAsync();
+
 }
