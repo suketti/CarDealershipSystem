@@ -16,6 +16,18 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Models.Location> Locations { get; set; }
     public DbSet<Models.Prefecture> Prefectures { get; set; }
     public DbSet<Models.Address> Addresses { get; set; }
+    public DbSet<Car> Cars { get; set; } = null!;
+    public DbSet<CarMaker> CarMakers { get; set; } = null!;
+    public DbSet<CarModel> CarModels { get; set; } = null!;
+    public DbSet<BodyType> BodyTypes { get; set; } = null!;
+    public DbSet<EngineSizeModel> EngineSizeModels { get; set; } = null!;
+    public DbSet<FuelType> FuelTypes { get; set; } = null!;
+    public DbSet<DrivetrainType> DrivetrainTypes { get; set; } = null!;
+    public DbSet<TransmissionType> TransmissionTypes { get; set; } = null!;
+    public DbSet<Color> Colors { get; set; } = null!;
+    public DbSet<CarExtra> CarExtras { get; set; } = null!;
+    public DbSet<Image> Images { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,6 +48,34 @@ public class ApplicationDbContext : IdentityDbContext<User>
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
+        
+        modelBuilder.Entity<Car>()
+            .HasMany(c => c.Images)
+            .WithOne(i => i.Car)
+            .HasForeignKey(i => i.CarID);
+
+        modelBuilder.Entity<Car>()
+            .HasMany(c => c.CarExtras)
+            .WithOne(ce => ce.Car)
+            .HasForeignKey(ce => ce.CarID);
+
+        modelBuilder.Entity<CarModel>()
+            .HasMany(m => m.EngineSizes)
+            .WithOne(es => es.CarModel)
+            .HasForeignKey(es => es.ModelID);
+        
+        modelBuilder.Entity<EngineSizeModel>()
+            .HasOne(es => es.CarModel)
+            .WithMany(m => m.EngineSizes)
+            .HasForeignKey(es => es.ModelID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Car and EngineSizeModel relationship
+        modelBuilder.Entity<Car>()
+            .HasOne(c => c.EngineSize)
+            .WithMany()
+            .HasForeignKey(c => c.EngineSizeID)
+            .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<Prefecture>().HasData(
             new Prefecture { Id = 1, Name = "Hokkaido", NameJP = "北海道" },

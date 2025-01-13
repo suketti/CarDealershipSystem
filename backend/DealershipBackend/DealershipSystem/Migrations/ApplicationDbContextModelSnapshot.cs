@@ -64,6 +64,307 @@ namespace DealershipSystem.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("DealershipSystem.Models.BodyType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("NameEnglish")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameJapanese")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("BodyTypes");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.Car", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("BodyTypeID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BrandID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CarModelID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ColorID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DriveTrainID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EngineSizeID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FuelTypeID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsInTransfer")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSmoking")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LicensePlateNumber")
+                        .HasColumnType("text");
+
+                    b.Property<int>("LocationID")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("MOTExpiry")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ModelID")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("RepairHistory")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("TransmissionTypeID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("VINNum")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BodyTypeID");
+
+                    b.HasIndex("BrandID");
+
+                    b.HasIndex("CarModelID");
+
+                    b.HasIndex("ColorID");
+
+                    b.HasIndex("DriveTrainID");
+
+                    b.HasIndex("EngineSizeID");
+
+                    b.HasIndex("FuelTypeID");
+
+                    b.HasIndex("LocationID");
+
+                    b.HasIndex("TransmissionTypeID");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.CarExtra", b =>
+                {
+                    b.Property<int>("CarExtraID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarExtraID"));
+
+                    b.Property<int>("CarID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ExtraID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CarExtraID");
+
+                    b.HasIndex("CarID");
+
+                    b.HasIndex("ExtraID");
+
+                    b.ToTable("CarExtras");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.CarMaker", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("BrandEnglish")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BrandJapanese")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("CarMakers");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.CarModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("Height")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Length")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MakerID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ManufacturingEndYear")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ManufacturingStartYear")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Mass")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ModelCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ModelNameEnglish")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ModelNameJapanese")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("PassengerCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MakerID");
+
+                    b.ToTable("CarModels");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.Color", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("ColorNameEnglish")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ColorNameJapanese")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.DrivetrainType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("DrivetrainTypes");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("EngineSize")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ModelID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ModelID");
+
+                    b.ToTable("EngineSizeModels");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.FuelType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("NameEnglish")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NameJapanese")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("FuelTypes");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.Image", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("CarID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CarID");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("DealershipSystem.Models.Location", b =>
                 {
                     b.Property<int>("ID")
@@ -407,6 +708,23 @@ namespace DealershipSystem.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DealershipSystem.Models.TransmissionType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TransmissionTypes");
+                });
+
             modelBuilder.Entity("DealershipSystem.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -604,6 +922,133 @@ namespace DealershipSystem.Migrations
                     b.Navigation("Prefecture");
                 });
 
+            modelBuilder.Entity("DealershipSystem.Models.Car", b =>
+                {
+                    b.HasOne("DealershipSystem.Models.BodyType", "BodyType")
+                        .WithMany()
+                        .HasForeignKey("BodyTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.CarMaker", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.CarModel", "CarModel")
+                        .WithMany()
+                        .HasForeignKey("CarModelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.Color", "Color")
+                        .WithMany("Cars")
+                        .HasForeignKey("ColorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.DrivetrainType", "DriveTrain")
+                        .WithMany()
+                        .HasForeignKey("DriveTrainID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.EngineSizeModel", "EngineSize")
+                        .WithMany()
+                        .HasForeignKey("EngineSizeID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.FuelType", "FuelType")
+                        .WithMany()
+                        .HasForeignKey("FuelTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.TransmissionType", "TransmissionType")
+                        .WithMany()
+                        .HasForeignKey("TransmissionTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BodyType");
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("CarModel");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("DriveTrain");
+
+                    b.Navigation("EngineSize");
+
+                    b.Navigation("FuelType");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("TransmissionType");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.CarExtra", b =>
+                {
+                    b.HasOne("DealershipSystem.Models.Car", "Car")
+                        .WithMany("CarExtras")
+                        .HasForeignKey("CarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DealershipSystem.Models.Car", "Extra")
+                        .WithMany()
+                        .HasForeignKey("ExtraID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("Extra");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.CarModel", b =>
+                {
+                    b.HasOne("DealershipSystem.Models.CarMaker", "Maker")
+                        .WithMany()
+                        .HasForeignKey("MakerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Maker");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>
+                {
+                    b.HasOne("DealershipSystem.Models.CarModel", "CarModel")
+                        .WithMany("EngineSizes")
+                        .HasForeignKey("ModelID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CarModel");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.Image", b =>
+                {
+                    b.HasOne("DealershipSystem.Models.Car", "Car")
+                        .WithMany("Images")
+                        .HasForeignKey("CarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("DealershipSystem.Models.Location", b =>
                 {
                     b.HasOne("DealershipSystem.Models.Address", "Address")
@@ -613,6 +1058,23 @@ namespace DealershipSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.Car", b =>
+                {
+                    b.Navigation("CarExtras");
+
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.CarModel", b =>
+                {
+                    b.Navigation("EngineSizes");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.Color", b =>
+                {
+                    b.Navigation("Cars");
                 });
 #pragma warning restore 612, 618
         }
