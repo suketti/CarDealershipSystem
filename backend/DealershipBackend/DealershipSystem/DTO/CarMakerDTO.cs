@@ -1,8 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+namespace DealershipSystem.DTO;
 
-namespace DealershipSystem.Models;
-
-public class CarMaker
+public class CarMakerDTO
 {
     public int ID { get; set; }
     public string BrandEnglish { get; set; } = string.Empty!;

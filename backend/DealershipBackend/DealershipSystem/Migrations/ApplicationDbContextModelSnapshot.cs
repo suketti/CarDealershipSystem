@@ -83,6 +83,56 @@ namespace DealershipSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("BodyTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            NameEnglish = "Kei Car",
+                            NameJapanese = "軽自動車"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            NameEnglish = "Compact Car",
+                            NameJapanese = "コンパクトカー"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            NameEnglish = "Minivan/One-Box",
+                            NameJapanese = "ミニバン/ワンボックス"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            NameEnglish = "Sedan",
+                            NameJapanese = "セダン"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            NameEnglish = "Coupe",
+                            NameJapanese = "クーペ"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            NameEnglish = "Station Wagon",
+                            NameJapanese = "ステーションワゴン"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            NameEnglish = "SUV/Crossover",
+                            NameJapanese = "SUV/クロカン"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            NameEnglish = "Truck/Van",
+                            NameJapanese = "トラック/バン"
+                        });
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.Car", b =>
@@ -723,6 +773,33 @@ namespace DealershipSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("TransmissionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Type = "MT"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Type = "AT"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Type = "CVT"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Type = "AMT"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Type = "DCT"
+                        });
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.User", b =>

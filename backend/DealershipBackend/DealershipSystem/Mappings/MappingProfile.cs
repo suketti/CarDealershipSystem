@@ -15,10 +15,17 @@ public class MappingProfile : Profile
         CreateMap<Prefecture, PrefectureDTO>();
 
         CreateMap<User, UserDTO>();
+        CreateMap<BodyType, BodyTypeDTO>();
+        CreateMap<TransmissionType, TransmissionTypeDTO>();
+        
         //Reverse mappings
         CreateMap<LocationDto, Location>();
         CreateMap<AddressDto, Address>();
         CreateMap<PrefectureDTO, Prefecture>();
         CreateMap<UserDTO, User>();
+        CreateMap<BodyTypeDTO, BodyType>();
+        CreateMap<TransmissionTypeDTO, TransmissionType>();
+
+        
     }
 }

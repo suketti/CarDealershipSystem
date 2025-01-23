@@ -127,7 +127,24 @@ public class ApplicationDbContext : IdentityDbContext<User>
             new Prefecture { Id = 47, Name = "Okinawa", NameJP = "沖縄県" }
         );
         
+        modelBuilder.Entity<BodyType>().HasData(
+            new BodyType { ID = 1, NameJapanese = "軽自動車", NameEnglish = "Kei Car" },
+            new BodyType { ID = 2, NameJapanese = "コンパクトカー", NameEnglish = "Compact Car" },
+            new BodyType { ID = 3, NameJapanese = "ミニバン/ワンボックス", NameEnglish = "Minivan/One-Box" },
+            new BodyType { ID = 4, NameJapanese = "セダン", NameEnglish = "Sedan" },
+            new BodyType { ID = 5, NameJapanese = "クーペ", NameEnglish = "Coupe" },
+            new BodyType { ID = 6, NameJapanese = "ステーションワゴン", NameEnglish = "Station Wagon" },
+            new BodyType { ID = 7, NameJapanese = "SUV/クロカン", NameEnglish = "SUV/Crossover" },
+            new BodyType { ID = 8, NameJapanese = "トラック/バン", NameEnglish = "Truck/Van" }
+        );
         
+        modelBuilder.Entity<TransmissionType>().HasData(
+            new TransmissionType { ID = 1, Type = "MT" },  // Manual Transmission
+            new TransmissionType { ID = 2, Type = "AT" },  // Automatic Transmission
+            new TransmissionType { ID = 3, Type = "CVT" }, // Continuously Variable Transmission
+            new TransmissionType { ID = 4, Type = "AMT" }, // Automated Manual Transmission
+            new TransmissionType { ID = 5, Type = "DCT" }  // Dual Clutch Transmission
+        );
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
