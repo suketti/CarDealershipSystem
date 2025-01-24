@@ -1,0 +1,472 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+.hero {
+    background: url('hero.jpg') no-repeat center center/cover;
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.hero h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    background-color: #e60012;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.filter {
+    background-color: #f4f4f4;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.filter h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.filter form {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.filter select,
+.filter input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filter .btn {
+    margin-top: 10px;
+}
+.filter-sidebar {
+    position: fixed;
+    top: 135px; /* A header alá kerül */
+    left: 0;
+    bottom: 70px; /* A footer fölé kerül */
+    width: 250px;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.filter-sidebar h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.filter-sidebar .form-group {
+    margin-bottom: 15px;
+}
+
+.filter-sidebar select,
+.filter-sidebar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.filter-sidebar .btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.filter-sidebar .btn:hover {
+    background-color: #b8000f;
+}
+
+
+.inventory {
+    padding: 100px 0 50px 270px; /* Hely a header és keresési sáv mellett */
+}
+
+.inventory h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.cars-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.car-item {
+    width: calc(33.33% - 20px); /* Három oszlopos elrendezés */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.car-item img {
+    width: 100%;
+    height: auto;
+}
+
+.car-item h3 {
+    font-size: 20px;
+    margin: 10px;
+}
+
+.car-item p {
+    margin: 5px 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.car-item p strong {
+    color: #333;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f9f9f9;
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    z-index: 10; /* A keresési sáv alatt maradjon */
+}
+
+
+/*auto_kivalasztas*/
+
+
+.car-details {
+    display: flex;
+    gap: 20px;
+    padding: 50px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.car-details img {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.car-details .details {
+    flex: 1;
+}
+
+.car-details .details h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.car-details .details p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.car-details .description {
+    margin-top: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.appointment-form {
+    margin-top: 30px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-form h3 {
+    margin-bottom: 15px;
+}
+
+.appointment-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.appointment-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.appointment-form .btn-submit {
+    display: inline-block;
+    background-color: #e60012;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.appointment-form .btn-submit:hover {
+    background-color: #b8000f;
+}
+
+.calendar-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.calendar-container h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.calendar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.calendar-header button {
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.calendar-header select {
+    font-size: 16px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.calendar-table th, .calendar-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.calendar-table th {
+    background-color: #f4f4f4;
+}
+
+.calendar-table td {
+    background-color: #fff;
+}
+
+.calendar-table td:hover {
+    background-color: #e6f7ff;
+}
+
+.calendar-table td.active {
+    background-color: #e60012;
+    color: #fff;
+}
+
+.btn-submit {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.date-picker select, 
+.time-picker select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.date-picker label, 
+.time-picker label {
+    margin-right: 5px;
+}
+
+.date-picker {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+.time-picker {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.time-picker label {
+    margin-right: 5px;
+}
+
+.time-picker select {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/*Login*/
+
+.blurred {
+    filter: blur(5px);
+    pointer-events: none;
+}
+
+#login-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+#login-modal input {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#login-modal button {
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#login-modal button:hover {
+    background-color: #b8000f;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+header nav ul li {
+    display: inline-block;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}

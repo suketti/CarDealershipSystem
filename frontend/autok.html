@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autókereskedés - Autók</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Teszt adatok betöltése
+            const cars = [
+    {
+        marka: "Toyota",
+        modell: "Prius",
+        ev: 2015,
+        kivitel: "Hatchback",
+        uzemanyag: "Hibrid",
+        ar: 4500000,
+        kep: "https://autos.hamariweb.com/images/cars/toyota/prius/2015/l_2015_1_2015_toyota_prius_143.jpg",
+        leiras: "A Toyota Prius az egyik legismertebb hibrid autó, amely kiváló üzemanyag-hatékonyságáról híres."
+    },
+    {
+        marka: "Nissan",
+        modell: "Leaf",
+        ev: 2018,
+        kivitel: "Hatchback",
+        uzemanyag: "Elektromos",
+        ar: 5200000,
+        kep: "https://www.autobics.com/wp-content/uploads/2017/09/2018-Nissan-LEAF-Pearl-White-Front.jpg",
+        leiras: "A Nissan Leaf egy teljesen elektromos autó, amely tökéletes a városi közlekedéshez."
+    },
+    {
+        marka: "Honda",
+        modell: "Civic",
+        ev: 2020,
+        kivitel: "Hatchback",
+        uzemanyag: "Benzin",
+        ar: 6000000,
+        kep: "https://www.cars.com/cstatic-images/car-pictures/xl/usc90hoc021b021001.png",
+        leiras: "A Honda Civic egy megbízható és sportos hatchback, modern dizájnnal."
+    },
+    {
+        marka: "Ford",
+        modell: "Focus",
+        ev: 2017,
+        kivitel: "Hatchback",
+        uzemanyag: "Dízel",
+        ar: 3800000,
+        kep: "https://cdn.motor1.com/images/mgl/0ANV9/s1/2017-ford-focus-hatchback.jpg",
+        leiras: "A Ford Focus egy kényelmes és takarékos dízel hatchback autó, amely családok számára is ideális."
+    },
+    {
+        marka: "Volkswagen",
+        modell: "Golf",
+        ev: 2019,
+        kivitel: "Hatchback",
+        uzemanyag: "Benzin",
+        ar: 5500000,
+        kep: "https://www.wheels.ca/wp-content/uploads/2019/01/2019-Volkswagen-Golf-R-106-1.jpg",
+        leiras: "A Volkswagen Golf egy ikonikus benzines autó, amely kiemelkedő vezetési élményt nyújt."
+    }
+];
+
+
+            // Keresési mezők dinamikus feltöltése
+            const populateSelectOptions = (selectId, options) => {
+                const selectElement = document.querySelector(`#${selectId}`);
+                selectElement.innerHTML = '<option value="">Válasszon</option>';
+                options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    selectElement.appendChild(opt);
+                });
+            };
+
+            const uniqueValues = (key) => [...new Set(cars.map(car => car[key]))];
+            populateSelectOptions('brand', uniqueValues('marka'));
+            populateSelectOptions('model', uniqueValues('modell'));
+            populateSelectOptions('body-type', uniqueValues('kivitel'));
+            populateSelectOptions('fuel', uniqueValues('uzemanyag'));
+
+            // Szűrés és megjelenítés
+            const searchForm = document.querySelector("form");
+            searchForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const marka = document.querySelector("#brand").value.trim();
+                const modell = document.querySelector("#model").value.trim();
+                const kivitel = document.querySelector("#body-type").value.trim();
+                const uzemanyag = document.querySelector("#fuel").value.trim();
+                const minAr = parseInt(document.querySelector("#min-price").value) || 0;
+                const maxAr = parseInt(document.querySelector("#max-price").value) || Infinity;
+                const evTol = parseInt(document.querySelector("#year-from").value) || 0;
+                const evIg = parseInt(document.querySelector("#year-to").value) || Infinity;
+
+                const filteredCars = cars.filter(car => {
+                    return (
+                        (!marka || car.marka.toLowerCase() === marka.toLowerCase()) &&
+                        (!modell || car.modell.toLowerCase() === modell.toLowerCase()) &&
+                        (!kivitel || car.kivitel.toLowerCase() === kivitel.toLowerCase()) &&
+                        (!uzemanyag || car.uzemanyag.toLowerCase() === uzemanyag.toLowerCase()) &&
+                        (car.ar >= minAr) &&
+                        (car.ar <= maxAr) &&
+                        (car.ev >= evTol) &&
+                        (car.ev <= evIg)
+                    );
+                });
+
+                const resultsContainer = document.querySelector(".cars-list");
+                resultsContainer.innerHTML = "";
+
+                if (filteredCars.length > 0) {
+                    filteredCars.forEach(car => {
+                    const carItem = document.createElement("div");
+                    carItem.classList.add("car-item");
+                    carItem.innerHTML = `
+                        <img src="${car.kep}" alt="${car.marka} ${car.modell}" />
+                        <h3>${car.marka} ${car.modell}</h3>
+                        <p><strong>Ár:</strong> ${car.ar.toLocaleString()} Ft</p>
+                        <p><strong>Évjárat:</strong> ${car.ev}</p>
+                        <p><strong>Kivitel:</strong> ${car.kivitel}</p>
+                        <p><strong>Üzemanyag:</strong> ${car.uzemanyag}</p>
+                        <a href="auto_reszletek.html?car=${encodeURIComponent(JSON.stringify(car))}" class="btn">Részletek</a>
+                    `;
+                    resultsContainer.appendChild(carItem);
+                });
+
+                } else {
+                    resultsContainer.innerHTML = "<p>Nincs találat a keresési feltételekre.</p>";
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="#">Autókereskedés</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="kezdolap.html">Kezdőlap</a></li>
+                    <li><a href="autok.html">Autók</a></li>
+                    <li><a href="#">Szolgáltatások</a></li>
+                    <li><a href="#">Kapcsolat</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="cars-page">
+        <div class="container">
+            <div class="cars-layout">
+                <aside class="filter-sidebar">
+                    <h2>Autókereső</h2>
+                    <form action="#" method="get">
+                        <label for="brand">Márka:</label>
+                        <select id="brand" name="brand"></select>
+
+                        <label for="model">Modell:</label>
+                        <select id="model" name="model"></select>
+
+                        <label for="body-type">Kivitel:</label>
+                        <select id="body-type" name="body-type"></select>
+
+                        <label for="fuel">Üzemanyag:</label>
+                        <select id="fuel" name="fuel"></select>
+
+                        <label for="min-price">Min ár:</label>
+                        <input type="number" id="min-price" name="min-price" placeholder="Ft">
+
+                        <label for="max-price">Max ár:</label>
+                        <input type="number" id="max-price" name="max-price" placeholder="Ft">
+
+                        <label for="year-from">Év - tól:</label>
+                        <input type="number" id="year-from" name="year-from" placeholder="Pl. 2010">
+
+                        <label for="year-to">Év - ig:</label>
+                        <input type="number" id="year-to" name="year-to" placeholder="Pl. 2020">
+
+                        <button type="submit" class="btn">Keresés</button>
+                    </form>
+                </aside>
+                <main class="cars-list">
+                    <!-- Search results will appear here -->
+                </main>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Autókereskedés. Minden jog fenntartva.</p>
+        </div>
+    </footer>
+</body>
+</html>
