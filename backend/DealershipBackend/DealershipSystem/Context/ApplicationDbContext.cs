@@ -145,6 +145,39 @@ public class ApplicationDbContext : IdentityDbContext<User>
             new TransmissionType { ID = 4, Type = "AMT" }, // Automated Manual Transmission
             new TransmissionType { ID = 5, Type = "DCT" }  // Dual Clutch Transmission
         );
+        
+        modelBuilder.Entity<FuelType>().HasData(
+            new FuelType { ID = 1, NameEnglish = "Gasoline", NameJapanese = "ガソリン" },
+            new FuelType { ID = 2, NameEnglish = "Diesel", NameJapanese = "ディーゼル" },
+            new FuelType { ID = 3, NameEnglish = "Hybrid", NameJapanese = "ハイブリッド" },
+            new FuelType { ID = 4, NameEnglish = "Electric", NameJapanese = "電気" },
+            new FuelType { ID = 5, NameEnglish = "LPG", NameJapanese = "LPG" }
+        );
+        
+        modelBuilder.Entity<DrivetrainType>().HasData(
+            new DrivetrainType { ID = 1, Type = "FWD" }, 
+            new DrivetrainType { ID = 2, Type = "RWD" },
+            new DrivetrainType { ID = 3, Type = "AWD" }, 
+            new DrivetrainType { ID = 4, Type = "4WD" } 
+        );
+        
+        modelBuilder.Entity<Color>().HasData(
+            new Color { ID = 1, ColorNameEnglish = "White", ColorNameJapanese = "白系" },
+            new Color { ID = 2, ColorNameEnglish = "Black", ColorNameJapanese = "黒系" },
+            new Color { ID = 3, ColorNameEnglish = "Red", ColorNameJapanese = "赤系" },
+            new Color { ID = 4, ColorNameEnglish = "Blue", ColorNameJapanese = "青系" },
+            new Color { ID = 5, ColorNameEnglish = "Silver", ColorNameJapanese = "シルバー系" },
+            new Color { ID = 6, ColorNameEnglish = "Gray", ColorNameJapanese = "グレー系" },
+            new Color { ID = 7, ColorNameEnglish = "Gold", ColorNameJapanese = "金系" },
+            new Color { ID = 8, ColorNameEnglish = "Beige", ColorNameJapanese = "ベージュ系" },
+            new Color { ID = 9, ColorNameEnglish = "Brown", ColorNameJapanese = "ブラウン系" },
+            new Color { ID = 10, ColorNameEnglish = "Orange", ColorNameJapanese = "オレンジ系" },
+            new Color { ID = 11, ColorNameEnglish = "Pink", ColorNameJapanese = "ピンク系" },
+            new Color { ID = 12, ColorNameEnglish = "Purple", ColorNameJapanese = "紫系" },
+            new Color { ID = 13, ColorNameEnglish = "Yellow", ColorNameJapanese = "黄系" },
+            new Color { ID = 14, ColorNameEnglish = "Green", ColorNameJapanese = "緑系" },
+            new Color { ID = 15, ColorNameEnglish = "Other", ColorNameJapanese = "その他" }
+        );
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -332,6 +332,98 @@ namespace DealershipSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Colors");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            ColorNameEnglish = "White",
+                            ColorNameJapanese = "白系"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            ColorNameEnglish = "Black",
+                            ColorNameJapanese = "黒系"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            ColorNameEnglish = "Red",
+                            ColorNameJapanese = "赤系"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            ColorNameEnglish = "Blue",
+                            ColorNameJapanese = "青系"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            ColorNameEnglish = "Silver",
+                            ColorNameJapanese = "シルバー系"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            ColorNameEnglish = "Gray",
+                            ColorNameJapanese = "グレー系"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            ColorNameEnglish = "Gold",
+                            ColorNameJapanese = "金系"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            ColorNameEnglish = "Beige",
+                            ColorNameJapanese = "ベージュ系"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            ColorNameEnglish = "Brown",
+                            ColorNameJapanese = "ブラウン系"
+                        },
+                        new
+                        {
+                            ID = 10,
+                            ColorNameEnglish = "Orange",
+                            ColorNameJapanese = "オレンジ系"
+                        },
+                        new
+                        {
+                            ID = 11,
+                            ColorNameEnglish = "Pink",
+                            ColorNameJapanese = "ピンク系"
+                        },
+                        new
+                        {
+                            ID = 12,
+                            ColorNameEnglish = "Purple",
+                            ColorNameJapanese = "紫系"
+                        },
+                        new
+                        {
+                            ID = 13,
+                            ColorNameEnglish = "Yellow",
+                            ColorNameJapanese = "黄系"
+                        },
+                        new
+                        {
+                            ID = 14,
+                            ColorNameEnglish = "Green",
+                            ColorNameJapanese = "緑系"
+                        },
+                        new
+                        {
+                            ID = 15,
+                            ColorNameEnglish = "Other",
+                            ColorNameJapanese = "その他"
+                        });
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.DrivetrainType", b =>
@@ -349,6 +441,28 @@ namespace DealershipSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("DrivetrainTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Type = "FWD"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Type = "RWD"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Type = "AWD"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Type = "4WD"
+                        });
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>
@@ -391,6 +505,38 @@ namespace DealershipSystem.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("FuelTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            NameEnglish = "Gasoline",
+                            NameJapanese = "ガソリン"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            NameEnglish = "Diesel",
+                            NameJapanese = "ディーゼル"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            NameEnglish = "Hybrid",
+                            NameJapanese = "ハイブリッド"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            NameEnglish = "Electric",
+                            NameJapanese = "電気"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            NameEnglish = "LPG",
+                            NameJapanese = "LPG"
+                        });
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.Image", b =>
