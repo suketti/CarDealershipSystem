@@ -59,6 +59,104 @@
                     leiras: "A Volkswagen Golf egy ikonikus benzines autó, amely kiemelkedő vezetési élményt nyújt."
                 }
             ];
+            const languageSelector = document.querySelector("#language-selector");
+
+            const translations = {
+                en: {
+                    welcome: "Welcome to the Car Dealership Website!",
+                    searchTitle: "Car Search",
+                    recommendedCars: "Recommended Cars",
+                    brand: "Brand:",
+                    model: "Model:",
+                    bodyType: "Body Type:",
+                    fuel: "Fuel:",
+                    minPrice: "Min Price:",
+                    maxPrice: "Max Price:",
+                    yearFrom: "Year From:",
+                    yearTo: "Year To:",
+                    search: "Search",
+                    homepage: "Home",
+                    cars: "Cars",
+                    services: "Services",
+                    contact: "Contact",
+                    login: "Login",
+                    footer: "© 2025 Car Dealership. All rights reserved.",
+                    noResults: "No results match your search criteria.",
+                    details: "Details",
+                    price: "Price:",
+                    year: "Year:",
+                    type: "Type:",
+                    fuelType: "Fuel Type:"
+                },
+                hu: {
+                    welcome: "Üdvözlünk az Autókereskedés weboldalán!",
+                    searchTitle: "Autókereső",
+                    recommendedCars: "Ajánlott autók",
+                    brand: "Márka:",
+                    model: "Modell:",
+                    bodyType: "Kivitel:",
+                    fuel: "Üzemanyag:",
+                    minPrice: "Min ár:",
+                    maxPrice: "Max ár:",
+                    yearFrom: "Év - tól:",
+                    yearTo: "Év - ig:",
+                    search: "Keresés",
+                    homepage: "Kezdőlap",
+                    cars: "Autók",
+                    services: "Szolgáltatások",
+                    contact: "Kapcsolat",
+                    login: "Bejelentkezés",
+                    footer: "© 2025 Autókereskedés. Minden jog fenntartva.",
+                    noResults: "Nincs találat a keresési feltételekre.",
+                    details: "Részletek",
+                    price: "Ár:",
+                    year: "Évjárat:",
+                    type: "Kivitel:",
+                    fuelType: "Üzemanyag:"
+                }
+            };
+
+            function updateLanguage(lang) {
+                document.querySelector(".welcome-message").textContent = translations[lang].welcome;
+                document.querySelector(".filter h2").textContent = translations[lang].searchTitle;
+                document.querySelector("label[for='brand']").textContent = translations[lang].brand;
+                document.querySelector("label[for='model']").textContent = translations[lang].model;
+                document.querySelector("label[for='body-type']").textContent = translations[lang].bodyType;
+                document.querySelector("label[for='fuel']").textContent = translations[lang].fuel;
+                document.querySelector("label[for='min-price']").textContent = translations[lang].minPrice;
+                document.querySelector("label[for='max-price']").textContent = translations[lang].maxPrice;
+                document.querySelector("label[for='year-from']").textContent = translations[lang].yearFrom;
+                document.querySelector("label[for='year-to']").textContent = translations[lang].yearTo;
+                document.querySelector(".filter .btn").textContent = translations[lang].search;
+                document.querySelector(".inventory h2").textContent = translations[lang].recommendedCars;
+                document.querySelector(".logo a").textContent = translations[lang].homepage;
+                const navLinks = document.querySelectorAll("nav ul li a");
+                navLinks[1].textContent = translations[lang].cars;
+                navLinks[2].textContent = translations[lang].services;
+                navLinks[3].textContent = translations[lang].contact;
+                document.querySelector("#login-button").textContent = translations[lang].login;
+                document.querySelector("footer p").textContent = translations[lang].footer;
+
+                const carList = document.querySelector(".car-list");
+                carList.querySelectorAll(".car-item").forEach((item) => {
+                    const car = JSON.parse(item.getAttribute("data-car"));
+                    item.querySelector("h3").textContent = `${car.marka} ${car.modell}`;
+                    item.querySelector(".price").textContent = `${translations[lang].price} ${car.ar.toLocaleString()} Ft`;
+                    item.querySelector(".year").textContent = `${translations[lang].year} ${car.ev}`;
+                    item.querySelector(".type").textContent = `${translations[lang].type} ${car.kivitel}`;
+                    item.querySelector(".fuel-type").textContent = `${translations[lang].fuelType} ${car.uzemanyag}`;
+                    item.querySelector(".btn").textContent = translations[lang].details;
+                });
+
+                if (!carList.innerHTML.trim()) {
+                    carList.innerHTML = `<p>${translations[lang].noResults}</p>`;
+                }
+            }
+
+            languageSelector.addEventListener("change", (e) => {
+                const selectedLanguage = e.target.value;
+                updateLanguage(selectedLanguage);
+            });
 
             
 
@@ -198,6 +296,14 @@
     
     <header>
         <div class="container">
+            <div class="language-selector">
+                <label for="language-selector">Language:</label>
+                <select id="language-selector">
+                    <option value="hu">Magyar</option>
+                    <option value="en">English</option>
+                    <option value="jp">日本語</option>
+                </select>
+            </div>
             <h1 class="logo"><a href="#">Autókereskedés</a></h1>
             <nav>
                 <ul>
@@ -210,6 +316,7 @@
             </nav>
         </div>
     </header>
+
     <div id="overlay"></div>
     <div id="login-modal">
         <button id="close-modal">&times;</button>
@@ -223,7 +330,7 @@
 
     <section class="content">
         <div class="container">
-            <h2>Üdvözlünk az Autókereskedés weboldalán!</h2>
+            <h2 class="welcome-message">Üdvözlünk az Autókereskedés weboldalán!</h2>
         </div>
     </section>
     <section class="filter">
