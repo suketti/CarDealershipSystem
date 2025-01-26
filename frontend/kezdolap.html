@@ -60,35 +60,30 @@
                 }
             ];
 
+            
+
             const loginButton = document.querySelector("#login-button");
-            const modal = document.querySelector("#login-modal");
-            const closeButton = document.querySelector("#close-modal");
-            const loginForm = document.querySelector("#login-form");
-            const overlay = document.querySelector("#overlay");
+    const modal = document.querySelector("#login-modal");
+    const closeButton = document.querySelector("#close-modal");
+    const loginForm = document.querySelector("#login-form");
+    const overlay = document.querySelector("#overlay");
+    const profileMenuContainer = document.querySelector("#profile-menu-container");
 
             const testUser = {
-                username: "testuser",
-                password: "password123"
+                username: "asd",
+                password: "asd"
             };
 
             loginButton.addEventListener("click", () => {
                 modal.style.display = "block";
                 overlay.style.display = "block";
-                document.querySelector(".content").classList.add("blurred");
-                document.querySelector("header").classList.add("blurred");
-                document.querySelector(".filter").classList.add("blurred");
-                document.querySelector(".inventory").classList.add("blurred");
-                document.querySelector("footer").classList.add("blurred");
+                blurContent(true);
             });
 
             closeButton.addEventListener("click", () => {
                 modal.style.display = "none";
                 overlay.style.display = "none";
-                document.querySelector(".content").classList.remove("blurred");
-                document.querySelector("header").classList.remove("blurred");
-                document.querySelector(".filter").classList.remove("blurred");
-                document.querySelector(".inventory").classList.remove("blurred");
-                document.querySelector("footer").classList.remove("blurred");
+                blurContent(false);
             });
 
             loginForm.addEventListener("submit", (event) => {
@@ -100,15 +95,34 @@
                     alert("Sikeres bejelentkezés!");
                     modal.style.display = "none";
                     overlay.style.display = "none";
-                    document.querySelector(".content").classList.remove("blurred");
-                    document.querySelector("header").classList.remove("blurred");
-                    document.querySelector(".filter").classList.remove("blurred");
-                    document.querySelector(".inventory").classList.remove("blurred");
-                    document.querySelector("footer").classList.remove("blurred");
+                    blurContent(false);
+                    loginButton.style.display = "none";
+                    profileMenuContainer.innerHTML = `
+                    <div class="dropdown">
+                        <button class="profile-btn">Profil</button>
+                        <ul class="dropdown-menu">
+                            <li><a href="adataim.html">Adataim</a></li>
+                            <li><a href="#" id="logout">Kijelentkezés</a></li>
+                        </ul>
+                    </div>
+                `;
+            document.querySelector("#logout").addEventListener("click", () => {
+                profileMenuContainer.innerHTML = "";
+                loginButton.style.display = "inline-block";
+                alert("Sikeres kijelentkezés!");
+            });
                 } else {
                     alert("Hibás felhasználónév vagy jelszó.");
                 }
             });
+            function blurContent(apply) {
+        const content = document.querySelectorAll(
+            ".content, header, .filter, .inventory, footer"
+        );
+        content.forEach((el) => {
+            el.classList.toggle("blurred", apply);
+        });
+    }
 
             const populateSelectOptions = (selectId, options) => {
                 const selectElement = document.querySelector(`#${selectId}`);
@@ -176,10 +190,12 @@
                     resultsContainer.innerHTML = "<p>Nincs találat a keresési feltételekre.</p>";
                 }
             });
+            
         });
     </script>
 </head>
 <body>
+    
     <header>
         <div class="container">
             <h1 class="logo"><a href="#">Autókereskedés</a></h1>
@@ -189,7 +205,7 @@
                     <li><a href="autok.html">Autók</a></li>
                     <li><a href="#">Szolgáltatások</a></li>
                     <li><a href="#">Kapcsolat</a></li>
-                    <li><button id="login-button">Bejelentkezés</button></li>
+                    <li id="profile-menu-container"><button id="login-button">Bejelentkezés</button></li>
                 </ul>
             </nav>
         </div>

@@ -408,6 +408,19 @@ footer {
 
 /*Login*/
 
+.profile-btn {
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-btn:hover {
+    background-color: #b8000f;
+}
+
 .blurred {
     filter: blur(5px);
     pointer-events: none;
@@ -469,4 +482,85 @@ header nav ul li a {
     color: #fff;
     text-decoration: none;
     padding: 10px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    list-style: none;
+    margin: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #f4f4f4;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Adataim */
+
+main {
+    padding: 30px 0;
+}
+
+#edit-profile {
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#edit-profile label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#edit-profile input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#edit-profile button {
+    width: 100%;
+    padding: 12px;
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#edit-profile button:hover {
+    background-color: #b8000f;
 }
