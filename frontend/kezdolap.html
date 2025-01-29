@@ -131,6 +131,7 @@
                 document.querySelector(".inventory h2").textContent = translations[lang].recommendedCars;
                 document.querySelector(".logo a").textContent = translations[lang].homepage;
                 const navLinks = document.querySelectorAll("nav ul li a");
+                navLinks[0].textContent = translations[lang].homepage;
                 navLinks[1].textContent = translations[lang].cars;
                 navLinks[2].textContent = translations[lang].services;
                 navLinks[3].textContent = translations[lang].contact;
@@ -288,7 +289,48 @@
                     resultsContainer.innerHTML = "<p>Nincs találat a keresési feltételekre.</p>";
                 }
             });
-            
+            const locationButton = document.getElementById("location-button");
+        const locationModal = document.getElementById("location-modal");
+        const locationOverlay = document.getElementById("location-overlay");
+        const closeLocationModal = document.getElementById("close-location-modal");
+        const saveLocationsButton = document.getElementById("save-locations");
+        const mapPoints = document.querySelectorAll(".map-point");
+
+        // Kiválasztott helyek tárolása
+        let selectedLocations = [];
+
+        // Modális ablak megnyitása
+        locationButton.addEventListener("click", () => {
+            locationModal.style.display = "block";
+            locationOverlay.style.display = "block";
+        });
+
+        // Modális ablak bezárása
+        closeLocationModal.addEventListener("click", () => {
+            locationModal.style.display = "none";
+            locationOverlay.style.display = "none";
+        });
+
+        // Pontok kiválasztása
+        mapPoints.forEach(point => {
+            point.addEventListener("click", () => {
+                const location = point.getAttribute("data-location");
+                if (selectedLocations.includes(location)) {
+                    selectedLocations = selectedLocations.filter(loc => loc !== location);
+                    point.style.backgroundColor = "#e60012"; // Visszaállítjuk az eredeti színt
+                } else {
+                    selectedLocations.push(location);
+                    point.style.backgroundColor = "#4caf50"; // Zöldre változik, ha kiválasztották
+                }
+            });
+        });
+
+        // Mentés gomb
+        saveLocationsButton.addEventListener("click", () => {
+            alert(`Kiválasztott helyek: ${selectedLocations.join(", ")}`);
+            locationModal.style.display = "none";
+            locationOverlay.style.display = "none";
+        });
         });
     </script>
 </head>
@@ -316,6 +358,25 @@
             </nav>
         </div>
     </header>
+    <div id="location-modal">
+        <button id="close-location-modal">&times;</button>
+        <h2>Válassza ki a helyszínt</h2>
+        <div class="map-container">
+            <img src="Képek/magyarorszag-terkep.jpg" alt="Magyarország térképe" class="map-image">
+            <!-- Budapest -->
+            <button class="map-point" style="top: 40%; left: 45%;" data-location="Budapest">Budapest</button>
+            <!-- Debrecen -->
+            <button class="map-point" style="top: 37%; left: 80%;" data-location="Debrecen">Debrecen</button>
+            <!-- Miskolc -->
+            <button class="map-point" style="top: 20%; left: 70%;" data-location="Miskolc">Miskolc</button>
+            <!-- Sopron -->
+            <button class="map-point" style="top: 36%; left: 10%;" data-location="Sopron">Sopron</button>
+        </div>
+        <button id="save-locations" class="btn">Kész</button>
+    </div>
+    
+    
+    <div id="location-overlay"></div>
 
     <div id="overlay"></div>
     <div id="login-modal">
@@ -360,6 +421,8 @@
 
                 <label for="year-to">Év - ig:</label>
                 <input type="number" id="year-to" name="year-to" placeholder="Pl. 2020">
+
+                <button type="button" id="location-button" class="btn">Helyszín kiválasztása</button>
 
                 <button type="submit" class="btn">Keresés</button>
             </form>
