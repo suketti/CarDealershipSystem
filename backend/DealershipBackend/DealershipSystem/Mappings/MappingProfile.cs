@@ -20,6 +20,7 @@ public class MappingProfile : Profile
         CreateMap<FuelType, FuelTypeDTO>();
         CreateMap<DrivetrainType, DrivetrainTypeDTO>();
         CreateMap<Color, ColorDTO>();
+        CreateMap<CarMakerDTO, CarMaker>();
         
         //Reverse mappings
         CreateMap<LocationDto, Location>();
@@ -30,6 +31,7 @@ public class MappingProfile : Profile
         CreateMap<TransmissionTypeDTO, TransmissionType>();
         CreateMap<FuelTypeDTO, FuelType>();
         CreateMap<DrivetrainTypeDTO, DrivetrainType>();
-        
+        CreateMap<CarMaker, CarMakerDTO>();
+
     }
 }
