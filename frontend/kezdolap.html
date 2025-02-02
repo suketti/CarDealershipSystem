@@ -5,361 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autókereskedés</title>
     <link rel="stylesheet" href="styles.css">
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const cars = [
-                {
-                    marka: "Toyota",
-                    modell: "Prius",
-                    ev: 2015,
-                    kivitel: "Hatchback",
-                    uzemanyag: "Hibrid",
-                    ar: 4500000,
-                    kep: "https://autos.hamariweb.com/images/cars/toyota/prius/2015/l_2015_1_2015_toyota_prius_143.jpg",
-                    leiras: "A Toyota Prius az egyik legismertebb hibrid autó, amely kiváló üzemanyag-hatékonyságáról híres."
-                },
-                {
-                    marka: "Nissan",
-                    modell: "Leaf",
-                    ev: 2018,
-                    kivitel: "Hatchback",
-                    uzemanyag: "Elektromos",
-                    ar: 5200000,
-                    kep: "https://www.autobics.com/wp-content/uploads/2017/09/2018-Nissan-LEAF-Pearl-White-Front.jpg",
-                    leiras: "A Nissan Leaf egy teljesen elektromos autó, amely tökéletes a városi közlekedéshez."
-                },
-                {
-                    marka: "Honda",
-                    modell: "Civic",
-                    ev: 2020,
-                    kivitel: "Hatchback",
-                    uzemanyag: "Benzin",
-                    ar: 6000000,
-                    kep: "https://www.cars.com/cstatic-images/car-pictures/xl/usc90hoc021b021001.png",
-                    leiras: "A Honda Civic egy megbízható és sportos hatchback, modern dizájnnal."
-                },
-                {
-                    marka: "Ford",
-                    modell: "Focus",
-                    ev: 2017,
-                    kivitel: "Hatchback",
-                    uzemanyag: "Dízel",
-                    ar: 3800000,
-                    kep: "https://cdn.motor1.com/images/mgl/0ANV9/s1/2017-ford-focus-hatchback.jpg",
-                    leiras: "A Ford Focus egy kényelmes és takarékos dízel hatchback autó, amely családok számára is ideális."
-                },
-                {
-                    marka: "Volkswagen",
-                    modell: "Golf",
-                    ev: 2019,
-                    kivitel: "Hatchback",
-                    uzemanyag: "Benzin",
-                    ar: 5500000,
-                    kep: "https://www.wheels.ca/wp-content/uploads/2019/01/2019-Volkswagen-Golf-R-106-1.jpg",
-                    leiras: "A Volkswagen Golf egy ikonikus benzines autó, amely kiemelkedő vezetési élményt nyújt."
-                }
-            ];
-            const languageSelector = document.querySelector("#language-selector");
-
-            const translations = {
-                en: {
-                    welcome: "Welcome to the Car Dealership Website!",
-                    searchTitle: "Car Search",
-                    recommendedCars: "Recommended Cars",
-                    brand: "Brand:",
-                    model: "Model:",
-                    bodyType: "Body Type:",
-                    fuel: "Fuel:",
-                    minPrice: "Min Price:",
-                    maxPrice: "Max Price:",
-                    yearFrom: "Year From:",
-                    yearTo: "Year To:",
-                    search: "Search",
-                    homepage: "Home",
-                    cars: "Cars",
-                    services: "Services",
-                    contact: "Contact",
-                    login: "Login",
-                    footer: "© 2025 Car Dealership. All rights reserved.",
-                    noResults: "No results match your search criteria.",
-                    details: "Details",
-                    price: "Price:",
-                    year: "Year:",
-                    type: "Type:",
-                    fuelType: "Fuel Type:"
-                },
-                hu: {
-                    welcome: "Üdvözlünk az Autókereskedés weboldalán!",
-                    searchTitle: "Autókereső",
-                    recommendedCars: "Ajánlott autók",
-                    brand: "Márka:",
-                    model: "Modell:",
-                    bodyType: "Kivitel:",
-                    fuel: "Üzemanyag:",
-                    minPrice: "Min ár:",
-                    maxPrice: "Max ár:",
-                    yearFrom: "Év - tól:",
-                    yearTo: "Év - ig:",
-                    search: "Keresés",
-                    homepage: "Kezdőlap",
-                    cars: "Autók",
-                    services: "Szolgáltatások",
-                    contact: "Kapcsolat",
-                    login: "Bejelentkezés",
-                    footer: "© 2025 Autókereskedés. Minden jog fenntartva.",
-                    noResults: "Nincs találat a keresési feltételekre.",
-                    details: "Részletek",
-                    price: "Ár:",
-                    year: "Évjárat:",
-                    type: "Kivitel:",
-                    fuelType: "Üzemanyag:"
-                }
-            };
-
-            function updateLanguage(lang) {
-                document.querySelector(".welcome-message").textContent = translations[lang].welcome;
-                document.querySelector(".filter h2").textContent = translations[lang].searchTitle;
-                document.querySelector("label[for='brand']").textContent = translations[lang].brand;
-                document.querySelector("label[for='model']").textContent = translations[lang].model;
-                document.querySelector("label[for='body-type']").textContent = translations[lang].bodyType;
-                document.querySelector("label[for='fuel']").textContent = translations[lang].fuel;
-                document.querySelector("label[for='min-price']").textContent = translations[lang].minPrice;
-                document.querySelector("label[for='max-price']").textContent = translations[lang].maxPrice;
-                document.querySelector("label[for='year-from']").textContent = translations[lang].yearFrom;
-                document.querySelector("label[for='year-to']").textContent = translations[lang].yearTo;
-                document.querySelector(".filter .btn").textContent = translations[lang].search;
-                document.querySelector(".inventory h2").textContent = translations[lang].recommendedCars;
-                document.querySelector(".logo a").textContent = translations[lang].homepage;
-                const navLinks = document.querySelectorAll("nav ul li a");
-                navLinks[0].textContent = translations[lang].homepage;
-                navLinks[1].textContent = translations[lang].cars;
-                navLinks[2].textContent = translations[lang].services;
-                navLinks[3].textContent = translations[lang].contact;
-                document.querySelector("#login-button").textContent = translations[lang].login;
-                document.querySelector("footer p").textContent = translations[lang].footer;
-
-                const carList = document.querySelector(".car-list");
-                carList.querySelectorAll(".car-item").forEach((item) => {
-                    const car = JSON.parse(item.getAttribute("data-car"));
-                    item.querySelector("h3").textContent = `${car.marka} ${car.modell}`;
-                    item.querySelector(".price").textContent = `${translations[lang].price} ${car.ar.toLocaleString()} Ft`;
-                    item.querySelector(".year").textContent = `${translations[lang].year} ${car.ev}`;
-                    item.querySelector(".type").textContent = `${translations[lang].type} ${car.kivitel}`;
-                    item.querySelector(".fuel-type").textContent = `${translations[lang].fuelType} ${car.uzemanyag}`;
-                    item.querySelector(".btn").textContent = translations[lang].details;
-                });
-
-                if (!carList.innerHTML.trim()) {
-                    carList.innerHTML = `<p>${translations[lang].noResults}</p>`;
-                }
-            }
-
-            languageSelector.addEventListener("change", (e) => {
-                const selectedLanguage = e.target.value;
-                updateLanguage(selectedLanguage);
-            });
-
-            
-
-            const loginButton = document.querySelector("#login-button");
-    const modal = document.querySelector("#login-modal");
-    const closeButton = document.querySelector("#close-modal");
-    const loginForm = document.querySelector("#login-form");
-    const overlay = document.querySelector("#overlay");
-    const profileMenuContainer = document.querySelector("#profile-menu-container");
-
-            const testUser = {
-                username: "asd",
-                password: "asd"
-            };
-
-            loginButton.addEventListener("click", () => {
-                modal.style.display = "block";
-                overlay.style.display = "block";
-                blurContent(true);
-            });
-
-            closeButton.addEventListener("click", () => {
-                modal.style.display = "none";
-                overlay.style.display = "none";
-                blurContent(false);
-            });
-
-            loginForm.addEventListener("submit", (event) => {
-                event.preventDefault();
-                const username = document.querySelector("#username").value;
-                const password = document.querySelector("#password").value;
-
-                if (username === testUser.username && password === testUser.password) {
-                    alert("Sikeres bejelentkezés!");
-                    modal.style.display = "none";
-                    overlay.style.display = "none";
-                    blurContent(false);
-                    loginButton.style.display = "none";
-                    profileMenuContainer.innerHTML = `
-                    <div class="dropdown">
-                        <button class="profile-btn">Profil</button>
-                        <ul class="dropdown-menu">
-                            <li><a href="adataim.html">Adataim</a></li>
-                            <li><a href="#" id="logout">Kijelentkezés</a></li>
-                        </ul>
-                    </div>
-                `;
-            document.querySelector("#logout").addEventListener("click", () => {
-                profileMenuContainer.innerHTML = "";
-                loginButton.style.display = "inline-block";
-                alert("Sikeres kijelentkezés!");
-            });
-                } else {
-                    alert("Hibás felhasználónév vagy jelszó.");
-                }
-            });
-            function blurContent(apply) {
-        const content = document.querySelectorAll(
-            ".content, header, .filter, .inventory, footer"
-        );
-        content.forEach((el) => {
-            el.classList.toggle("blurred", apply);
-        });
-    }
-
-            const populateSelectOptions = (selectId, options) => {
-                const selectElement = document.querySelector(`#${selectId}`);
-                selectElement.innerHTML = '<option value="">Válasszon</option>';
-                options.forEach(option => {
-                    const opt = document.createElement('option');
-                    opt.value = option;
-                    opt.textContent = option;
-                    selectElement.appendChild(opt);
-                });
-            };
-
-            const uniqueValues = (key) => [...new Set(cars.map(car => car[key]))];
-            populateSelectOptions('brand', uniqueValues('marka'));
-            populateSelectOptions('model', uniqueValues('modell'));
-            populateSelectOptions('body-type', uniqueValues('kivitel'));
-            populateSelectOptions('fuel', uniqueValues('uzemanyag'));
-
-            const searchForm = document.querySelector(".filter form");
-            searchForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-
-                const marka = document.querySelector("#brand").value.trim();
-                const modell = document.querySelector("#model").value.trim();
-                const kivitel = document.querySelector("#body-type").value.trim();
-                const uzemanyag = document.querySelector("#fuel").value.trim();
-                const minAr = parseInt(document.querySelector("#min-price").value) || 0;
-                const maxAr = parseInt(document.querySelector("#max-price").value) || Infinity;
-                const evTol = parseInt(document.querySelector("#year-from").value) || 0;
-                const evIg = parseInt(document.querySelector("#year-to").value) || Infinity;
-
-                const filteredCars = cars.filter(car => {
-                    return (
-                        (!marka || car.marka.toLowerCase() === marka.toLowerCase()) &&
-                        (!modell || car.modell.toLowerCase() === modell.toLowerCase()) &&
-                        (!kivitel || car.kivitel.toLowerCase() === kivitel.toLowerCase()) &&
-                        (!uzemanyag || car.uzemanyag.toLowerCase() === uzemanyag.toLowerCase()) &&
-                        (car.ar >= minAr) &&
-                        (car.ar <= maxAr) &&
-                        (car.ev >= evTol) &&
-                        (car.ev <= evIg)
-                    );
-                });
-
-                const resultsContainer = document.querySelector(".car-list");
-                resultsContainer.innerHTML = "";
-
-                if (filteredCars.length > 0) {
-                    filteredCars.forEach(car => {
-                        const carItem = document.createElement("div");
-                        carItem.classList.add("car-item");
-                        carItem.innerHTML = `
-                            <img src="${car.kep}" alt="${car.marka} ${car.modell}" />
-                            <h3>${car.marka} ${car.modell}</h3>
-                            <p><strong>Ár:</strong> ${car.ar.toLocaleString()} Ft</p>
-                            <p><strong>Évjárat:</strong> ${car.ev}</p>
-                            <p><strong>Kivitel:</strong> ${car.kivitel}</p>
-                            <p><strong>Üzemanyag:</strong> ${car.uzemanyag}</p>
-                            <a href="auto_reszletek.html?car=${encodeURIComponent(JSON.stringify(car))}" class="btn">Részletek</a>
-                        `;
-                        resultsContainer.appendChild(carItem);
-                    });
-
-                } else {
-                    resultsContainer.innerHTML = "<p>Nincs találat a keresési feltételekre.</p>";
-                }
-            });
-            const locationButton = document.getElementById("location-button");
-        const locationModal = document.getElementById("location-modal");
-        const locationOverlay = document.getElementById("location-overlay");
-        const closeLocationModal = document.getElementById("close-location-modal");
-        const saveLocationsButton = document.getElementById("save-locations");
-        const mapPoints = document.querySelectorAll(".map-point");
-
-        // Kiválasztott helyek tárolása
-        let selectedLocations = [];
-
-        // Modális ablak megnyitása
-        locationButton.addEventListener("click", () => {
-            locationModal.style.display = "block";
-            locationOverlay.style.display = "block";
-        });
-
-        // Modális ablak bezárása
-        closeLocationModal.addEventListener("click", () => {
-            locationModal.style.display = "none";
-            locationOverlay.style.display = "none";
-        });
-
-        // Pontok kiválasztása
-        mapPoints.forEach(point => {
-            point.addEventListener("click", () => {
-                const location = point.getAttribute("data-location");
-                if (selectedLocations.includes(location)) {
-                    selectedLocations = selectedLocations.filter(loc => loc !== location);
-                    point.style.backgroundColor = "#e60012"; // Visszaállítjuk az eredeti színt
-                } else {
-                    selectedLocations.push(location);
-                    point.style.backgroundColor = "#4caf50"; // Zöldre változik, ha kiválasztották
-                }
-            });
-        });
-
-        // Mentés gomb
-        saveLocationsButton.addEventListener("click", () => {
-            alert(`Kiválasztott helyek: ${selectedLocations.join(", ")}`);
-            locationModal.style.display = "none";
-            locationOverlay.style.display = "none";
-        });
-        });
-    </script>
 </head>
 <body>
     
     <header>
-        <div class="container">
-            <div class="language-selector">
-                <label for="language-selector">Language:</label>
-                <select id="language-selector">
-                    <option value="hu">Magyar</option>
-                    <option value="en">English</option>
-                    <option value="jp">日本語</option>
-                </select>
-            </div>
-            <h1 class="logo"><a href="#">Autókereskedés</a></h1>
-            <nav>
-                <ul>
-                    <li><a href="kezdolap.html">Kezdőlap</a></li>
-                    <li><a href="autok.html">Autók</a></li>
-                    <li><a href="#">Szolgáltatások</a></li>
-                    <li><a href="#">Kapcsolat</a></li>
-                    <li id="profile-menu-container"><button id="login-button">Bejelentkezés</button></li>
-                </ul>
-            </nav>
-        </div>
+        <script src="kezdolap.js"></script>
+        <script src="header.js"></script>
     </header>
     <div id="location-modal">
-        <button id="close-location-modal">&times;</button>
         <h2>Válassza ki a helyszínt</h2>
         <div class="map-container">
             <img src="Képek/magyarorszag-terkep.jpg" alt="Magyarország térképe" class="map-image">
@@ -375,71 +28,104 @@
         <button id="save-locations" class="btn">Kész</button>
     </div>
     
-    
+    <div id="search-results-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Keresési eredmények</h2>
+            <div class="car-list-results"></div>
+        </div>
+    </div>
+    <div id="search-results-overlay"></div>
     <div id="location-overlay"></div>
 
     <div id="overlay"></div>
-    <div id="login-modal">
-        <button id="close-modal">&times;</button>
-        <h2>Bejelentkezés</h2>
-        <form id="login-form">
-            <input type="text" id="username" placeholder="Felhasználónév" required />
-            <input type="password" id="password" placeholder="Jelszó" required />
-            <button type="submit">Bejelentkezés</button>
-        </form>
-    </div>
+    
 
-    <section class="content">
-        <div class="container">
-            <h2 class="welcome-message">Üdvözlünk az Autókereskedés weboldalán!</h2>
-        </div>
-    </section>
+    
     <section class="filter">
         <div class="container">
-            <h2>Autókereső</h2>
+            <h2 data-key="searchTitle">Autókereső</h2>
             <form action="#" method="get">
-                <label for="brand">Márka:</label>
+                <label data-key="brand" for="brand">Márka:</label>
                 <select id="brand" name="brand"></select>
 
-                <label for="model">Modell:</label>
+                <label data-key="model" for="model">Modell:</label>
                 <select id="model" name="model"></select>
 
-                <label for="body-type">Kivitel:</label>
+                <label data-key="bodyType" for="body-type">Kivitel:</label>
                 <select id="body-type" name="body-type"></select>
 
-                <label for="fuel">Üzemanyag:</label>
+                <label data-key="fuel" for="fuel">Üzemanyag:</label>
                 <select id="fuel" name="fuel"></select>
 
-                <label for="min-price">Min ár:</label>
+                <label data-key="minPrice" for="min-price">Min ár:</label>
                 <input type="number" id="min-price" name="min-price" placeholder="Ft">
 
-                <label for="max-price">Max ár:</label>
+                <label data-key="maxPrice" for="max-price">Max ár:</label>
                 <input type="number" id="max-price" name="max-price" placeholder="Ft">
 
-                <label for="year-from">Év - tól:</label>
+                <label data-key="yearFrom" for="year-from">Év - tól:</label>
                 <input type="number" id="year-from" name="year-from" placeholder="Pl. 2010">
 
-                <label for="year-to">Év - ig:</label>
+                <label data-key="yearTo" for="year-to">Év - ig:</label>
                 <input type="number" id="year-to" name="year-to" placeholder="Pl. 2020">
 
-                <button type="button" id="location-button" class="btn">Helyszín kiválasztása</button>
+                <!-- Részletes keresés gomb hozzáadása -->
+                <div id="reszletes-kereses-container">
+                    <span data-key="moreSearch" id="reszletes-kereses-label">Részletes keresés</span>
+                    <span id="toggle-arrow">▼</span>
+                </div>
+                
+                <div id="reszletes-feltetelek" style="display: none;">
+                    <label for="meghajtas">Meghajtás:</label>
+                    <select id="meghajtas">
+                        <option value="elso">Elsőkerék</option>
+                        <option value="hatso">Hátsókerék</option>
+                        <option value="osszkerek">Összkerék</option>
+                    </select>
+                    
+                    <label for="szin">Szín:</label>
+                    <input type="text" id="szin" placeholder="Pl. piros, fekete">
+                    
+                    <label for="motor-meret">Motor méret:</label>
+                    <input type="number" id="motor-meret-min" placeholder="Min cm³">
+                    <input type="number" id="motor-meret-max" placeholder="Max cm³">
+                    
+                    <label for="km">Kilométeróra állás:</label>
+                    <input type="number" id="km-min" placeholder="Min km">
+                    <input type="number" id="km-max" placeholder="Max km">
+                </div>
 
-                <button type="submit" class="btn">Keresés</button>
+                <button data-key="chooseLocation" type="button" id="location-button" class="btn">Helyszín kiválasztása</button>
+
+                <button data-key="search" type="submit" class="btn">Keresés</button>
+
             </form>
         </div>
     </section>
     <section class="inventory">
         <div class="container">
-            <h2>Ajánlott autók</h2>
-            <div class="car-list">
-                <!-- Search results will appear here -->
-            </div>
+            <h2 data-key="allCars">Összes autó</h2>
+            <div class="car-list-all"></div>
         </div>
     </section>
     <footer>
-        <div class="container">
-            <p>&copy; 2025 Autókereskedés. Minden jog fenntartva.</p>
-        </div>
+        <script src="footer.js"></script>
     </footer>
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Bejelentkezés</h2>
+            <form id="login-form">
+                <label for="username">Felhasználónév:</label>
+                <input type="text" id="username" name="username" required>
+    
+                <label for="password">Jelszó:</label>
+                <input type="password" id="password" name="password" required>
+    
+                <button data-key="login" type="submit" class="btn">Bejelentkezés</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
