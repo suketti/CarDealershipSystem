@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using DealershipSystem.Models;
 
-namespace DealershipSystem.Models;
+namespace DealershipSystem.DTO;
 
-public class CarModel
+public class UpdateCarModelDTO
 {
-    public int ID { get; set; }
-
     [Required]
     public int MakerID { get; set; }
 
@@ -38,9 +37,4 @@ public class CarModel
 
     [Range(500, 5000, ErrorMessage = "Invalid")]
     public int Mass { get; set; }
-    
-    // Navigation properties
-    public virtual CarMaker Maker { get; set; } = null!;
-    
-    public virtual ICollection<EngineSizeModel> EngineSizes { get; set; } = new List<EngineSizeModel>();
 }

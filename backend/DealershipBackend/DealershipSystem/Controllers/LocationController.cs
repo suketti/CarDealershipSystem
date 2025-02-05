@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DealershipSystem.Controllers;
 
 [ApiController]
-[Route("locations")]
+[Route("api/locations")]
 public class LocationController : ControllerBase
 {
     private readonly LocationService _locationService;

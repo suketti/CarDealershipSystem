@@ -290,15 +290,18 @@ namespace DealershipSystem.Migrations
 
                     b.Property<string>("ModelCode")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("ModelNameEnglish")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ModelNameJapanese")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("PassengerCount")
                         .HasColumnType("integer");
@@ -476,10 +479,15 @@ namespace DealershipSystem.Migrations
                     b.Property<int>("EngineSize")
                         .HasColumnType("integer");
 
+                    b.Property<int>("FuelTypeID")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ModelID")
                         .HasColumnType("integer");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("FuelTypeID");
 
                     b.HasIndex("ModelID");
 
@@ -1252,6 +1260,12 @@ namespace DealershipSystem.Migrations
 
             modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>
                 {
+                    b.HasOne("DealershipSystem.Models.FuelType", "FuelType")
+                        .WithMany()
+                        .HasForeignKey("FuelTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DealershipSystem.Models.CarModel", "CarModel")
                         .WithMany("EngineSizes")
                         .HasForeignKey("ModelID")
@@ -1259,6 +1273,8 @@ namespace DealershipSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("CarModel");
+
+                    b.Navigation("FuelType");
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.Image", b =>

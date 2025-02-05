@@ -6,7 +6,7 @@ public class CarDTO
 {
     public int ID { get; set; }
     public CarMakerDTO Brand { get; set; } = null!;
-    public ModelDTO Model { get; set; } = null!;
+    public CarModelDTO CarModel { get; set; } = null!;
     public string Grade { get; set; } = string.Empty!;
     public BodyTypeDTO BodyType { get; set; } = null!;
     public LocationDto Location { get; set; } = null!;
@@ -17,7 +17,7 @@ public class CarDTO
     public DrivetrainTypeDTO DriveTrain { get; set; } = null!;
     public DateTime? MOTExpiry { get; set; }
     public TransmissionTypeDTO TransmissionType { get; set; } = null!;
-    public int VINNum { get; set; }
+    public string VINNum { get; set; }
     public ColorDTO Color { get; set; } = null!;
     public bool IsSmoking { get; set; }
     public List<CarExtraDTO> Extras { get; set; } = new List<CarExtraDTO>();
