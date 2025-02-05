@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import { AuthProvider } from "./AuthContext"; // Frissítsd az útvonalat!
 import Home from "./Pages/Home";
 import Cars from "./Pages/Cars";
 import CarDetails from "./Pages/CarDetails";
@@ -19,6 +20,7 @@ function App() {
   });
   const [language, setLanguage] = useState<"hu" | "en">("hu");
   return (
+    <AuthProvider>
     <Router>
       <Header
         isLoggedIn={isLoggedIn}
@@ -38,6 +40,7 @@ function App() {
       </Routes>
       <Footer language={language}/>
     </Router>
+    </AuthProvider>
   );
 }
 

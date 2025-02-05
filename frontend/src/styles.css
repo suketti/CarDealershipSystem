@@ -703,6 +703,7 @@ footer {
   border-radius: 8px;
   width: 300px;
   text-align: center;
+  color: black;
 }
 
 #login-modal input {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { translations } from "../translations";
-
+import { useAuth } from "../AuthContext";
 
 
 
@@ -58,22 +58,22 @@ function LoginModal({ onClose, setIsLoggedIn, t,  }: LoginModalProps) {
       >
         <button
           onClick={onClose}
-          style={{ position: "absolute", top: "10px", right: "10px" }}
+          style={{ position: "absolute", top: "10px", right: "10px" }} id="close-modal"
         >
           &times;
         </button>
-        <h2>{isRegisterMode ? t.registerTitle || "Regisztráció" : t.loginTitle || "Bejelentkezés"}</h2>
-        <form onSubmit={handleSubmit}>
+        <h2>{isRegisterMode ? t.registerTitle || "Regisztráció:" : t.loginTitle || "Bejelentkezés"}</h2>
+        <form onSubmit={handleSubmit} id="login-form">
           {isRegisterMode && (
             <>
-              <label htmlFor="email">{t.email || "Email:"}</label>
-              <input type="email" id="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+              <label htmlFor="email">{t.email || "Email:"} </label>
+              <input type="email" id="email" required value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
             </>
           )}
           <label htmlFor="username">{t.username || "Felhasználónév:"}</label>
-          <input type="text" id="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
+          <input placeholder="Felhasználónév" type="text" id="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
           <label htmlFor="password">{t.password || "Jelszó:"}</label>
-          <input type="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input placeholder="Jelszó" type="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit" className="btn">{isRegisterMode ? t.register || "Regisztráció" : t.login || "Bejelentkezés"}</button>
         </form>
         <button onClick={() => setIsRegisterMode(!isRegisterMode)} style={{ marginTop: "10px", display: "block", width: "100%" }}>
