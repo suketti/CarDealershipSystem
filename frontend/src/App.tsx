@@ -30,8 +30,8 @@ function App() {
         language={language} setLanguage={setLanguage}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/autok" element={<Cars />} />
+      <Route path="/" element={<Home key={language} language={language} />} />
+      <Route path="/autok" element={<Cars />} />
         <Route path="/autok/reszletek" element={<CarDetails />} />
         <Route
           path="/profile"

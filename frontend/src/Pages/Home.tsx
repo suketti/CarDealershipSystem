@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { translations } from "../translations";
 
 const cars = [
   { marka: "Toyota", modell: "Prius", ev: 2015, kivitel: "Hatchback", uzemanyag: "Hibrid", ar: 4500000, kep: "" },
@@ -9,7 +10,7 @@ const cars = [
   { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" }
 ];
 
-function Home() {
+function Home({ language }: { language: "hu" | "en" }) {
   const navigate = useNavigate();
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -20,6 +21,8 @@ function Home() {
   const [fuelOptions, setFuelOptions] = useState<string[]>([]);
   const [isAdvancedSearchVisible, setIsAdvancedSearchVisible] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState("Mindegy");
+  const t = translations[language] || translations.hu;
+  
   
 
   useEffect(() => {
@@ -43,13 +46,14 @@ function Home() {
     <div className="content">
       <header>
         <h1>Autókereskedés</h1>
+        
       </header>
       
       {/* Helyszínválasztó modal */}
       {showLocationModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>Válassza ki a helyszínt</h2>
+            <h2>{t.selectLocation}</h2>
             
             {/* Térkép konténer */}
             <div className="map-container">
@@ -62,17 +66,31 @@ function Home() {
               {/* Helyszín gombok */}
               <button 
                 className="map-point" 
-                style={{ top: "40%", left: "45%" }}
+                style={{ top: "40%", left: "45%", cursor: "pointer" }}
                 onClick={() => console.log("Budapest kiválasztva")}
               >
                 Budapest
               </button>
               <button 
                 className="map-point" 
-                style={{ top: "37%", left: "80%" }}
+                style={{ top: "37%", left: "80%", cursor: "pointer" }}
                 onClick={() => console.log("Debrecen kiválasztva")}
               >
                 Debrecen
+              </button>
+              <button 
+                className="map-point" 
+                style={{ top: "20%", left: "70%", cursor: "pointer" }}
+                onClick={() => console.log("Miskolc kiválasztva")}
+              >
+                Miksolc
+              </button>
+              <button 
+                className="map-point" 
+                style={{ top: "36%", left: "10%", cursor: "pointer" }}
+                onClick={() => console.log("Sopron kiválasztva")}
+              >
+                Sopron
               </button>
             </div>
 
@@ -108,7 +126,7 @@ function Home() {
       {/* Autókereső szűrő */}
       <section className="filter">
         <div className="container">
-          <h2>Autókereső</h2>
+          <h2>{t.searchTitle}</h2>
           <form onSubmit={handleSearchClick}>
           <label>Márka:</label>
           <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>

@@ -5,6 +5,9 @@ import LoginModal from "./LoginModal";
 import MessagesModal from "./MessagesModal";
 import SavedCarsModal from "./SavedCarsModal";
 import { User } from "../Types";
+import HirdetesFeladas from "./HirdetesFeladas";
+
+
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -60,6 +63,9 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser }: HeaderProps) {
             </li>
             <li>
             <Link to="/autok" className="nav-link">{t.cars}</Link>
+            </li>
+            <li>
+            <HirdetesFeladas language={language} isLoggedIn={isLoggedIn} setShowLoginModal={setShowLoginModal} />
             </li>
 
             {/* Profil / Login */}
