@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { translations } from "../translations";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { CarDTO } from "../Types";
 import { getCars } from "../api/carService.ts";
 import styles from './Cars.module.css'; // Import the CSS module
+import CarDetails from "./CarDetails.tsx";
+import { useNavigate } from "react-router-dom";
+import { translations } from "../translations";
+import { LanguageCtx } from "../App";
+import { useContext } from "react";
 
 function Cars() {
   const location = useLocation();
@@ -14,7 +18,8 @@ function Cars() {
   const [error, setError] = useState<string | null>(null);
 
   const [language, setLanguage] = useState<"hu" | "en" | "ja">("hu");
-  const t = translations[language] || translations.hu;
+    const langCtx = useContext(LanguageCtx)
+  
 
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -65,31 +70,31 @@ function Cars() {
         <div className={styles.container}>
           <div className={styles['cars-layout']}>
             <aside className={styles['filter-sidebar']}>
-              <h2>{t.searchTitle}</h2>
+              <h2>{langCtx?.translate.searchTitle}</h2>
               <form onSubmit={handleSearch}>
-                <label htmlFor="brand">{t.brand}</label>
+                <label htmlFor="brand">{langCtx?.translate.brand}</label>
                 <input type="text" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)} />
 
-                <label htmlFor="model">{t.model}</label>
+                <label htmlFor="model">{langCtx?.translate.model}</label>
                 <input type="text" id="model" value={model} onChange={(e) => setModel(e.target.value)} />
 
-                <label htmlFor="bodyType">{t.bodyType}</label>
+                <label htmlFor="bodyType">{langCtx?.translate.bodyType}</label>
                 <input type="text" id="bodyType" value={bodyType} onChange={(e) => setBodyType(e.target.value)} />
 
-                <label htmlFor="fuelType">{t.fuelType}</label>
+                <label htmlFor="fuelType">{langCtx?.translate.fuelType}</label>
                 <input type="text" id="fuelType" value={fuelType} onChange={(e) => setFuelType(e.target.value)} />
 
                 <button type="button" className={styles.btn} onClick={() => setShowLocationModal(true)}>
-                  {t.selectLocation}
+                  {langCtx?.translate.selectLocation}
                 </button>
 
-                <button type="submit" className={styles.btn}>{t.search}</button>
+                <button type="submit" className={styles.btn}>{langCtx?.translate.search}</button>
               </form>
             </aside>
 
             <main className={styles['cars-list']}>
               {filteredCars.length === 0 ? (
-                  <p>{t.noResults}</p>
+                  <p>{langCtx?.translate.noResults}</p>
               ) : (
                   filteredCars.map((car) => (
                       <div key={car.id} className={styles['car-card']}>
@@ -98,6 +103,7 @@ function Cars() {
                         <p>{car.bodyType.nameEnglish}</p>
                         <p>{car.fuelType.nameEnglish}</p>
                         <p>{car.location.locationName}</p>
+                        
                       </div>
                   ))
               )}
@@ -111,7 +117,7 @@ function Cars() {
                   id="location-modal"
                   className={styles['location-modal']}
               >
-                <h2>{t.selectLocation}</h2>
+                <h2>{langCtx?.translate.selectLocation}</h2>
                 <div className={styles['map-container']}>
                   <img
                       src="/Képek/magyarorszag-terkep.jpg"
@@ -131,7 +137,7 @@ function Cars() {
                     Sopron
                   </button>
                 </div>
-                <button className={styles.btn} onClick={() => setShowLocationModal(false)}>{t.complete}</button>
+                <button className={styles.btn} onClick={() => setShowLocationModal(false)}>{langCtx?.translate.complete}</button>
               </div>
             </div>
         )}

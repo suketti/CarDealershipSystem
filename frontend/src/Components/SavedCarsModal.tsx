@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Car } from "../Types";
+import { translations } from "../translations";
+import { LanguageCtx } from "../App";
+import { useContext } from "react";
 
 interface SavedCarsModalProps {
   onClose: () => void;
@@ -22,6 +25,7 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
     setSavedCars(updated);
     localStorage.setItem("savedCars", JSON.stringify(updated));
   };
+  const langCtx = useContext(LanguageCtx)
 
   return (
     <div id="saved-cars-overlay" style={{ display: "block" }}>
@@ -78,7 +82,7 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
                       JSON.stringify(car)
                     )}`}
                   >
-                    {t.details || "Részletek"}
+                    {langCtx?.translate.details || "Részletek"}
                   </a>
                 </div>
                 <button

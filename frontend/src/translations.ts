@@ -1,4 +1,87 @@
-export const translations: TranslationMap = {
+export type TranslationType = {
+  searchTitle: string;
+  brand: string;
+  model: string;
+  eg: string;
+  bodyType: string;
+  fuel: string;
+  minPrice: string;
+  maxPrice: string;
+  yearFrom: string;
+  yearTo: string;
+  chooseLocation: string;
+  moreSearch: string;
+  search: string;
+  homepage: string;
+  allCar: string;
+  cars: string;
+  services: string;
+  contact: string;
+  login: string;
+  footer: string;
+  noResults: string;
+  details: string;
+  price: string;
+  year: string;
+  type: string;
+  fuelType: string;
+  selectLocation: string;
+  complete: string;
+  loginTitle: string;
+  username: string;
+  password: string;
+  register: string;
+  switchToRegister: string;
+  switchToLogin: string;
+  myProfile: string;
+  myMessages: string;
+  logout: string;
+  advertisement: string;
+  advertisementTitle: string;
+  registerTitle: string;
+  email: string;
+  registrationSuccess: string;
+  loginSuccess: string;
+  loginError: string;
+  footer_contact: string;
+  footer_company: string;
+  footer_address: string;
+  footer_tax: string;
+  footer_follow_us: string;
+  footer_facebook: string;
+  footer_instagram: string;
+  footer_links: string;
+  footer_about: string;
+  footer_contact_page: string;
+  footer_privacy: string;
+  footer_rights: string;
+  view_cars: string;
+  name: string;
+  nameKanji: string;
+  phoneNumber: string;
+  successLogin: string;
+  successRegister: string;
+  error: string;
+  color: string;
+  langu: string;
+  postAd: string;
+  successMessage: string;
+  uploadImage: string;
+  description: string;
+  selectBrand: string;
+  selectModel: string;
+  mileage: string;
+  dealership: string;
+  closed: string;
+  searchResult: string;
+  welcomeText: string;
+  searchCars: string;
+  viewCars: string;
+  
+};
+
+
+export const translations = {
   en: {
     searchTitle: "Car Search",
     brand: "Brand:",
@@ -63,7 +146,21 @@ export const translations: TranslationMap = {
     successLogin: "Login successful!",
     successRegister: "Registration successful! Please log in.",
     error: "Invalid credentials.",
-    color: "Color",
+    color: "Color:",
+    langu: "Lang",
+    postAd: "Post Ad",
+    successMessage: "Success Ad Post",
+    uploadImage: "Upload Image",
+    description: "Description",
+    selectBrand: "Select Brand",
+    selectModel: "Select Model",
+    mileage: "Mileage:",
+    dealership: "Car Dealership",
+    closed: "Close",
+    searchResult: "Search Result",
+    welcomeText: "Welcome in the Car Dealership!",
+    searchCars: "Search between the new and used cars...",
+    viewCars: "View Cars",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -130,9 +227,20 @@ export const translations: TranslationMap = {
     successRegister: "Sikeres regisztráció! Kérjük, jelentkezzen be.",
     error: "Hibás adatok.",
     postAd: "Hirdetés feladás",
-    description: "Leírás",
-    mileage: "Km",
-    color: "Szín",
+    description: "Leírás:",
+    mileage: "Km:",
+    color: "Szín:",
+    langu:"Nyelv:",
+    successMessage: "Sikeres hirdetés feladás",
+    uploadImage: "Képfeltöltés:",
+    selectBrand: "Márka:",
+    selectModel: "Model:",
+    dealership: "Autókereskedés",
+    closed: "Bezárás",
+    searchResult: "Keresési eredmények",
+    welcomeText: "Üdvözlünk az Autókereskedésben!",
+    searchCars: "Válogass kedvedre a használt és új autók közül...",
+    viewCars: "Autók megtekintése",
   },
   jp: {
     searchTitle: "検索",
@@ -145,6 +253,7 @@ export const translations: TranslationMap = {
     maxPrice: "最大価格:",
     yearFrom: "年式（開始）:",
     yearTo: "年式（終了）:",
+    nameKanji: "",
     chooseLocation: "検索場所を選択",
     moreSearch: "詳細検索",
     search: "検索",
@@ -201,6 +310,16 @@ export const translations: TranslationMap = {
     description: "説明",
     mileage: "走行距離",
     color: "色",
-
+    langu:"",
+    successMessage: "",
+    uploadImage: "",
+    selectBrand: "",
+    selectModel: "",
+    dealership: "",
+    closed:"",
+    searchResult: "",
+    welcomeText: "",
+    searchCars: "",
+    viewCars: "",
   }
 };

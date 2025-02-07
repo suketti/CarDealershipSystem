@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { translations } from "../translations";
+import { LanguageCtx } from "../App";
+import { useContext } from "react";
 import LoginModal from "./LoginModal";
 
 interface PostCarOfferProps {
@@ -8,7 +10,10 @@ interface PostCarOfferProps {
   setShowLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+
+
 const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setShowLoginModal }) => {
+  const langCtx = useContext(LanguageCtx);
   const [showModal, setShowModal] = useState(false);
   const [images, setImages] = useState<string[]>([]);
   const [formData, setFormData] = useState({
@@ -53,7 +58,7 @@ const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setSh
   };
 
   const t = translations[language] || translations.hu;
-
+    
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ 
@@ -71,7 +76,7 @@ const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setSh
     // Üzenet mentése a localStorage-ba
     const newMessage = {
       sender: "Rendszer",
-      content: t.successMessage || "Sikeresen feladtál egy hirdetést!",
+      content: langCtx?.translate.successMessage || "Sikeresen feladtál egy hirdetést!",
       date: new Date().toLocaleString()
     };
   
@@ -84,7 +89,7 @@ const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setSh
   return (
     <div className="post-ad-container">
       <button className="post-ad-button large" onClick={() => isLoggedIn ? setShowModal(true) : setShowLoginModal(true)}>
-        📢 {t.postAd}
+        📢 {langCtx?.translate.postAd}
       </button>
 
       {showModal && (
@@ -105,10 +110,10 @@ const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setSh
     &times;
   </span>           
     <div className="modal-content">
-              <h2>{t.postAd}</h2>
+              <h2>{langCtx?.translate.postAd}</h2>
               <form onSubmit={handleSubmit} className="ad-form">
                 <div className="form-left">
-                  <label>{t.uploadImage}</label>
+                  <label>{langCtx?.translate.uploadImage}</label>
                   {images.length < 5 && (
                     <input type="file" accept="image/*" multiple onChange={handleImageChange} />
                   )}
@@ -122,40 +127,40 @@ const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setSh
                   </div>
                 </div>
                 <div className="form-right">
-                  <label>{t.description}</label>
+                  <label>{langCtx?.translate.description}</label>
                   <textarea name="description" value={formData.description} onChange={handleChange} required />
-                  <label>{t.brand}</label>
+                  <label>{langCtx?.translate.brand}</label>
                   <select name="brand" value={formData.brand} onChange={handleChange} required>
-                    <option value="">{t.selectBrand}</option>
+                    <option value="">{langCtx?.translate.selectBrand}</option>
                     {Object.keys(brandsWithModels).map((brand) => (
                       <option key={brand} value={brand}>{brand}</option>
                     ))}
                   </select>
-                  <label>{t.model}</label>
+                  <label>{langCtx?.translate.model}</label>
                   <select name="model" value={formData.model} onChange={handleChange} required disabled={!formData.brand}>
-                    <option value="">{t.selectModel}</option>
+                    <option value="">{langCtx?.translate.selectModel}</option>
                     {formData.brand && brandsWithModels[formData.brand]?.map((model) => (
                       <option key={model} value={model}>{model}</option>
                     ))}
                   </select>
-                  <label>{t.fuelType}</label>
+                  <label>{langCtx?.translate.fuelType}</label>
                   <input type="text" name="fuelType" value={formData.fuelType} onChange={handleChange} required />
-                  <label>{t.price}</label>
+                  <label>{langCtx?.translate.price}</label>
                   <input type="number" name="price" value={formData.price} onChange={handleChange} required />
-                  <label>{t.year}</label>
+                  <label>{langCtx?.translate.year}</label>
                   <input type="number" name="year" value={formData.year} onChange={handleChange} required />
-                  <label>{t.mileage}</label>
+                  <label>{langCtx?.translate.mileage}</label>
                   <input type="number" name="mileage" value={formData.mileage} onChange={handleChange} required />
-                  <label>{t.color}</label>
+                  <label>{langCtx?.translate.color}</label>
                   <input type="text" name="color" value={formData.color} onChange={handleChange} required />
-                  <button type="submit" className="submit-button">{t.complete}</button>
+                  <button type="submit" className="submit-button">{langCtx?.translate.complete}</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       )}
-      {formSubmitted && <div className="success-message" style={{ color: "green", fontSize: "18px", marginTop: "10px" }}>{t.successMessage}</div>}
+      {formSubmitted && <div className="success-message" style={{ color: "green", fontSize: "18px", marginTop: "10px" }}>{langCtx?.translate.successMessage}</div>}
     </div>
   );
 };

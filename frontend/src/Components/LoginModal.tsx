@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { login, register } from "../api/userService.ts";
 import styles from './LoginModal.module.css';
+import { translations } from "../translations";
+import { LanguageCtx } from "../App";
+import { useContext } from "react";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -26,7 +29,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, setIsLoggedIn, t, lang
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
-
+  const langCtx = useContext(LanguageCtx)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrorMessage(""); // Reset error message
@@ -42,11 +45,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, setIsLoggedIn, t, lang
           phoneNumber: formData.phoneNumber,
           preferredLanguage: formData.preferredLanguage,
         });
-        alert(t.successRegister);
+        alert(langCtx?.translate.successRegister);
         setIsRegisterMode(false);
       } else {
         await login(formData.email, formData.password);
-        alert(t.successLogin);
+        alert(langCtx?.translate.successLogin);
         setIsLoggedIn(true);
         onClose();
       }
@@ -60,44 +63,44 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, setIsLoggedIn, t, lang
       <div className={styles['modal-overlay']}>
         <div className={styles['modal-container']}>
           <button className={styles['modal-close']} onClick={onClose}>&times;</button>
-          <h2>{isRegisterMode ? t.registerTitle : t.loginTitle}</h2>
+          <h2>{isRegisterMode ? langCtx?.translate.registerTitle : langCtx?.translate.loginTitle}</h2>
 
           {errorMessage && <p className={styles['error-message']}>{errorMessage}</p>}
 
           <form onSubmit={handleSubmit} className={styles['modal-form']}>
             {isRegisterMode && (
                 <>
-                  <label htmlFor="name">{t.name}:</label>
+                  <label htmlFor="name">{langCtx?.translate.name}:</label>
                   <input type="text" id="name" required value={formData.name} onChange={handleChange} />
 
                   {language === "jp" && (
                       <>
-                        <label htmlFor="nameKanji">{t.nameKanji}名前（漢字）</label>
+                        <label htmlFor="nameKanji">{langCtx?.translate.nameKanji}名前（漢字）</label>
                         <input type="text" id="nameKanji" value={formData.nameKanji} onChange={handleChange} />
                       </>
                   )}
 
-                  <label htmlFor="userName">{t.username}:</label>
+                  <label htmlFor="userName">{langCtx?.translate.username}:</label>
                   <input type="text" id="userName" required value={formData.userName} onChange={handleChange} />
 
-                  <label htmlFor="phoneNumber">{t.phoneNumber}:</label>
+                  <label htmlFor="phoneNumber">{langCtx?.translate.phoneNumber}:</label>
                   <input type="tel" id="phoneNumber" required value={formData.phoneNumber} onChange={handleChange} />
                 </>
             )}
 
-            <label htmlFor="email">{t.email}:</label>
+            <label htmlFor="email">{langCtx?.translate.email}:</label>
             <input type="email" id="email" required value={formData.email} onChange={handleChange} />
 
-            <label htmlFor="password">{t.password}:</label>
+            <label htmlFor="password">{langCtx?.translate.password}:</label>
             <input type="password" id="password" required value={formData.password} onChange={handleChange} />
 
             <button type="submit" className={styles['btn']}>
-              {isRegisterMode ? t.register : t.login}
+              {isRegisterMode ? langCtx?.translate.register : langCtx?.translate.login}
             </button>
           </form>
 
           <button className={styles['toggle-button']} onClick={() => setIsRegisterMode(!isRegisterMode)}>
-            {isRegisterMode ? t.switchToLogin : t.switchToRegister}
+            {isRegisterMode ? langCtx?.translate.switchToLogin : langCtx?.translate.switchToRegister}
           </button>
         </div>
       </div>

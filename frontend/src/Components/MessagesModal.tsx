@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Message } from "../Types";
+import { useContext } from "react";
+import { LanguageCtx } from "../App.tsx";
+import { translations } from "../translations";
 
 interface MessagesModalProps {
   onClose: () => void;
   t: { [key: string]: string };
+    setLanguage: React.Dispatch<React.SetStateAction<"hu" | "en" | "jp">>;
 }
 
 function MessagesModal({ onClose, t }: MessagesModalProps) {
+  const langCtx = useContext(LanguageCtx)
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -15,7 +20,7 @@ function MessagesModal({ onClose, t }: MessagesModalProps) {
       setMessages(JSON.parse(storedMessages));
     }
   }, []);
-
+  
   const handleDeleteAll = () => {
     localStorage.removeItem("messages");
     setMessages([]);
@@ -44,7 +49,7 @@ function MessagesModal({ onClose, t }: MessagesModalProps) {
           &times;
         </span>
         <div className="messages-header">
-          <h2>{t.myMessages || "Üzeneteim"}</h2>
+          <h2>{langCtx?.translate.myMessages || "Üzeneteim"}</h2>
           <button id="delete-all-messages" onClick={handleDeleteAll} title="Összes törlése">
             🗑️
           </button>

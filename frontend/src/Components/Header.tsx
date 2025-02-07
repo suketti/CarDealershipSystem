@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { translations } from "../translations";
 import LoginModal from "./LoginModal";
@@ -6,6 +6,8 @@ import MessagesModal from "./MessagesModal";
 import SavedCarsModal from "./SavedCarsModal";
 import {UserDTO} from "../Interfaces/User.ts";
 import PostCarOffer from "./PostCarOffer.tsx";
+import { LanguageCtx } from "../App.tsx";
+import { translations as trans } from "../translations";
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -17,7 +19,7 @@ interface HeaderProps {
 }
 
 function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguage }: HeaderProps) {
-  // ここで useState を使わず、props の language をそのまま使う
+  const langCtx = useContext(LanguageCtx)
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showMessagesModal, setShowMessagesModal] = useState(false);
   const [showSavedCarsModal, setShowSavedCarsModal] = useState(false);
@@ -28,13 +30,26 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const lang = e.target.value as "hu" | "en" | "jp";
-    setLanguage(lang);
+    //setLanguage(lang);
+    switch (lang) {
+      case "hu":
+        langCtx?.changeTranslate(trans.hu)
+        break;
+      case "en":
+        langCtx?.changeTranslate(trans.en)
+        break;
+      case "jp":
+        langCtx?.changeTranslate(trans.jp)
+        break;
+      default:
+        break;
+    }
   };
 
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    alert(t.logout + " sikeres!");
+    alert(langCtx?.translate.logout + " sikeres!");
     // pl. localStorage törlése, user reset...
   };
 
@@ -46,7 +61,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
         <div className="container">
           {/* Nyelvválasztó */}
           <div className="language-selector">
-            <label htmlFor="language-selector">{t.chooseLanguage || "Nyelv:"}</label>
+            <label htmlFor="language-selector">{langCtx?.translate.langu}</label>
             <select id="language-selector" value={language} onChange={handleLanguageChange}>
               <option value="hu">Magyar</option>
               <option value="en">English</option>
@@ -58,10 +73,10 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
         <nav>
           <ul className="nav-list">
             <li>
-            <Link to="/" className="nav-link">{t.homepage}</Link>
+            <Link to="/" className="nav-link">{langCtx?.translate.homepage}</Link>
             </li>
             <li>
-            <Link to="/cars" className="nav-link">{t.cars}</Link>
+            <Link to="/cars" className="nav-link">{langCtx?.translate.cars}</Link>
             </li>
             <li>
               <PostCarOffer language={language} isLoggedIn={isLoggedIn} setShowLoginModal={setShowLoginModal} />
@@ -70,7 +85,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
             <li>
               {!isLoggedIn ? (
                 <button className="login-button" onClick={() => setShowLoginModal(true)}>
-                {t.login}
+                {langCtx?.translate.login}
               </button>
               ) : (
                 <div className="profile-menu">
@@ -78,7 +93,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
                     className="profile-btn"
                     onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                   >
-                    {t.myProfile}
+                    {langCtx?.translate.myProfile}
                   </button>
                   {profileMenuOpen && (
                     <ul
@@ -87,7 +102,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
                     >
                       <li style={{ marginBottom: "5px" }}>
                         <Link to="/profile" onClick={() => setProfileMenuOpen(false)}>
-                          {t.myProfile}
+                        {langCtx?.translate.myProfile}
                         </Link>
                       </li>
                       <li style={{ marginBottom: "5px" }}>
@@ -97,7 +112,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
                             setProfileMenuOpen(false);
                           }}
                         >
-                          {t.myMessages}
+                          {langCtx?.translate.myMessages}
                         </button>
                       </li>
                       <li style={{ marginBottom: "5px" }}>
@@ -111,7 +126,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
                         </button>
                       </li>
                       <li>
-                        <button onClick={handleLogout}>{t.logout}</button>
+                        <button onClick={handleLogout}>{langCtx?.translate.logout}</button>
                       </li>
                     </ul>
                   )}

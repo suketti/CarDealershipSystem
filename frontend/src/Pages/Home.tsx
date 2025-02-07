@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../styles.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
+import { LanguageCtx } from "../App";
 
 const cars = [
   { marka: "Toyota", modell: "Prius", ev: 2015, kivitel: "Hatchback", uzemanyag: "Hibrid", ar: 4500000, kep: "" },
@@ -21,9 +22,8 @@ function Home({ language }: { language: "hu" | "en" }) {
   const [fuelOptions, setFuelOptions] = useState<string[]>([]);
   const [isAdvancedSearchVisible, setIsAdvancedSearchVisible] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState("Mindegy");
-  const t = translations[language] || translations.hu;
   
-  
+  const langCtx = useContext(LanguageCtx)
 
   useEffect(() => {
     setBrandOptions(["Mindegy", ...new Set(cars.map(car => car.marka))]);
@@ -45,7 +45,7 @@ function Home({ language }: { language: "hu" | "en" }) {
   return (
     <div className="content">
       <header>
-        <h1>Autókereskedés</h1>
+        <h1>{langCtx?.translate.dealership}</h1>
         
       </header>
       
@@ -53,7 +53,7 @@ function Home({ language }: { language: "hu" | "en" }) {
       {showLocationModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2>{t.selectLocation}</h2>
+            <h2>{langCtx?.translate.selectLocation}</h2>
             
             {/* Térkép konténer */}
             <div className="map-container">
@@ -99,7 +99,7 @@ function Home({ language }: { language: "hu" | "en" }) {
               className="btn" 
               onClick={() => setShowLocationModal(false)}
             >
-              Bezárás
+              {langCtx?.translate.closed}
             </button>
           </div>
         </div>
@@ -110,7 +110,7 @@ function Home({ language }: { language: "hu" | "en" }) {
         <div id="search-results-modal" className="modal-overlay">
           <div className="modal-content">
             <span className="close-modal" onClick={() => setShowSearchResults(false)}>&times;</span>
-            <h2>Keresési eredmények</h2>
+            <h2>{langCtx?.translate.searchResult}</h2>
             <div className="car-list-results"></div>
           </div>
         </div>
@@ -118,47 +118,48 @@ function Home({ language }: { language: "hu" | "en" }) {
       
       {/* Hero szekció */}
       <section className="hero">
-        <h2>Üdvözlünk az Autókereskedésben!</h2>
-        <p>Válogass kedvedre a használt és új autók közül...</p>
-        <a className="btn" href="/cars">Autók megtekintése</a>
+        <h2>{langCtx?.translate.welcomeText}</h2>
+        <p>{langCtx?.translate.searchCars}</p>
+        <a className="btn" href="/cars">{langCtx?.translate.viewCars}</a>
       </section>
       
       {/* Autókereső szűrő */}
       <section className="filter">
         <div className="container">
-          <h2>{t.searchTitle}</h2>
+  
+  <h2>{langCtx?.translate.searchTitle}</h2>
           <form onSubmit={handleSearchClick}>
-          <label>Márka:</label>
+          <label>{langCtx?.translate.brand}</label>
           <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>
             {brandOptions.map(option => <option key={option} value={option}>{option}</option>)}
           </select>
 
-          <label>Modell:</label>
+          <label>{langCtx?.translate.model}</label>
           <select disabled={selectedBrand === "Mindegy"}>
             {modelOptions.map(option => <option key={option} value={option}>{option}</option>)}
           </select>
 
-            <label>Kivitel:</label>
+            <label>{langCtx?.translate.bodyType}</label>
             <select id="body-type">{bodyTypeOptions.map(option => <option key={option} value={option}>{option}</option>)}</select>
 
-            <label>Üzemanyag:</label>
+            <label>{langCtx?.translate.fuel}</label>
             <select id="fuel">{fuelOptions.map(option => <option key={option} value={option}>{option}</option>)}</select>
 
-            <label>Min ár:</label>
+            <label>{langCtx?.translate.minPrice}</label>
             <input type="number" id="min-price" name="min-price" placeholder="Ft" />
             
-            <label>Max ár:</label>
+            <label>{langCtx?.translate.maxPrice}</label>
             <input type="number" id="max-price" name="max-price" placeholder="Ft" />
 
-            <label>Év -tól:</label>
+            <label>{langCtx?.translate.yearFrom}</label>
             <input type="number" id="year-from" placeholder="Pl. 2010" />
 
-            <label>Év -ig:</label>
+            <label>{langCtx?.translate.yearTo}</label>
             <input type="number" id="year-to" placeholder="Pl. 2020" />
 
             <div id="reszletes-kereses-container">
               <span id="reszletes-kereses-label" onClick={() => setIsAdvancedSearchVisible(!isAdvancedSearchVisible)}>
-                Részletes keresés
+                {langCtx?.translate.moreSearch}
               </span>
               <span id="toggle-arrow">{isAdvancedSearchVisible ? "▲" : "▼"}</span>
             </div>
@@ -190,14 +191,14 @@ function Home({ language }: { language: "hu" | "en" }) {
         className="btn" 
         onClick={() => setShowLocationModal(true)}
       >
-        Helyszín kiválasztása
+        {langCtx?.translate.chooseLocation}
       </button>
       <button 
               type="button" 
               className="btn" 
               onClick={handleSearchClick} // Keresés gombra kattintva átirányítás
             >
-              Keresés
+              {langCtx?.translate.search}
             </button>
           </form>
         </div>
@@ -206,13 +207,13 @@ function Home({ language }: { language: "hu" | "en" }) {
       {/* Autólista */}
       <section className="inventory">
         <div className="container">
-          <h2>Összes autó</h2>
+          <h2>{langCtx?.translate.allCar}</h2>
           <div className="car-list-all">
             {cars.map((car, index) => (
               <div key={index} className="car-item">
                 <img src={car.kep} alt={`${car.marka} ${car.modell}`} className="car-image" />
                 <h3>{car.marka} {car.modell}</h3>
-                <p>Évjárat: {car.ev}</p>
+                <p>{langCtx?.translate.year} {car.ev}</p>
                 <p>Kivitel: {car.kivitel}</p>
                 <p>Üzemanyag: {car.uzemanyag}</p>
                 <p>Ár: {car.ar.toLocaleString()} Ft</p>
