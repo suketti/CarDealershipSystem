@@ -33,4 +33,5 @@ public class Car
     public virtual Color Color { get; set; } = null!;
     public virtual ICollection<CarExtra> CarExtras { get; set; } = new List<CarExtra>();
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
+    public DateTime DateOfManufacture { get; set; }
 }

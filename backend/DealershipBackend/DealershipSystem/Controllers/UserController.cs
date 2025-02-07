@@ -63,23 +63,31 @@ public class UserController : ControllerBase
 
         if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
         {
-            var (accessToken, refreshToken) = await _userService.GenerateTokensAsync(user); // 変更
+            var (accessToken, refreshToken) = await _userService.GenerateTokensAsync(user);
             var userDto = _mapper.Map<UserDTO>(user);
 
-            // Set RefreshToken as HttpOnly Cookie (推奨)
             Response.Cookies.Append("RefreshToken", refreshToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = true, // Use HTTPS
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddDays(30)
             });
 
-            return Ok(new { AccessToken = accessToken, User = userDto });
+            Response.Cookies.Append("AccessToken", accessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Use HTTPS
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(15)
+            });
+
+            return Ok(new { User = userDto });
         }
 
         return Unauthorized();
     }
+
 
 
     [HttpPut("update")]

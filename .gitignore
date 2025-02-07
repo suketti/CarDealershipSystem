@@ -367,3 +367,6 @@ FodyWeavers.xsd
 
 # IntelliJ IDEA
 .idea/
+
+.vite/
+
