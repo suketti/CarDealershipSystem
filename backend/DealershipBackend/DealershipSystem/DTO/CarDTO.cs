@@ -20,6 +20,7 @@ public class CarDTO
     public string VINNum { get; set; }
     public ColorDTO Color { get; set; } = null!;
     public bool IsSmoking { get; set; }
+    public string? Price { get; set; }
     public List<CarExtraDTO> Extras { get; set; } = new List<CarExtraDTO>();
     //public List<ImageDTO> Images { get; set; } = new List<ImageDTO>();
     public bool IsInTransfer { get; set; }

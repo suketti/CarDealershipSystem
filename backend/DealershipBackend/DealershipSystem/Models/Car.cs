@@ -19,6 +19,7 @@ public class Car
     public int ColorID { get; set; }
     public bool IsSmoking { get; set; } = false;
     public bool IsInTransfer { get; set; } = false;
+    public string? Price { get; set; }
 
     // Navigation properties
     public virtual CarMaker Brand { get; set; } = null!;

@@ -41,7 +41,7 @@ public class LocationController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateLocation([FromBody] LocationDto location)
     {
         var result = await _locationService.CreateLocationAsync(location);

@@ -16,6 +16,7 @@ public class CreateCarDTO
     public int TransmissionType { get; set; } // Refers to TransmissionTypes.ID
     public string VINNum { get; set; } = string.Empty!; // Vehicle Identification Number
     public int Color { get; set; } // Refers to Colors.ID
+    public string? price { get; set; }
     public bool IsSmoking { get; set; } = false; // Defaults to false
     public List<int>? Extras { get; set; } // List of Extra.ID values (Optional)
     public bool IsInTransfer { get; set; } = false; // Defaults to false
