@@ -39,10 +39,10 @@ public class CarMetadataService
         var bodyTypes = await _context.BodyTypes.AsNoTracking().ToListAsync();
         var bodyTypesDTOs = _mapper.Map<List<BodyTypeDTO>>(bodyTypes);
 
-        return bodyTypesDTOs;
+        return bodyTypesDTOs;   
     }
 
-    public async Task<BodyTypeDTO?> GetBodyTypeByIDAsync(int id)
+    public async Task<BodyTypeDTO?> GetBodyTypeByIdAsync(int id)
     {
         var bodyType = await _context.BodyTypes.FirstOrDefaultAsync(bt => bt.ID == id);
         return bodyType != null ? _mapper.Map<BodyTypeDTO>(bodyType) : null;
@@ -60,5 +60,41 @@ public class CarMetadataService
     {
         var transmissionType = await _context.TransmissionTypes.FirstOrDefaultAsync(t => t.ID == id);
         return transmissionType != null ? _mapper.Map<BodyTypeDTO>(transmissionType) : null;
+    }
+
+    public async Task<List<FuelTypeDTO>> GetFuelTypesAsync()
+    {
+        var fuelTypes = await _context.FuelTypes.AsNoTracking().ToListAsync();
+        return _mapper.Map<List<FuelTypeDTO>>(fuelTypes);
+    }
+
+    public async Task<FuelTypeDTO?> GetFuelTypeByIdAsync(int id)
+    {
+        var fuelType = await _context.FuelTypes.FirstOrDefaultAsync(f => f.ID == id);
+        return fuelType != null ? _mapper.Map<FuelTypeDTO>(fuelType) : null;
+    }
+
+    public async Task<List<DrivetrainTypeDTO>> GetDrivetrainTypesAsync()
+    {
+        var driveTrainTypes = await _context.DrivetrainTypes.AsNoTracking().ToListAsync();
+        return _mapper.Map<List<DrivetrainTypeDTO>>(driveTrainTypes);
+    }
+    
+    public async Task<DrivetrainTypeDTO?> GetDrivetrainTypeByIdAsync(int id)
+    {
+        var driveTrainType = await _context.DrivetrainTypes.FirstOrDefaultAsync(dt => dt.ID == id);
+        return driveTrainType != null ? _mapper.Map<DrivetrainTypeDTO>(driveTrainType) : null;
+    }
+
+    public async Task<List<ColorDTO>> GetColorTypesAsync()
+    {
+        var colorTypes = await _context.Colors.AsNoTracking().ToListAsync();
+        return _mapper.Map<List<ColorDTO>>(colorTypes);
+    }
+
+    public async Task<ColorDTO?> GetColorByIdAsync(int id)
+    {
+        var colorType = await _context.Colors.FirstOrDefaultAsync(c => c.ID == id);
+        return colorType != null ? _mapper.Map<ColorDTO>(colorType) : null;
     }
 }

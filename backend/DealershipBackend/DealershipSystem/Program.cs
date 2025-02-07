@@ -33,6 +33,9 @@ public class Program
         builder.Services.AddScoped<RoleService>();
         builder.Services.AddScoped<CarService>();
         builder.Services.AddScoped<CarMetadataService>();
+        builder.Services.AddScoped<CarMakerService>();
+        builder.Services.AddScoped<CarModelService>();
+        builder.Services.AddScoped<EngineSizeService>();
         
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

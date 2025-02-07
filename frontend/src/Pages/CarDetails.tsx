@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Car } from "../Types";
+import LoginModal from "../Components/LoginModal";
 
 
 function CarDetails() {
@@ -12,6 +13,9 @@ function CarDetails() {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [bookingMessage, setBookingMessage] = useState<string>("");
   const [imageIndex, setImageIndex] = useState<number>(0);
+  const [hasBooked, setHasBooked] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -20,8 +24,6 @@ function CarDetails() {
     if (carString) {
       try {
         const parsedCar: Car = JSON.parse(carString);
-        console.log("Betöltött autó:", parsedCar);
-        console.log("Autó képe:", parsedCar.kep);
         setCarData(parsedCar);
       } catch (error) {
         console.error("Hibás autó paraméter");
@@ -29,6 +31,66 @@ function CarDetails() {
     }
   }, [location.search]);
   
+  const generateCalendarGrid = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    
+    // Hungarian week days starting from Monday
+    const weeks: (number | null)[][] = [];
+    let week: (number | null)[] = [];
+    let day = 1;
+  
+    // Adjust Hungarian week start (Monday)
+    const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+    if (startOffset > 0) {
+      week = Array(startOffset).fill(null);
+    }
+  
+    while (day <= lastDate) {
+      if (week.length === 7) {
+        weeks.push(week);
+        week = [];
+      }
+      week.push(day);
+      day++;
+    }
+  
+    if (week.length > 0) {
+      weeks.push(week.concat(Array(7 - week.length).fill(null)));
+    }
+  
+    return weeks;
+  };
+  
+  const isPastDateTime = (date: Date, hour: number, minute: number) => {
+    const now = new Date();
+    const selectedDateTime = new Date(date);
+    selectedDateTime.setHours(hour, minute, 0, 0);
+    return selectedDateTime <= now;
+  };
+  
+  // A komponensen belül (a CarDetails függvényben)
+  const [currentDate, setCurrentDate] = useState(new Date());
+  
+  const prevMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+  };
+  
+  const nextMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+  };
+  
+  const handleDateClick = (day: number) => {
+    const today = new Date();
+    const selected = new Date(today.getFullYear(), today.getMonth(), day);
+    
+    // Csak akkor állítjuk be a dátumot, ha nem múltbeli
+    if (!isPastDateTime(selected, selectedHour, selectedMinute)) {
+      setSelectedDate(selected);
+    }
+  };
 
   const additionalImages = [
     "../Képek/kep1.jpg",
@@ -45,7 +107,7 @@ function CarDetails() {
   ? [carData.kep, ...additionalImages].filter(img => img) 
   : additionalImages;
 
-
+  
 
   const nextImage = () => {
     setImageIndex((prev) => (prev + 1) % images.length);
@@ -54,12 +116,36 @@ function CarDetails() {
   const prevImage = () => {
     setImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+  const handleBooking = () => {
+    if (hasBooked) {
+      setBookingMessage("Már lefoglaltál egy időpontot!");
+      return;
+    }
 
+    if (!isLoggedIn) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+
+    if (!selectedDate) {
+      setBookingMessage("Kérjük válasszon dátumot!");
+      return;
+    }
+
+    // Ellenőrzi az időpontot
+    if (isPastDateTime(selectedDate, selectedHour, selectedMinute)) {
+      setBookingMessage("Nem lehet múltbeli időpontot foglalni!");
+      return;
+    }
+
+    setHasBooked(true);
+    setBookingMessage(`Sikeres foglalás: ${selectedDate.toLocaleDateString("hu-HU")} ${selectedHour.toString().padStart(2, '0')}:${selectedMinute.toString().padStart(2, '0')}`);
+  };
   const handleSaveCar = () => {
     if (!carData) return;
     const isLoggedIn = document.querySelector(".profile-btn") !== null;
     if (!isLoggedIn) {
-      alert("Jelentkezz be az autó mentéséhez!");
+      setIsLoginModalOpen(true);
       return;
     }
     const savedCars = JSON.parse(localStorage.getItem("savedCars") || "[]") as Car[];
@@ -73,28 +159,7 @@ function CarDetails() {
     }
   };
 
-  const handleBooking = () => {
-    const isLoggedIn = document.querySelector(".profile-btn") !== null;
-    if (!isLoggedIn) {
-      setBookingMessage("❌ Kérlek, jelentkezz be az időpont foglalásához!");
-      return;
-    }
-    if (!selectedDate) {
-      setBookingMessage("❌ Kérlek, válassz egy dátumot!");
-      return;
-    }
-    const now = new Date();
-  now.setSeconds(0, 0);
-  const selectedDateTime = new Date(selectedDate);
-  selectedDateTime.setHours(selectedHour, selectedMinute, 0, 0);
-    if (selectedDateTime < now) {
-      setBookingMessage("❌ Nem lehet múltbeli időpontot foglalni!");
-      return;
-    }
-    const bookingDate = `${selectedDate.toLocaleDateString("hu-HU")} ${selectedHour}:${selectedMinute}`;
-    localStorage.setItem("bookingDate", bookingDate);
-    setBookingMessage(`✅ Foglalt időpont: ${bookingDate}`);
-  };
+  
 
   if (!carData) {
     return <p>Betöltés...</p>;
@@ -153,44 +218,82 @@ function CarDetails() {
         <p id="car-type">Kivitel: {carData.kivitel}</p>
         <p id="car-fuel">Üzemanyag: {carData.uzemanyag}</p>
         <p id="car-description" className="description">{carData.leiras || "Nincs leírás az autóról."}</p>
-        <div className="calendar-container bg-white p-4 rounded-lg shadow-md w-80 mx-auto">
-        <h3 className="text-lg font-bold mb-2">Időpont foglalása</h3>
-        <input 
-          type="date" 
-          className="border p-2 rounded w-full mb-2"
-          onChange={(e) => setSelectedDate(new Date(e.target.value))} 
-        />
-        
-        <div className="flex justify-between mb-2">
-          <select 
-            className="border p-2 rounded" 
-            value={selectedHour} 
-            onChange={(e) => setSelectedHour(parseInt(e.target.value))}
-          >
-            {[...Array(10)].map((_, i) => (
-              <option key={i} value={i + 8}>{i + 8}</option>
-            ))}
-          </select>
-          <select 
-            className="border p-2 rounded" 
-            value={selectedMinute} 
-            onChange={(e) => setSelectedMinute(parseInt(e.target.value))}
-          >
-            {[0, 15, 30, 45].map((min) => (
-              <option key={min} value={min}>{min.toString().padStart(2, "0")}</option>
-            ))}
-          </select>
-        </div>
+        <div className="calendar-container">
+          <h3 className="text-lg font-bold mb-2">Időpont foglalása</h3>
+          <div className="calendar">
+            <div className="calendar-header">
+              <button onClick={prevMonth}>&#9665;</button>
+              <span id="current-month-year">{currentDate.toLocaleDateString("hu-HU", {
+          month: "long",
+          year: "numeric",
+        })}</span>
+              <button onClick={nextMonth}>&#9655;</button>
+            </div>
+            <table className="calendar-table">
+              <thead>
+                <tr>
+                {["H", "K", "Sze", "Cs", "P", "Szo", "V"].map(day => (
+            <th key={day}>{day}</th>
+          ))}
+                </tr>
+              </thead>
+              <tbody> {generateCalendarGrid(currentDate).map((week, i) => (
+          <tr key={i}>
+            {week.map((day, j) => {
+              const cellDate = day
+                ? new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
+                : null;
+                const isPast = cellDate ? isPastDateTime(cellDate, selectedHour, selectedMinute) : false;
 
-                  
-        <button 
-          className="bg-green-500 text-white py-2 px-4 rounded w-full" 
-          onClick={handleBooking}
+              
+              return (
+                <td
+                  key={`${i}-${j}`}
+                  className={`calendar-day ${
+                    day && isPast ? "past-date" : ""
+                  } ${
+                    selectedDate?.getDate() === day &&
+                    selectedDate?.getMonth() === currentDate.getMonth()
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() => day && !isPast && handleDateClick(day)}
+                >
+                  {day || ""}
+                </td>
+              );
+            })}
+          </tr>
+        ))}</tbody>
+            </table>
+          </div>
+          <div className="time-picker">
+            <label htmlFor="hours">Óra:</label>
+            <select
+          id="hours"
+          value={selectedHour}
+          onChange={(e) => setSelectedHour(Number(e.target.value))}
         >
-          Foglalás
-        </button>
-        {bookingMessage && <p className="mt-2 text-center text-red-500">{bookingMessage}</p>}
-
+          {Array.from({ length: 13 }, (_, i) => i + 8).map(hour => (
+            <option key={hour} value={hour}>{hour.toString().padStart(2, '0')}</option>
+          ))}
+        </select>
+            <label htmlFor="minutes"></label>
+            <select
+          id="minutes"
+          value={selectedMinute}
+          onChange={(e) => setSelectedMinute(Number(e.target.value))}
+        >
+          {[0, 15, 30, 45].map(minute => (
+            <option key={minute} value={minute}>{minute.toString().padStart(2, '0')}</option>
+          ))}
+        </select>
+          </div>
+          <button className="btn-submit" onClick={() => handleBooking()}>Foglalás</button>
+        {bookingMessage && <p>{bookingMessage}</p>}   
+        {isLoginModalOpen && (
+        <LoginModal onClose={() => setIsLoginModalOpen(false)} setIsLoggedIn={setIsLoggedIn} t={{ loginTitle: "Bejelentkezés" }} />
+      )}       
         </div>
         <a href="/" className="btn-back">Vissza a Kezdőlapra</a>
       </div>

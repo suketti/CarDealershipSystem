@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DealershipSystem.Controllers;
 
 [ApiController]
-[Route("/Users")]
+[Route("api/users")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;

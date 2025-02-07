@@ -62,6 +62,10 @@ interface TranslationMap {
       footer_contact_page: "Contact",
       footer_privacy: "Privacy Policy",
       footer_rights: "© 2025 Car Dealership Ltd. All rights reserved.",
+      postAd: "Submit Ad",
+      description: "Description",
+      mileage: "Mileage",
+      color: "Color",
     },
     hu: {
       searchTitle: "Autókereső",
@@ -119,7 +123,11 @@ interface TranslationMap {
       email: "E-mail:",
       registrationSuccess: "Sikeres regisztráció! Most jelentkezz be.",
       oginSuccess: "Sikeres bejelentkezés!",
-      loginError: "Hibás felhasználónév vagy jelszó."
+      loginError: "Hibás felhasználónév vagy jelszó.",
+      postAd: "Hirdetés feladás",
+      description: "Leírás",
+      mileage: "Km",
+      color: "Szín",
     }
   };
   
