@@ -40,7 +40,7 @@ function Home({ language }: { language: "hu" | "en" }) {
   }, [selectedBrand]);
   const handleSearchClick = (e: React.FormEvent) => {
     e.preventDefault(); // Megakadályozza az oldal újratöltését
-    navigate("/autok"); // Átirányít az autók oldalra
+    navigate("/cars"); // Átirányít az autók oldalra
   };
   return (
     <div className="content">
@@ -120,7 +120,7 @@ function Home({ language }: { language: "hu" | "en" }) {
       <section className="hero">
         <h2>Üdvözlünk az Autókereskedésben!</h2>
         <p>Válogass kedvedre a használt és új autók közül...</p>
-        <a className="btn" href="/autok">Autók megtekintése</a>
+        <a className="btn" href="/cars">Autók megtekintése</a>
       </section>
       
       {/* Autókereső szűrő */}

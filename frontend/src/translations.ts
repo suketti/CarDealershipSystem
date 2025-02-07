@@ -63,6 +63,7 @@ export const translations: TranslationMap = {
     successLogin: "Login successful!",
     successRegister: "Registration successful! Please log in.",
     error: "Invalid credentials.",
+    color: "Color",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -128,6 +129,10 @@ export const translations: TranslationMap = {
     successLogin: "Sikeres bejelentkezés!",
     successRegister: "Sikeres regisztráció! Kérjük, jelentkezzen be.",
     error: "Hibás adatok.",
+    postAd: "Hirdetés feladás",
+    description: "Leírás",
+    mileage: "Km",
+    color: "Szín",
   },
   jp: {
     searchTitle: "検索",
@@ -191,6 +196,11 @@ export const translations: TranslationMap = {
     phoneNumber: "電話番号",
     successLogin: "ログイン成功！",
     successRegister: "登録成功！ログインしてください。",
-    error: "入力情報が正しくありません。"
+    error: "入力情報が正しくありません。",
+    postAd: "広告を投稿",
+    description: "説明",
+    mileage: "走行距離",
+    color: "色",
+
   }
 };

@@ -5,6 +5,7 @@ import LoginModal from "./LoginModal";
 import MessagesModal from "./MessagesModal";
 import SavedCarsModal from "./SavedCarsModal";
 import {UserDTO} from "../Interfaces/User.ts";
+import PostCarOffer from "./PostCarOffer.tsx";
 
 interface HeaderProps {
   isLoggedIn: boolean;
@@ -62,7 +63,9 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
             <li>
             <Link to="/cars" className="nav-link">{t.cars}</Link>
             </li>
-
+            <li>
+              <PostCarOffer language={language} isLoggedIn={isLoggedIn} setShowLoginModal={setShowLoginModal} />
+            </li>
             {/* Profil / Login */}
             <li>
               {!isLoggedIn ? (

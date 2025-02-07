@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { translations } from "../translations";
 import LoginModal from "./LoginModal";
 
-interface HirdetesFeladasProps {
-  language: "hu" | "en";
+interface PostCarOfferProps {
+  language: "hu" | "en" | "jp";
   isLoggedIn: boolean;
   setShowLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HirdetesFeladas: React.FC<HirdetesFeladasProps> = ({ language, isLoggedIn, setShowLoginModal }) => {
+const PostCarOffer: React.FC<PostCarOfferProps> = ({ language, isLoggedIn, setShowLoginModal }) => {
   const [showModal, setShowModal] = useState(false);
   const [images, setImages] = useState<string[]>([]);
   const [formData, setFormData] = useState({
@@ -160,4 +160,4 @@ const HirdetesFeladas: React.FC<HirdetesFeladasProps> = ({ language, isLoggedIn,
   );
 };
 
-export default HirdetesFeladas;
+export default PostCarOffer;
