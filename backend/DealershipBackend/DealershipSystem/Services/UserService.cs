@@ -63,11 +63,21 @@ public class UserService : IUserService
         return await _userManager.FindByIdAsync(userId.ToString());
     }
     
-    public async Task<string> GenerateJwtTokenAsync(User user)
+    public async Task<(string AccessToken, string RefreshToken)> GenerateTokensAsync(User user)
     {
-        return await _jwtService.GenerateToken(user);
+        return await _jwtService.GenerateTokens(user);
     }
     
+    public async Task<(bool IsValid, string AccessToken)> RefreshAccessTokenAsync(string refreshToken)
+    {
+        return await _jwtService.RefreshAccessToken(refreshToken); // 🔹 JWTService のメソッドを呼び出す
+    }
+    
+    public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+    }
+
     public async Task<bool> UpdateUserAsync(Guid id, UserDTO userDto)
     {
         var user = await GetUserByIdAsync(id);

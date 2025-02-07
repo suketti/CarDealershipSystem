@@ -1,0 +1,128 @@
+/* Background Overlay */
+.modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
+    z-index: 1000;
+}
+
+/* Modal Container */
+.modal-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px; /* Slightly wider for better input spacing */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1); /* Softer, bigger shadow */
+    text-align: center;
+    position: relative;
+}
+
+/* Close Button */
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #333; /* Darker close button for better visibility */
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: #ff0000; /* Red color on hover for emphasis */
+}
+
+/* Form Styling */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Increased gap for better spacing between inputs */
+    text-align: left;
+}
+
+/* Input Fields */
+.modal-form input {
+    width: 100%;
+    padding: 12px; /* Increased padding for better touch targets */
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Slightly more rounded for modern look */
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.modal-form input:focus {
+    border-color: #007bff; /* Highlight input borders on focus */
+    outline: none;
+}
+
+/* Button Styling */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background: #0056b3; /* Darker blue on hover */
+}
+
+/* Toggle Button (Switch between Register/Login) */
+.toggle-button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-button:hover {
+    background: #218838; /* Darker green on hover */
+}
+
+/* Error Message Styling */
+.error-message {
+    color: #e74c3c; /* Softer red for errors */
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Title Text */
+h2 {
+    font-size: 22px;
+    margin-bottom: 20px; /* Extra space before form */
+    color: #333;
+}
+
+/* Label Styling */
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555; /* Softer label color */
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+/* Modal Overlay for smooth closing transition */
+.modal-overlay {
+    transition: opacity 0.3s ease;
+}

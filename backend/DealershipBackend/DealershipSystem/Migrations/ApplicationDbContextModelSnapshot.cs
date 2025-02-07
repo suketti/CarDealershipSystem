@@ -185,6 +185,9 @@ namespace DealershipSystem.Migrations
                     b.Property<int>("ModelID")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Price")
+                        .HasColumnType("text");
+
                     b.Property<bool>("RepairHistory")
                         .HasColumnType("boolean");
 
@@ -1008,6 +1011,12 @@ namespace DealershipSystem.Migrations
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("character varying(2)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");

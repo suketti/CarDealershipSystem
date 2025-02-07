@@ -4,35 +4,32 @@ import { translations } from "../translations";
 import LoginModal from "./LoginModal";
 import MessagesModal from "./MessagesModal";
 import SavedCarsModal from "./SavedCarsModal";
-import { User } from "../Types";
-import HirdetesFeladas from "./HirdetesFeladas";
-
-
+import {UserDTO} from "../Interfaces/User.ts";
 
 interface HeaderProps {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-  language: "hu" | "en"; // Új prop
-  setLanguage: React.Dispatch<React.SetStateAction<"hu" | "en">>;
+  user: UserDTO;
+  setUser: React.Dispatch<React.SetStateAction<UserDTO>>;
+  language: "hu" | "en" | "jp"; // Új prop
+  setLanguage: React.Dispatch<React.SetStateAction<"hu" | "en" | "jp">>;
 }
 
-function Header({ isLoggedIn, setIsLoggedIn, user, setUser }: HeaderProps) {
-  const [language, setLanguage] = useState<"hu" | "en">("hu");
+function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguage }: HeaderProps) {
+  // ここで useState を使わず、props の language をそのまま使う
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showMessagesModal, setShowMessagesModal] = useState(false);
   const [showSavedCarsModal, setShowSavedCarsModal] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
-
   const t = translations[language] || translations.hu;
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const lang = e.target.value as "hu" | "en";
+    const lang = e.target.value as "hu" | "en" | "jp";
     setLanguage(lang);
   };
+
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -52,6 +49,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser }: HeaderProps) {
             <select id="language-selector" value={language} onChange={handleLanguageChange}>
               <option value="hu">Magyar</option>
               <option value="en">English</option>
+              <option value="jp">日本語</option>
             </select>
           </div>
 
@@ -62,10 +60,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser }: HeaderProps) {
             <Link to="/" className="nav-link">{t.homepage}</Link>
             </li>
             <li>
-            <Link to="/autok" className="nav-link">{t.cars}</Link>
-            </li>
-            <li>
-            <HirdetesFeladas language={language} isLoggedIn={isLoggedIn} setShowLoginModal={setShowLoginModal} />
+            <Link to="/cars" className="nav-link">{t.cars}</Link>
             </li>
 
             {/* Profil / Login */}
@@ -127,7 +122,8 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser }: HeaderProps) {
       {showLoginModal && (
         <LoginModal 
           onClose={() => setShowLoginModal(false)} 
-          setIsLoggedIn={setIsLoggedIn} 
+          setIsLoggedIn={setIsLoggedIn}
+          language={language}
           toggleRegister={() => { setShowRegister(true); setShowLoginModal(false); }}
           t={t} 
         />
@@ -136,7 +132,8 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser }: HeaderProps) {
         <LoginModal 
           onClose={() => setShowRegister(false)} 
           setIsLoggedIn={setIsLoggedIn} 
-          isRegisterMode={true} 
+          isRegisterMode={true}
+          language={language}
           t={t} 
         />
       )}

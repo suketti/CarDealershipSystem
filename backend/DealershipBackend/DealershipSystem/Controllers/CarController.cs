@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using DealershipSystem.DTO;
 using DealershipSystem.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DealershipSystem.Controllers;
@@ -18,6 +19,7 @@ public class CarController : ControllerBase
     }
 
     [HttpGet]
+    [EnableCors]
     public async Task<IActionResult> GetAll()
     {
         var cars = await _carService.GetAllCarsAsync();

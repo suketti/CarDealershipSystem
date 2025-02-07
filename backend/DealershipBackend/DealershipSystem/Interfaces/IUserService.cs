@@ -8,11 +8,13 @@ namespace DealershipSystem.Interfaces;
 public interface IUserService
 {
     Task<IdentityResult> RegisterAsync(UserRegisterDto registerDto);
-    Task<string> GenerateJwtTokenAsync(User user);
-    Task<(bool IsValid, List<ValidationResult> Errors)> ValidateUserDtoAsync(UserDTO userDto);
     Task<User?> GetUserByIdAsync(Guid userId);
+    Task<(bool IsValid, List<ValidationResult> Errors)> ValidateUserDtoAsync(UserDTO userDto);
+    Task<User?> GetUserByRefreshTokenAsync(string refreshToken);
     Task<bool> UpdateUserAsync(Guid id, UserDTO userDto);
     Task<bool> DeleteUserAsync(Guid id, UserDTO userDto);
     Task<UserDTO[]> GetAllUsersAsync();
+    Task<(string AccessToken, string RefreshToken)> GenerateTokensAsync(User user);
+    Task<(bool IsValid, string AccessToken)> RefreshAccessTokenAsync(string refreshToken);
 
 }

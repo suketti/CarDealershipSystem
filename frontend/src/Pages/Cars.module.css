@@ -1,0 +1,144 @@
+.cars-page {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds space between the sidebar and the main content */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px; /* Limiting the container width for better layout */
+    margin: 0 auto;
+}
+
+.cars-layout {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap; /* Allows the layout to adjust on smaller screens */
+}
+
+.filter-sidebar {
+    flex: 0 0 300px; /* Fixed sidebar width */
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filter-sidebar form {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-sidebar label {
+    margin-top: 10px;
+}
+
+.filter-sidebar input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-sidebar .btn {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filter-sidebar .btn:hover {
+    background-color: #0056b3;
+}
+
+.cars-list {
+    flex: 1; /* Allows the main content to take up the remaining space */
+    padding: 20px;
+}
+
+.car-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.car-card h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.car-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+#location-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#location-modal {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 600px;
+}
+
+.map-container {
+    position: relative;
+    height: 400px;
+}
+
+.map-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.map-point {
+    position: absolute;
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.map-point:hover {
+    background-color: rgba(255, 0, 0, 1);
+}
+
+#location-modal .btn {
+    margin-top: 20px;
+    background-color: #28a745;
+}
+
+#location-modal .btn:hover {
+    background-color: #218838;
+}
+
+@media (max-width: 768px) {
+    .cars-layout {
+        flex-direction: column; /* Stacks the sidebar and main content on smaller screens */
+    }
+
+    .filter-sidebar {
+        width: 100%; /* Makes the sidebar full-width on smaller screens */
+        margin-bottom: 20px;
+    }
+}

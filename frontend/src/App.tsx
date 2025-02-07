@@ -2,25 +2,23 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
-import { AuthProvider } from "./AuthContext"; // Frissítsd az útvonalat!
 import Home from "./Pages/Home";
 import Cars from "./Pages/Cars";
 import CarDetails from "./Pages/CarDetails";
 import Profile from "./Pages/Profile";
-import { User } from "./Types";
+import { UserDTO } from "/Interfaces/User.ts"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState<UserDTO>({
     username: "",
     name: "Test User",
     email: "testuser@example.com",
     phone: "+36 30 123 4567"
   });
-  const [language, setLanguage] = useState<"hu" | "en">("hu");
+  const [language, setLanguage] = useState<"hu" | "en" | "jp">("hu");
   return (
-    <AuthProvider>
     <Router>
       <Header
         isLoggedIn={isLoggedIn}
@@ -30,9 +28,9 @@ function App() {
         language={language} setLanguage={setLanguage}
       />
       <Routes>
-      <Route path="/" element={<Home key={language} language={language} />} />
-      <Route path="/autok" element={<Cars />} />
-        <Route path="/autok/reszletek" element={<CarDetails />} />
+        <Route path="/" element={<Home brands={[]} models={[]} bodyTypes={[]} fuelTypes={[]} />} />
+        <Route path="/cars" element={<Cars />} />
+        <Route path="/cars/details" element={<CarDetails />} />
         <Route
           path="/profile"
           element={<Profile isLoggedIn={isLoggedIn} user={user} />}
@@ -40,7 +38,6 @@ function App() {
       </Routes>
       <Footer language={language}/>
     </Router>
-    </AuthProvider>
   );
 }
 

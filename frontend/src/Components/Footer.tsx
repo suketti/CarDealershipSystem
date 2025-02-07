@@ -2,7 +2,7 @@ import React from "react";
 import { translations } from "../translations";
 
 interface FooterProps {
-  language: "hu" | "en";
+  language: "hu" | "en" | "jp";
 }
 
 function Footer({ language }: FooterProps) {

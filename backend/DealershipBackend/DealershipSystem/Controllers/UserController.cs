@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     private readonly IUserService _userService;
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
-    
+
     public UserController(IUserService userService, UserManager<User> userManager, IMapper mapper)
     {
         _userService = userService;
@@ -31,38 +31,51 @@ public class UserController : ControllerBase
     {
         if (await _userManager.FindByEmailAsync(registerDto.Email) != null)
         {
-            return BadRequest();
+            return BadRequest(new { error = "Email is already in use." });
         }
 
         var result = await _userService.RegisterAsync(registerDto);
 
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            var user = await _userManager.FindByEmailAsync(registerDto.Email);
-            var token = await _userService.GenerateJwtTokenAsync(user);
-            return Ok(new { token });
+            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
         }
 
-        return BadRequest(new { errors = result.Errors });
+        var user = await _userManager.FindByEmailAsync(registerDto.Email);
+        var (accessToken, refreshToken) = await _userService.GenerateTokensAsync(user);
+        var userDto = _mapper.Map<User, UserDTO>(user);
+
+        return Ok(new { Token = accessToken, RefreshToken = refreshToken, User = userDto });
     }
+
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
     {
         var validationResults = new List<ValidationResult>();
-        var validationContext = new ValidationContext(loginDto, serviceProvider: null, items: null);
+        var validationContext = new ValidationContext(loginDto);
         if (!Validator.TryValidateObject(loginDto, validationContext, validationResults, true))
         {
             return BadRequest(validationResults.Select(vr => vr.ErrorMessage));
         }
-        
+
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
-        
+
         if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
         {
-            var token = await _userService.GenerateJwtTokenAsync(user);
-            var userDto = _mapper.Map<User, UserDTO>(user);
-            return Ok(new { Token = token, User = userDto});
+            var (accessToken, refreshToken) = await _userService.GenerateTokensAsync(user); // 変更
+            var userDto = _mapper.Map<UserDTO>(user);
+
+            // Set RefreshToken as HttpOnly Cookie (推奨)
+            Response.Cookies.Append("RefreshToken", refreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(30)
+            });
+
+            return Ok(new { AccessToken = accessToken, User = userDto });
         }
 
         return Unauthorized();
@@ -73,7 +86,7 @@ public class UserController : ControllerBase
     [Authorize]
     public async Task<IActionResult> UpdateUserAsync([FromBody] UserDTO userDto)
     {
-        
+
         var (isValid, validationErrors) = await _userService.ValidateUserDtoAsync(userDto);
         if (!isValid)
         {
@@ -83,14 +96,14 @@ public class UserController : ControllerBase
                 Errors = validationErrors.Select(v => v.ErrorMessage)
             });
         }
-        
+
         var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
         var user = await _userService.GetUserByIdAsync(Guid.Parse(userIdFromToken));
         if (userIdFromToken == null || user == null)
         {
             return Unauthorized(new { Message = "You are not authorized to update this user." });
         }
-        
+
         var isUpdated = await _userService.UpdateUserAsync(Guid.Parse(userIdFromToken), userDto);
         if (!isUpdated)
         {
@@ -137,5 +150,19 @@ public class UserController : ControllerBase
         UserDTO[] users = await _userService.GetAllUsersAsync();
         return Ok(users);
 
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+    {
+        var (isValid, newAccessToken) =
+            await _userService.RefreshAccessTokenAsync(refreshToken); // 🔹 _userService 経由でトークン更新
+
+        if (!isValid)
+        {
+            return Unauthorized(new { Message = "Invalid or expired refresh token." });
+        }
+
+        return Ok(new { AccessToken = newAccessToken });
     }
 }

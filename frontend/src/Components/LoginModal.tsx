@@ -1,87 +1,107 @@
 import React, { useState } from "react";
-import { translations } from "../translations";
-import { useAuth } from "../AuthContext";
-
-
-
+import { login, register } from "../api/userService.ts";
+import styles from './LoginModal.module.css';
 
 interface LoginModalProps {
   onClose: () => void;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   t: { [key: string]: string };
-  isRegisterMode?: boolean;
-  toggleRegister?: () => void;
-
+  language: "hu" | "en" | "jp";
 }
 
-function LoginModal({ onClose, setIsLoggedIn, t,  }: LoginModalProps) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+const LoginModal: React.FC<LoginModalProps> = ({ onClose, setIsLoggedIn, t, language }) => {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    nameKanji: "",
+    userName: "",
+    phoneNumber: "",
+    preferredLanguage: "jp",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
 
-
-  const testUser = {
-    username: "asd",
-    password: "asd"
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isRegisterMode) {
-      alert("Sikeres regisztráció! Most jelentkezz be.");
-      setIsRegisterMode(false); // Automatikus visszaváltás bejelentkezési módba
-    } else {
-      if (username.toLowerCase() === "asd" && password === "asd") {
-        alert("Sikeres bejelentkezés!");
+    setErrorMessage(""); // Reset error message
+
+    try {
+      if (isRegisterMode) {
+        await register({
+          name: formData.name,
+          nameKanji: language === "jp" ? formData.nameKanji : undefined,
+          userName: formData.userName,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+          preferredLanguage: formData.preferredLanguage,
+        });
+        alert(t.successRegister);
+        setIsRegisterMode(false);
+      } else {
+        await login(formData.email, formData.password);
+        alert(t.successLogin);
         setIsLoggedIn(true);
         onClose();
-      } else {
-        alert("Hibás felhasználónév vagy jelszó.");
       }
+    } catch (error) {
+      setErrorMessage(t.error);
+      console.error(error);
     }
   };
 
   return (
-    <div id="overlay" style={{ display: "block" }}>
-      <div
-        id="login-modal"
-        style={{
-          display: "block",
-          background: "#fff",
-          padding: "20px",
-          margin: "100px auto",
-          width: "300px",
-          position: "relative",
-          borderRadius: "8px"
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{ position: "absolute", top: "10px", right: "10px" }} id="close-modal"
-        >
-          &times;
-        </button>
-        <h2>{isRegisterMode ? t.registerTitle || "Regisztráció:" : t.loginTitle || "Bejelentkezés"}</h2>
-        <form onSubmit={handleSubmit} id="login-form">
-          {isRegisterMode && (
-            <>
-              <label htmlFor="email">{t.email || "Email:"} </label>
-              <input type="email" id="email" required value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-            </>
-          )}
-          <label htmlFor="username">{t.username || "Felhasználónév:"}</label>
-          <input placeholder="Felhasználónév" type="text" id="username" required value={username} onChange={(e) => setUsername(e.target.value)} />
-          <label htmlFor="password">{t.password || "Jelszó:"}</label>
-          <input placeholder="Jelszó" type="password" id="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button type="submit" className="btn">{isRegisterMode ? t.register || "Regisztráció" : t.login || "Bejelentkezés"}</button>
-        </form>
-        <button onClick={() => setIsRegisterMode(!isRegisterMode)} style={{ marginTop: "10px", display: "block", width: "100%" }}>
-          {isRegisterMode ? t.switchToLogin || "Vissza a bejelentkezéshez" : t.switchToRegister || "Regisztráció"}
-        </button>
+      <div className={styles['modal-overlay']}>
+        <div className={styles['modal-container']}>
+          <button className={styles['modal-close']} onClick={onClose}>&times;</button>
+          <h2>{isRegisterMode ? t.registerTitle : t.loginTitle}</h2>
+
+          {errorMessage && <p className={styles['error-message']}>{errorMessage}</p>}
+
+          <form onSubmit={handleSubmit} className={styles['modal-form']}>
+            {isRegisterMode && (
+                <>
+                  <label htmlFor="name">{t.name}:</label>
+                  <input type="text" id="name" required value={formData.name} onChange={handleChange} />
+
+                  {language === "jp" && (
+                      <>
+                        <label htmlFor="nameKanji">{t.nameKanji}名前（漢字）</label>
+                        <input type="text" id="nameKanji" value={formData.nameKanji} onChange={handleChange} />
+                      </>
+                  )}
+
+                  <label htmlFor="userName">{t.username}:</label>
+                  <input type="text" id="userName" required value={formData.userName} onChange={handleChange} />
+
+                  <label htmlFor="phoneNumber">{t.phoneNumber}:</label>
+                  <input type="tel" id="phoneNumber" required value={formData.phoneNumber} onChange={handleChange} />
+                </>
+            )}
+
+            <label htmlFor="email">{t.email}:</label>
+            <input type="email" id="email" required value={formData.email} onChange={handleChange} />
+
+            <label htmlFor="password">{t.password}:</label>
+            <input type="password" id="password" required value={formData.password} onChange={handleChange} />
+
+            <button type="submit" className={styles['btn']}>
+              {isRegisterMode ? t.register : t.login}
+            </button>
+          </form>
+
+          <button className={styles['toggle-button']} onClick={() => setIsRegisterMode(!isRegisterMode)}>
+            {isRegisterMode ? t.switchToLogin : t.switchToRegister}
+          </button>
+        </div>
       </div>
-    </div>
   );
-}
+};
 
 export default LoginModal;
