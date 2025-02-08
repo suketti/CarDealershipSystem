@@ -57,11 +57,11 @@ function MessagesModal({ onClose, t }: MessagesModalProps) {
 
         <div id="messages-list">
           {messages.length === 0 ? (
-            <p>Nincs megjeleníthető üzenet.</p>
+            <p>{langCtx?.translate.noMessage}</p>
           ) : (
             messages.map((msg, index) => (
               <div key={index} className="message-item" style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
-                <strong>Feladó: {msg.sender}</strong>
+                <strong>{langCtx?.translate.sender} {msg.sender}</strong>
                 <br />
                 <span>{msg.content}</span>
                 <br />

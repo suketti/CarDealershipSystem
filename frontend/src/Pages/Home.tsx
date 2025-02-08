@@ -21,21 +21,21 @@ function Home({ language }: { language: "hu" | "en" }) {
   const [bodyTypeOptions, setBodyTypeOptions] = useState<string[]>([]);
   const [fuelOptions, setFuelOptions] = useState<string[]>([]);
   const [isAdvancedSearchVisible, setIsAdvancedSearchVisible] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState("Mindegy");
+  const [selectedBrand, setSelectedBrand] = useState("");
   
   const langCtx = useContext(LanguageCtx)
 
   useEffect(() => {
-    setBrandOptions(["Mindegy", ...new Set(cars.map(car => car.marka))]);
-    setModelOptions(["Mindegy", ...new Set(cars.map(car => car.modell))]);
-    setBodyTypeOptions(["Mindegy", ...new Set(cars.map(car => car.kivitel))]);
-    setFuelOptions(["Mindegy", ...new Set(cars.map(car => car.uzemanyag))]);
+    setBrandOptions(["", ...new Set(cars.map(car => car.marka))]);
+    setModelOptions(["", ...new Set(cars.map(car => car.modell))]);
+    setBodyTypeOptions(["", ...new Set(cars.map(car => car.kivitel))]);
+    setFuelOptions(["", ...new Set(cars.map(car => car.uzemanyag))]);
   }, []);
   useEffect(() => {
-    if (selectedBrand === "Mindegy") {
-      setModelOptions(["Mindegy"]);
+    if (selectedBrand === "") {
+      setModelOptions([""]);
     } else {
-      setModelOptions(["Mindegy", ...new Set(cars.filter(car => car.marka === selectedBrand).map(car => car.modell))]);
+      setModelOptions(["", ...new Set(cars.filter(car => car.marka === selectedBrand).map(car => car.modell))]);
     }
   }, [selectedBrand]);
   const handleSearchClick = (e: React.FormEvent) => {
@@ -135,7 +135,7 @@ function Home({ language }: { language: "hu" | "en" }) {
           </select>
 
           <label>{langCtx?.translate.model}</label>
-          <select disabled={selectedBrand === "Mindegy"}>
+          <select disabled={selectedBrand === ""}>
             {modelOptions.map(option => <option key={option} value={option}>{option}</option>)}
           </select>
 
@@ -166,21 +166,19 @@ function Home({ language }: { language: "hu" | "en" }) {
 
             {isAdvancedSearchVisible && (
               <div id="reszletes-feltetelek">
-                <label>Meghajtás:</label>
+                <label>{langCtx?.translate.drive}</label>
                 <select id="meghajtas">
-                  <option value="elso">Elsőkerék</option>
-                  <option value="hatso">Hátsókerék</option>
-                  <option value="osszkerek">Összkerék</option>
+                  
                 </select>
 
-                <label>Szín:</label>
+                <label>{langCtx?.translate.color}</label>
                 <input type="text" id="szin" placeholder="Pl. piros, fekete" />
 
-                <label>Motor méret:</label>
+                <label>{langCtx?.translate.engineSize}</label>
                 <input type="number" id="motor-meret-min" placeholder="Min cm³" />
                 <input type="number" id="motor-meret-max" placeholder="Max cm³" />
 
-                <label>Kilométeróra állás:</label>
+                <label>{langCtx?.translate.mileageNum}</label>
                 <input type="number" id="km-min" placeholder="Min km" />
                 <input type="number" id="km-max" placeholder="Max km" />
               </div>
@@ -214,9 +212,9 @@ function Home({ language }: { language: "hu" | "en" }) {
                 <img src={car.kep} alt={`${car.marka} ${car.modell}`} className="car-image" />
                 <h3>{car.marka} {car.modell}</h3>
                 <p>{langCtx?.translate.year} {car.ev}</p>
-                <p>Kivitel: {car.kivitel}</p>
-                <p>Üzemanyag: {car.uzemanyag}</p>
-                <p>Ár: {car.ar.toLocaleString()} Ft</p>
+                <p>{langCtx?.translate.type} {car.kivitel}</p>
+                <p>{langCtx?.translate.fuelType} {car.uzemanyag}</p>
+                <p>{langCtx?.translate.price} {car.ar.toLocaleString()} Ft</p>
               </div>
             ))}
           </div>
@@ -228,15 +226,15 @@ function Home({ language }: { language: "hu" | "en" }) {
         <div id="login-modal" className="modal">
           <div className="modal-content">
             <span className="close-modal" onClick={() => setShowLoginModal(false)}>&times;</span>
-            <h2>Bejelentkezés</h2>
+            <h2>{langCtx?.translate.loginTitle}</h2>
             <form id="login-form">
-              <label>Felhasználónév:</label>
+              <label>{langCtx?.translate.username}</label>
               <input type="text" id="username" name="username" required />
               
-              <label>Jelszó:</label>
+              <label>{langCtx?.translate.password}</label>
               <input type="password" id="password" name="password" required />
               
-              <button type="submit" className="btn">Bejelentkezés</button>
+              <button type="submit" className="btn">{langCtx?.translate.loginTitle}</button>
             </form>
           </div>
         </div>

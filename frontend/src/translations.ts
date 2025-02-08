@@ -77,7 +77,17 @@ export type TranslationType = {
   welcomeText: string;
   searchCars: string;
   viewCars: string;
-  
+  drive: string;
+  engineSize: string;
+  mileageNum: string;
+  savedCars: string;
+  noSavedCars: string;
+  savedCarsHome: string;
+  noMessage: string;
+  sender: string;
+  loginForData: string,
+    myData:string,
+    save:string,
 };
 
 
@@ -123,7 +133,7 @@ export const translations = {
     advertisement: "Post an Advertisement",
     advertisementTitle: "Post a Car Advertisement",
     registerTitle: "Registration",
-    email: "Email:",
+    email: "Email",
     registrationSuccess: "Registration successful! Please log in now.",
     loginSuccess: "Login successful!",
     loginError: "Invalid username or password.",
@@ -161,6 +171,17 @@ export const translations = {
     welcomeText: "Welcome in the Car Dealership!",
     searchCars: "Search between the new and used cars...",
     viewCars: "View Cars",
+    drive:"Drive:",
+    engineSize: "Engine Capacity:",
+    mileageNum: "Current Mileage:",
+    savedCars: "Saved Cars:",
+    noSavedCars: "No saved cars",
+    savedCarsHome:"Saved Cars",
+    noMessage: "No messages",
+    sender: "Sender:",
+    loginForData: "Please login for looking at your profil",
+    myData:"My Datas",
+    save:"Save",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -192,8 +213,8 @@ export const translations = {
     selectLocation: "Válassza ki a helyszínt",
     complete: "Kész",
     loginTitle: "Bejelentkezés",
-    username: "Felhasználónév",
-    password: "Jelszó",
+    username: "Felhasználónév:",
+    password: "Jelszó:",
     register: "Regisztráció",
     switchToRegister: "Váltás regisztrációra",
     switchToLogin: "Váltás bejelentkezésre",
@@ -241,6 +262,17 @@ export const translations = {
     welcomeText: "Üdvözlünk az Autókereskedésben!",
     searchCars: "Válogass kedvedre a használt és új autók közül...",
     viewCars: "Autók megtekintése",
+    drive:"Meghajtás:",
+    engineSize: "Motor méret:",
+    mileageNum: "Km állás:",
+    savedCars: "Mentett autóim:",
+    savedCarsHome: "Mentett autóim",
+    noSavedCars: "Nincs mentett autód",
+    noMessage: "Nincs megjeleníthető üzenet.",
+    sender: "Feladó:",
+    loginForData: "Kérjük, jelentkezz be a profil megtekintéséhez!",
+    myData:"Adataim",
+    save:"Mentés",
   },
   jp: {
     searchTitle: "検索",
@@ -321,5 +353,14 @@ export const translations = {
     welcomeText: "",
     searchCars: "",
     viewCars: "",
+    drive:"",
+    engineSize: "",
+    mileageNum: "",
+    savedCars: "",
+    noSavedCars: "",
+    savedCarsHome: "",
+    noMessage: "",
+    sender: "",
+    
   }
 };

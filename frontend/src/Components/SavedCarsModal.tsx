@@ -58,11 +58,11 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
           &times;
         </span>
         <div className="saved-cars-header">
-          <h2>Mentett autóim</h2>
+          <h2>{langCtx?.translate.savedCars}</h2>
         </div>
         <div id="saved-cars-list" className="saved-cars-container">
           {savedCars.length === 0 ? (
-            <p>Nincs mentett autó.</p>
+            <p>{langCtx?.translate.noSavedCars}</p>
           ) : (
             savedCars.map((car, index) => (
               <div key={index} className="saved-car-item" style={{ borderBottom: "1px solid #ddd", marginBottom: "10px" }}>
@@ -75,8 +75,8 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
                   <h3>
                     {car.marka} {car.modell}
                   </h3>
-                  <p>Ár: {car.ar.toLocaleString()} Ft</p>
-                  <p>Évjárat: {car.ev}</p>
+                  <p>{langCtx?.translate.price} {car.ar.toLocaleString()} Ft</p>
+                  <p>{langCtx?.translate.year} {car.ev}</p>
                   <a
                     href={`/autok/reszletek?car=${encodeURIComponent(
                       JSON.stringify(car)

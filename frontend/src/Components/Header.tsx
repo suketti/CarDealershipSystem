@@ -122,7 +122,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
                             setProfileMenuOpen(false);
                           }}
                         >
-                          Mentett autóim
+                          {langCtx?.translate.savedCarsHome}
                         </button>
                       </li>
                       <li>
