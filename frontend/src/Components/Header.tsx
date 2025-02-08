@@ -30,7 +30,7 @@ function Header({ isLoggedIn, setIsLoggedIn, user, setUser, language, setLanguag
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const lang = e.target.value as "hu" | "en" | "jp";
-    //setLanguage(lang);
+    setLanguage(lang);
     switch (lang) {
       case "hu":
         langCtx?.changeTranslate(trans.hu)

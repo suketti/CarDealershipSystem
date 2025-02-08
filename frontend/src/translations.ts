@@ -85,9 +85,9 @@ export type TranslationType = {
   savedCarsHome: string;
   noMessage: string;
   sender: string;
-  loginForData: string,
-    myData:string,
-    save:string,
+  loginForData: string;
+    myData:string;
+    save:string;
 };
 
 
@@ -361,6 +361,8 @@ export const translations = {
     savedCarsHome: "",
     noMessage: "",
     sender: "",
-    
+    loginForData: "",
+    myData: "",
+    save: "",
   }
 };
