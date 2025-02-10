@@ -88,6 +88,7 @@ export type TranslationType = {
   loginForData: string;
     myData:string;
     save:string;
+    viewDetails: string;
 };
 
 
@@ -182,6 +183,7 @@ export const translations = {
     loginForData: "Please login for looking at your profil",
     myData:"My Datas",
     save:"Save",
+    viewDetails: "View Details",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -273,6 +275,7 @@ export const translations = {
     loginForData: "Kérjük, jelentkezz be a profil megtekintéséhez!",
     myData:"Adataim",
     save:"Mentés",
+    viewDetails: "Részltetes leírás",
   },
   jp: {
     searchTitle: "検索",
@@ -364,5 +367,6 @@ export const translations = {
     loginForData: "",
     myData: "",
     save: "",
+    viewDetails:"",
   }
 };

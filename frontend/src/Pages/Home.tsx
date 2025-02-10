@@ -8,7 +8,11 @@ import { LanguageCtx } from "../App";
 const cars = [
   { marka: "Toyota", modell: "Prius", ev: 2015, kivitel: "Hatchback", uzemanyag: "Hibrid", ar: 4500000, kep: "" },
   { marka: "Nissan", modell: "Leaf", ev: 2018, kivitel: "Hatchback", uzemanyag: "Elektromos", ar: 5200000, kep: "" },
+  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" },
+  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" },
+  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" },
   { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" }
+
 ];
 
 function Home({ language }: { language: "hu" | "en" }) {
@@ -205,8 +209,8 @@ function Home({ language }: { language: "hu" | "en" }) {
       {/* Autólista */}
       <section className="inventory">
         <div className="container">
-          <h2>{langCtx?.translate.allCar}</h2>
-          <div className="car-list-all">
+          <h2 className="section-title">{langCtx?.translate.allCar}</h2>
+          <div className="cars-list">
             {cars.map((car, index) => (
               <div key={index} className="car-item">
                 <img src={car.kep} alt={`${car.marka} ${car.modell}`} className="car-image" />
@@ -215,6 +219,9 @@ function Home({ language }: { language: "hu" | "en" }) {
                 <p>{langCtx?.translate.type} {car.kivitel}</p>
                 <p>{langCtx?.translate.fuelType} {car.uzemanyag}</p>
                 <p>{langCtx?.translate.price} {car.ar.toLocaleString()} Ft</p>
+                <button className="btn" onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}>
+                  {langCtx?.translate.viewDetails}
+                </button>
               </div>
             ))}
           </div>
