@@ -345,7 +345,7 @@ export const translations = {
     description: "説明",
     mileage: "走行距離",
     color: "色",
-    langu:"",
+    langu:"言語",
     successMessage: "",
     uploadImage: "",
     selectBrand: "",

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
 import { LanguageCtx } from "../App";
 import { useContext } from "react";
+import {getAllBodyTypes} from "../api/carMetadataService.ts";
 
 function Cars() {
   const location = useLocation();
@@ -16,6 +17,7 @@ function Cars() {
   const [filteredCars, setFilteredCars] = useState<CarDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
 
   const [language, setLanguage] = useState<"hu" | "en" | "ja">("hu");
     const langCtx = useContext(LanguageCtx)
@@ -42,6 +44,8 @@ function Cars() {
     }
     fetchCars();
   }, []);
+
+
 
   const handleMapPointClick = (location: string) => {
     setSelectedLocations([location]);

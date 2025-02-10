@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
 import { LanguageCtx } from "../App";
+import {getAllBodyTypes} from "../api/carMetadataService.ts";
+import {BodyTypeDTO} from "../Types";
 
 const cars = [
   { marka: "Toyota", modell: "Prius", ev: 2015, kivitel: "Hatchback", uzemanyag: "Hibrid", ar: 4500000, kep: "" },
@@ -22,26 +24,21 @@ function Home({ language }: { language: "hu" | "en" }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [brandOptions, setBrandOptions] = useState<string[]>([]);
   const [modelOptions, setModelOptions] = useState<string[]>([]);
-  const [bodyTypeOptions, setBodyTypeOptions] = useState<string[]>([]);
   const [fuelOptions, setFuelOptions] = useState<string[]>([]);
   const [isAdvancedSearchVisible, setIsAdvancedSearchVisible] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState("");
+  const [bodyTypeOptions, setBodyTypeOptions] = useState<BodyTypeDTO[]>([]);
   
   const langCtx = useContext(LanguageCtx)
 
-  useEffect(() => {
-    setBrandOptions(["", ...new Set(cars.map(car => car.marka))]);
-    setModelOptions(["", ...new Set(cars.map(car => car.modell))]);
-    setBodyTypeOptions(["", ...new Set(cars.map(car => car.kivitel))]);
-    setFuelOptions(["", ...new Set(cars.map(car => car.uzemanyag))]);
-  }, []);
-  useEffect(() => {
-    if (selectedBrand === "") {
-      setModelOptions([""]);
-    } else {
-      setModelOptions(["", ...new Set(cars.filter(car => car.marka === selectedBrand).map(car => car.modell))]);
-    }
-  }, [selectedBrand]);
+    useEffect(() => {
+        async function fetchStuff() {
+            const resp = await getAllBodyTypes();
+            setBodyTypeOptions(resp);
+        }
+        fetchStuff();
+    }, []);
+
   const handleSearchClick = (e: React.FormEvent) => {
     e.preventDefault(); // Megakadályozza az oldal újratöltését
     navigate("/cars"); // Átirányít az autók oldalra
@@ -143,8 +140,14 @@ function Home({ language }: { language: "hu" | "en" }) {
             {modelOptions.map(option => <option key={option} value={option}>{option}</option>)}
           </select>
 
-            <label>{langCtx?.translate.bodyType}</label>
-            <select id="body-type">{bodyTypeOptions.map(option => <option key={option} value={option}>{option}</option>)}</select>
+              <label>{langCtx?.translate.bodyType}</label>
+              <select id="body-type">
+                  {bodyTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                          {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
+                      </option>
+                  ))}
+              </select>
 
             <label>{langCtx?.translate.fuel}</label>
             <select id="fuel">{fuelOptions.map(option => <option key={option} value={option}>{option}</option>)}</select>

@@ -10,8 +10,12 @@ import { UserDTO } from "/Interfaces/User.ts"
 import { translations, TranslationType } from "./translations";
 
 export const LanguageCtx = createContext<
-{translate: TranslationType,
-changeTranslate:(translate: TranslationType) => void} | undefined>(undefined)
+    {
+      translate: TranslationType;
+      changeTranslate: (translate: TranslationType) => void;
+      language: "hu" | "en" | "jp";
+    } | undefined
+>(undefined);
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -30,7 +34,7 @@ function App() {
   }
 
   return (
-    <LanguageCtx.Provider value={{ translate: translate, changeTranslate: changeTranslate }}>
+      <LanguageCtx.Provider value={{ translate, changeTranslate, language }}>
 
     <Router>
       <Header
