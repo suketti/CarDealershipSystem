@@ -2,13 +2,15 @@ import api from "./axiosInstance.ts";
 
 export const refreshToken = async (): Promise<boolean> => {
     try {
-        const response = await api.post("/users/refresh");
+        const response = await api.post("/users/refresh", {}, { withCredentials: true }); // Send request with cookies
         localStorage.setItem("accessToken", response.data.accessToken);
         return true;
     } catch (error) {
+        console.error("Token refresh failed", error);
         return false;
     }
 };
+
 
 
 export const getUser = async () => {
@@ -20,7 +22,6 @@ export const logout = async () => {
     await api.post("/users/logout");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("RefreshToken");
-    console.log("ログアウトしました");
 };
 
 interface LoginResponse {
@@ -48,11 +49,11 @@ interface RegisterData {
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
     const response = await api.post<LoginResponse>("/users/login", { email, password });
-   ("token", response.data.accessToken);
+
+    localStorage.setItem("accessToken", response.data.accessToken);
     return response.data;
 };
 
-// ユーザー登録
 export const register = async (data: RegisterData) => {
     const response = await api.post("/users/register", data);
     return response.data;
