@@ -1,5 +1,5 @@
 import axios from "axios";
-import { refreshToken, logout } from "./userService";
+import { refreshToken } from "./userService";
 
 const api = axios.create({
     baseURL: "https://localhost:7268/api",
@@ -21,21 +21,15 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         if (error.response?.status === 401) {
-            console.warn("アクセストークンが無効または期限切れ。リフレッシュを試みます...");
-
-            try {
-                const refreshed = await refreshToken();
-                if (refreshed) {
-                    // 更新後にリトライ
-                    error.config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
-                    return api.request(error.config);
-                }
-            } catch (refreshError) {
-                console.error("リフレッシュトークンの更新に失敗しました:", refreshError);
-                logout(); // ユーザーをログアウト
+            const refreshed = await refreshToken();
+            if (refreshed) {
+                error.config.headers.Authorization = `Bearer ${localStorage.getItem("accessToken")}`;
+                return api.request(error.config);
+            } else {
+                localStorage.removeItem("accessToken");
+                window.location.href = "/";
             }
         }
-
         return Promise.reject(error);
     }
 );
