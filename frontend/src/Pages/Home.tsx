@@ -71,15 +71,67 @@ function Home({ language }: { language: "hu" | "en" }) {
 
     const handleSearchClick = (e: React.FormEvent) => {
       e.preventDefault();
-  
+    
       const queryParams = new URLSearchParams();
+    
+      // Brand
       if (selectedBrand) queryParams.set("brand", selectedBrand);
-      if (filteredModels.length > 0) queryParams.set("model", filteredModels[0].id.toString());
-      if (bodyTypeOptions.length > 0) queryParams.set("bodyType", bodyTypeOptions[0].id.toString());
-      if (fuelTypeOptions.length > 0) queryParams.set("fuelType", fuelTypeOptions[0].id.toString());
-  
+    
+      // Model
+      const modelSelect = document.getElementById("model-type") as HTMLSelectElement;
+      if (modelSelect && modelSelect.value) queryParams.set("model", modelSelect.value);
+    
+      // Body Type
+      const bodyTypeSelect = document.getElementById("body-type") as HTMLSelectElement;
+      if (bodyTypeSelect && bodyTypeSelect.value) queryParams.set("bodyType", bodyTypeSelect.value);
+    
+      // Fuel Type
+      const fuelTypeSelect = document.getElementById("fuel-type") as HTMLSelectElement;
+      if (fuelTypeSelect && fuelTypeSelect.value) queryParams.set("fuelType", fuelTypeSelect.value);
+    
+      // Drivetrain Type
+      const drivetrainTypeSelect = document.getElementById("drivetrain-type") as HTMLSelectElement;
+      if (drivetrainTypeSelect && drivetrainTypeSelect.value) queryParams.set("drivetrain", drivetrainTypeSelect.value);
+    
+      // Color
+      const colorSelect = document.getElementById("color-type") as HTMLSelectElement;
+      if (colorSelect && colorSelect.value) queryParams.set("color", colorSelect.value);
+    
+      // Min Price
+      const minPriceInput = document.getElementById("min-price") as HTMLInputElement;
+      if (minPriceInput && minPriceInput.value) queryParams.set("minPrice", minPriceInput.value);
+    
+      // Max Price
+      const maxPriceInput = document.getElementById("max-price") as HTMLInputElement;
+      if (maxPriceInput && maxPriceInput.value) queryParams.set("maxPrice", maxPriceInput.value);
+    
+      // Year From
+      const yearFromInput = document.getElementById("year-from") as HTMLInputElement;
+      if (yearFromInput && yearFromInput.value) queryParams.set("yearFrom", yearFromInput.value);
+    
+      // Year To
+      const yearToInput = document.getElementById("year-to") as HTMLInputElement;
+      if (yearToInput && yearToInput.value) queryParams.set("yearTo", yearToInput.value);
+    
+      // Min Engine Size (cm³)
+      const minEngineSizeInput = document.getElementById("motor-meret-min") as HTMLInputElement;
+      if (minEngineSizeInput && minEngineSizeInput.value) queryParams.set("minEngineSize", minEngineSizeInput.value);
+    
+      // Max Engine Size (cm³)
+      const maxEngineSizeInput = document.getElementById("motor-meret-max") as HTMLInputElement;
+      if (maxEngineSizeInput && maxEngineSizeInput.value) queryParams.set("maxEngineSize", maxEngineSizeInput.value);
+    
+      // Min Mileage (km)
+      const minMileageInput = document.getElementById("km-min") as HTMLInputElement;
+      if (minMileageInput && minMileageInput.value) queryParams.set("minMileage", minMileageInput.value);
+    
+      // Max Mileage (km)
+      const maxMileageInput = document.getElementById("km-max") as HTMLInputElement;
+      if (maxMileageInput && maxMileageInput.value) queryParams.set("maxMileage", maxMileageInput.value);
+    
+      // Navigate to Cars page with query parameters
       navigate(`/cars?${queryParams.toString()}`);
-  };
+    };
   
   return (
     <div className="content">
@@ -190,6 +242,8 @@ function Home({ language }: { language: "hu" | "en" }) {
 
               <label>{langCtx?.translate.bodyType}</label>
               <select id="body-type">
+              <option value="">{langCtx?.translate.chooseBodyType}</option>
+
                   {bodyTypeOptions.map(option => (
                       <option key={option.id} value={option.id}>
                           {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
@@ -199,6 +253,8 @@ function Home({ language }: { language: "hu" | "en" }) {
 
             <label>{langCtx?.translate.fuel}</label>
             <select id="fuel-type">
+            <option value="">{langCtx?.translate.chooseFuel}</option>
+
                   {fuelTypeOptions.map(option => (
                       <option key={option.id} value={option.id}>
                           {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
@@ -229,6 +285,8 @@ function Home({ language }: { language: "hu" | "en" }) {
               <div id="reszletes-feltetelek">
                 <label>{langCtx?.translate.drive}</label>
 <select id="drivetrain-type">
+<option value="">{langCtx?.translate.chooseDrivetrain}</option>
+
   {DrivetrainTypeOptions.map(option => (
     <option key={option.id} value={option.id}>
       {option.type}
@@ -239,6 +297,8 @@ function Home({ language }: { language: "hu" | "en" }) {
 
                 <label>{langCtx?.translate.color}</label>
                 <select id="body-type">
+                <option value="">{langCtx?.translate.chooseColor}</option>
+
                   {colorTypeOptions.map(option => (
                       <option key={option.id} value={option.id}>
                           {langCtx?.language === "jp" ? option.colorNameJapanese : option.colorNameEnglish}

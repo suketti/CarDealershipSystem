@@ -92,6 +92,10 @@ export type TranslationType = {
     chooseBrand: string;
     noModel: string;
     chooseModel: string;
+    chooseBodyType: string;
+    chooseFuel: string;
+    chooseDrivetrain: string;
+    chooseColor: string;
 };
 
 
@@ -190,6 +194,10 @@ export const translations = {
     chooseBrand: "Choose brand",
     noModel: "No model found",
     chooseModel: "Choose a model",
+    chooseBodyType: "Choose body type",
+    chooseFuel: "Choose fuel",
+    chooseDrivetrain: "Choose drivetrain",
+    chooseColor: "Choose color",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -285,6 +293,10 @@ export const translations = {
     chooseBrand: "Válassz márkát",
     noModel: "Nincs elérhető modell",
     chooseModel: "Válassz modellt",
+    chooseBodyType: "Válassz kivitelt",
+    chooseFuel: "Válassz üzemanyagot",
+    chooseDrivetrain: "Válassz meghajtást",
+    chooseColor: "Válassz színt",
   },
   jp: {
     searchTitle: "検索",
@@ -380,5 +392,9 @@ export const translations = {
     chooseBrand: "",
     noModel: "",
     chooseModel: "",
+    chooseBodyType: "",
+    chooseFuel: "",
+    chooseDrivetrain: "",
+    chooseColor: "",
   }
 };

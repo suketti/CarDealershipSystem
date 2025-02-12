@@ -70,20 +70,61 @@ function Cars() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
   
+    // Brand
     const brandParam = params.get("brand") || "";
-    const modelParam = params.get("model") || "";
-    const bodyTypeParam = params.get("bodyType") || "";
-    const fuelTypeParam = params.get("fuelType") || "";
-    const transmissionParam = params.get("transmission") || "";
-    const drivetrainParam = params.get("drivetrain") || "";
-    const colorParam = params.get("color") || "";
-  
     setBrand(brandParam);
+  
+    // Model
+    const modelParam = params.get("model") || "";
     setModel(modelParam);
+  
+    // Body Type
+    const bodyTypeParam = params.get("bodyType") || "";
     setBodyType(bodyTypeParam);
+  
+    // Fuel Type
+    const fuelTypeParam = params.get("fuelType") || "";
     setFuelType(fuelTypeParam);
+  
+    // Drivetrain Type
+    const drivetrainParam = params.get("drivetrain") || "";
     setSelectedDrivetrain(drivetrainParam);
+  
+    // Color
+    const colorParam = params.get("color") || "";
     setSelectedColor(colorParam);
+  
+    // Min Price
+    const minPriceParam = params.get("minPrice");
+    setMinPrice(minPriceParam ? Number(minPriceParam) : null);
+  
+    // Max Price
+    const maxPriceParam = params.get("maxPrice");
+    setMaxPrice(maxPriceParam ? Number(maxPriceParam) : null);
+  
+    // Year From
+    const yearFromParam = params.get("yearFrom");
+    setYearFrom(yearFromParam ? Number(yearFromParam) : null);
+  
+    // Year To
+    const yearToParam = params.get("yearTo");
+    setYearTo(yearToParam ? Number(yearToParam) : null);
+  
+    // Min Engine Size (cm³)
+    const minEngineSizeParam = params.get("minEngineSize");
+    setMinEngineSize(minEngineSizeParam ? Number(minEngineSizeParam) : null);
+  
+    // Max Engine Size (cm³)
+    const maxEngineSizeParam = params.get("maxEngineSize");
+    setMaxEngineSize(maxEngineSizeParam ? Number(maxEngineSizeParam) : null);
+  
+    // Min Mileage (km)
+    const minMileageParam = params.get("minMileage");
+    setMinMileage(minMileageParam ? Number(minMileageParam) : null);
+  
+    // Max Mileage (km)
+    const maxMileageParam = params.get("maxMileage");
+    setMaxMileage(maxMileageParam ? Number(maxMileageParam) : null);
   
     // Beállítjuk a megfelelő modelleket a márka alapján
     if (brandParam) {
@@ -116,17 +157,46 @@ function Cars() {
         (!model || car.carModel.modelNameEnglish.toLowerCase() === model.toLowerCase()) &&
         (!bodyType || car.bodyType.nameEnglish.toLowerCase() === bodyType.toLowerCase()) &&
         (!fuelType || car.fuelType.nameEnglish.toLowerCase() === fuelType.toLowerCase()) &&
-        (selectedLocations.length === 0 || selectedLocations.includes(car.location.locationName)) &&
-        
+        (!selectedDrivetrain || car.driveTrain.type.toLowerCase() === selectedDrivetrain.toLowerCase()) &&
+        (!selectedColor || car.color.colorNameEnglish.toLowerCase() === selectedColor.toLowerCase()) &&
+        (!minPrice || car.price >= minPrice) &&
+        (!maxPrice || car.price <= maxPrice) &&
         (!yearFrom || car.carModel.manufacturingStartYear >= yearFrom) &&
         (!yearTo || car.carModel.manufacturingEndYear <= yearTo) &&
-        (!selectedColor || car.color.colorNameEnglish.toLowerCase() === selectedColor.toLowerCase())
-        
+        (!minEngineSize || car.engineSize >= minEngineSize) &&
+        (!maxEngineSize || car.engineSize <= maxEngineSize) &&
+        (!minMileage || car.mileage >= minMileage) &&
+        (!maxMileage || car.mileage <= maxMileage)
       );
     });
     setFilteredCars(filtered);
   };
 
+
+  
+
+
+  useEffect(() => {
+    if (cars.length > 0) {
+      handleSearch(new Event("submit") as unknown as React.FormEvent<HTMLFormElement>);
+    }
+  }, [
+    brand,
+    model,
+    bodyType,
+    fuelType,
+    selectedDrivetrain,
+    selectedColor,
+    minPrice,
+    maxPrice,
+    yearFrom,
+    yearTo,
+    minEngineSize,
+    maxEngineSize,
+    minMileage,
+    maxMileage,
+    cars,
+  ]);
   if (error) return <p>{error}</p>;
 
   return (
@@ -147,13 +217,8 @@ function Cars() {
 </select>
 
 <label htmlFor="model">{langCtx?.translate.model}</label>
-<select 
-  id="model-type" 
-  value={model} 
-  onChange={(e) => setModel(e.target.value)} 
-  disabled={!brand} // Ha nincs kiválasztva márka, letiltjuk
->
-  <option value="">{filteredModels.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
+<select id="model-type" value={model} onChange={(e) => setModel(e.target.value)} disabled={!brand}>
+  <option value="">{ModelTypeOptions.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
   {ModelTypeOptions.map(option => (
     <option key={option.id} value={option.id}>
       {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
@@ -243,19 +308,22 @@ function Cars() {
           </aside>
 
           <main className={styles['cars-list']}>
-            {filteredCars.length === 0 ? (
-              <p>{langCtx?.translate.noResults}</p>
-            ) : (
-              filteredCars.map((car) => (
-                <div key={car.id} className={styles['car-card']}>
-                  <h3>{car.carModel.modelNameEnglish}</h3>
-                  <p>{car.brand.brandEnglish}</p>
-                  <p>{car.bodyType.nameEnglish}</p>
-                  <p>{car.fuelType.nameEnglish}</p>
-                  <p>{car.location.locationName}</p>
-                </div>
-              ))
-            )}
+          {filteredCars.length === 0 ? (
+  <p>{langCtx?.translate.noResults}</p>
+) : (
+  filteredCars.map((car) => (
+    <div key={car.id} className={styles['car-card']}>
+      <h3>{car.carModel.modelNameEnglish}</h3>
+      <p>{car.brand.brandEnglish}</p>
+      <p>{car.bodyType.nameEnglish}</p>
+      <p>{car.fuelType.nameEnglish}</p>
+      <p>{car.location.locationName}</p>
+      <p>{langCtx?.translate.price}: {car.price} Ft</p>
+      <p>{langCtx?.translate.mileage}: {car.mileage} km</p>
+      <p>{langCtx?.translate.engineSize}: {car.engineSize} cm³</p>
+    </div>
+  ))
+)}
           </main>
         </div>
       </div>
