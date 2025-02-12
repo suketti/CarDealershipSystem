@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
 import { LanguageCtx } from "../App";
-import {getAllBodyTypes} from "../api/carMetadataService.ts";
-import {BodyTypeDTO} from "../Types";
+import {getAllMakerTypes, getAllModelsTypes, getAllBodyTypes, getAllTransmissionTypes, getAllFuelTypes, getAllColors, getAllDrivetrainTypes} from "../api/carMetadataService.ts";
+import {BodyTypeDTO, CarMakerDTO, CarModelDTO, ColorDTO, FuelTypeDTO, TransmissionTypeDTO} from "../Types";
 
 const cars = [
   { marka: "Toyota", modell: "Prius", ev: 2015, kivitel: "Hatchback", uzemanyag: "Hibrid", ar: 4500000, kep: "" },
@@ -24,20 +24,51 @@ function Home({ language }: { language: "hu" | "en" }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [brandOptions, setBrandOptions] = useState<string[]>([]);
   const [modelOptions, setModelOptions] = useState<string[]>([]);
-  const [fuelOptions, setFuelOptions] = useState<string[]>([]);
   const [isAdvancedSearchVisible, setIsAdvancedSearchVisible] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState("");
   const [bodyTypeOptions, setBodyTypeOptions] = useState<BodyTypeDTO[]>([]);
+  const [fuelTypeOptions, setFuelTypeOptions] = useState<FuelTypeDTO[]>([]);
+  const [transmissionTypeOptions, setTransmissionTypeOptions] = useState<TransmissionTypeDTO[]>([]);
+  const [colorTypeOptions, setColorTypeOptions] = useState<ColorDTO[]>([]);
+  const [DrivetrainTypeOptions, setDrivetrainTypeOptions] = useState<ColorDTO[]>([]);
+  const [MakerTypeOptions, setMakerTypeOptions] = useState<CarMakerDTO[]>([]);
+  const [ModelTypeOptions, setModelTypeOptions] = useState<CarModelDTO[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [filteredModels, setFilteredModels] = useState<CarModelDTO[]>([]);
+
+
   
+
+
   const langCtx = useContext(LanguageCtx)
 
     useEffect(() => {
         async function fetchStuff() {
-            const resp = await getAllBodyTypes();
-            setBodyTypeOptions(resp);
+            const respBody = await getAllBodyTypes();
+            setBodyTypeOptions(respBody);
+            const respFuel = await getAllFuelTypes();
+            setFuelTypeOptions(respFuel);
+            const respTrans = await getAllTransmissionTypes();
+            setTransmissionTypeOptions(respTrans);
+            const respColor = await getAllColors();
+            setColorTypeOptions(respColor);
+            const respDrivetrain = await getAllDrivetrainTypes();
+            setDrivetrainTypeOptions(respDrivetrain);
+            const respMaker = await getAllMakerTypes();
+            setMakerTypeOptions(respMaker);
+            const respModel = await getAllModelsTypes();
+            setModelTypeOptions(respModel);
         }
         fetchStuff();
     }, []);
+
+    useEffect(() => {
+      if (selectedBrand) {
+        const filtered = ModelTypeOptions.filter(model => model.maker.id === parseInt(selectedBrand));
+        setFilteredModels(filtered);
+      } else {
+        setFilteredModels([]);
+      }
+    }, [selectedBrand, ModelTypeOptions]);
 
   const handleSearchClick = (e: React.FormEvent) => {
     e.preventDefault(); // Megakadályozza az oldal újratöltését
@@ -131,14 +162,24 @@ function Home({ language }: { language: "hu" | "en" }) {
   <h2>{langCtx?.translate.searchTitle}</h2>
           <form onSubmit={handleSearchClick}>
           <label>{langCtx?.translate.brand}</label>
-          <select value={selectedBrand} onChange={e => setSelectedBrand(e.target.value)}>
-            {brandOptions.map(option => <option key={option} value={option}>{option}</option>)}
-          </select>
+          <select id="brand-type" value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)}>
+                  <option value="">{langCtx?.translate.chooseBrand}</option>
+                  {MakerTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                          {langCtx?.language === "jp" ? option.brandJapanese : option.brandEnglish}
+                      </option>
+                  ))}
+              </select>
 
           <label>{langCtx?.translate.model}</label>
-          <select disabled={selectedBrand === ""}>
-            {modelOptions.map(option => <option key={option} value={option}>{option}</option>)}
-          </select>
+          <select id="model-type" disabled={filteredModels.length === 0}>
+        <option value="">{filteredModels.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
+                  {ModelTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                          {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
+                      </option>
+                  ))}
+              </select>
 
               <label>{langCtx?.translate.bodyType}</label>
               <select id="body-type">
@@ -150,7 +191,13 @@ function Home({ language }: { language: "hu" | "en" }) {
               </select>
 
             <label>{langCtx?.translate.fuel}</label>
-            <select id="fuel">{fuelOptions.map(option => <option key={option} value={option}>{option}</option>)}</select>
+            <select id="body-type">
+                  {fuelTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                          {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
+                      </option>
+                  ))}
+              </select>
 
             <label>{langCtx?.translate.minPrice}</label>
             <input type="number" id="min-price" name="min-price" placeholder="Ft" />
@@ -174,12 +221,21 @@ function Home({ language }: { language: "hu" | "en" }) {
             {isAdvancedSearchVisible && (
               <div id="reszletes-feltetelek">
                 <label>{langCtx?.translate.drive}</label>
-                <select id="meghajtas">
-                  
-                </select>
+                <select id="body-type">
+                  {transmissionTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                      </option>
+                  ))}
+              </select>
 
                 <label>{langCtx?.translate.color}</label>
-                <input type="text" id="szin" placeholder="Pl. piros, fekete" />
+                <select id="body-type">
+                  {colorTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                          {langCtx?.language === "jp" ? option.colorNameJapanese : option.colorNameEnglish}
+                      </option>
+                  ))}
+              </select>
 
                 <label>{langCtx?.translate.engineSize}</label>
                 <input type="number" id="motor-meret-min" placeholder="Min cm³" />

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DealershipSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250205075805_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250212092155_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,6 +158,9 @@ namespace DealershipSystem.Migrations
                     b.Property<int>("ColorID")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("DateOfManufacture")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("DriveTrainID")
                         .HasColumnType("integer");
 
@@ -187,6 +190,9 @@ namespace DealershipSystem.Migrations
 
                     b.Property<int>("ModelID")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("text");
 
                     b.Property<bool>("RepairHistory")
                         .HasColumnType("boolean");
@@ -1011,6 +1017,12 @@ namespace DealershipSystem.Migrations
                         .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("character varying(2)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiry")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");

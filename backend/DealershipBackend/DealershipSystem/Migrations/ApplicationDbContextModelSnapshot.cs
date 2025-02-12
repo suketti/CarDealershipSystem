@@ -155,6 +155,9 @@ namespace DealershipSystem.Migrations
                     b.Property<int>("ColorID")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("DateOfManufacture")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("DriveTrainID")
                         .HasColumnType("integer");
 

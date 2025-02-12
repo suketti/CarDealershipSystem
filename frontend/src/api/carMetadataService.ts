@@ -59,3 +59,16 @@ export const getColorById = async (id: number) => {
     const response = await api.get(`/cars/metadata/colors/${id}`);
     return response.data;
 };
+
+
+//Get all Makers
+export const getAllMakerTypes = async () => {
+    const response = await api.get("/cars/makers");
+    return response.data;
+};
+
+//Get all Models
+export const getAllModelsTypes = async () => {
+    const response = await api.get("/cars/models");
+    return response.data;
+};

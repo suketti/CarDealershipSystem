@@ -89,6 +89,9 @@ export type TranslationType = {
     myData:string;
     save:string;
     viewDetails: string;
+    chooseBrand: string;
+    noModel: string;
+    chooseModel: string;
 };
 
 
@@ -184,6 +187,9 @@ export const translations = {
     myData:"My Datas",
     save:"Save",
     viewDetails: "View Details",
+    chooseBrand: "Choose brand",
+    noModel: "No model found",
+    chooseModel: "Choose a model",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -276,6 +282,9 @@ export const translations = {
     myData:"Adataim",
     save:"Mentés",
     viewDetails: "Részltetes leírás",
+    chooseBrand: "Válassz márkát",
+    noModel: "Nincs elérhető modell",
+    chooseModel: "Válassz modellt",
   },
   jp: {
     searchTitle: "検索",
@@ -368,5 +377,8 @@ export const translations = {
     myData: "",
     save: "",
     viewDetails:"",
+    chooseBrand: "",
+    noModel: "",
+    chooseModel: "",
   }
 };
