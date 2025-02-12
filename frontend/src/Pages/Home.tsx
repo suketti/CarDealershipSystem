@@ -6,19 +6,16 @@ import { translations } from "../translations";
 import { LanguageCtx } from "../App";
 import {getAllMakerTypes, getAllModelsTypes, getAllBodyTypes, getAllTransmissionTypes, getAllFuelTypes, getAllColors, getAllDrivetrainTypes} from "../api/carMetadataService.ts";
 import {BodyTypeDTO, CarMakerDTO, CarModelDTO, ColorDTO, FuelTypeDTO, TransmissionTypeDTO} from "../Types";
+import Cars from "./Cars.tsx";
+import { CarDTO } from "../Types";
+import { getCars } from "../api/carService.ts";
 
-const cars = [
-  { marka: "Toyota", modell: "Prius", ev: 2015, kivitel: "Hatchback", uzemanyag: "Hibrid", ar: 4500000, kep: "" },
-  { marka: "Nissan", modell: "Leaf", ev: 2018, kivitel: "Hatchback", uzemanyag: "Elektromos", ar: 5200000, kep: "" },
-  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" },
-  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" },
-  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" },
-  { marka: "Honda", modell: "Civic", ev: 2020, kivitel: "Hatchback", uzemanyag: "Benzin", ar: 6000000, kep: "" }
 
-];
+
 
 function Home({ language }: { language: "hu" | "en" }) {
   const navigate = useNavigate();
+  const [cars, setCars] = useState<CarDTO[]>([]);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -34,7 +31,6 @@ function Home({ language }: { language: "hu" | "en" }) {
   const [ModelTypeOptions, setModelTypeOptions] = useState<CarModelDTO[]>([]);
   const [selectedBrand, setSelectedBrand] = useState("");
   const [filteredModels, setFilteredModels] = useState<CarModelDTO[]>([]);
-
 
   
 
@@ -57,6 +53,9 @@ function Home({ language }: { language: "hu" | "en" }) {
             setMakerTypeOptions(respMaker);
             const respModel = await getAllModelsTypes();
             setModelTypeOptions(respModel);
+            const cars = await getCars();
+            setCars(cars);
+            console.log(cars)
         }
         fetchStuff();
     }, []);
@@ -70,10 +69,18 @@ function Home({ language }: { language: "hu" | "en" }) {
       }
     }, [selectedBrand, ModelTypeOptions]);
 
-  const handleSearchClick = (e: React.FormEvent) => {
-    e.preventDefault(); // Megakadályozza az oldal újratöltését
-    navigate("/cars"); // Átirányít az autók oldalra
+    const handleSearchClick = (e: React.FormEvent) => {
+      e.preventDefault();
+  
+      const queryParams = new URLSearchParams();
+      if (selectedBrand) queryParams.set("brand", selectedBrand);
+      if (filteredModels.length > 0) queryParams.set("model", filteredModels[0].id.toString());
+      if (bodyTypeOptions.length > 0) queryParams.set("bodyType", bodyTypeOptions[0].id.toString());
+      if (fuelTypeOptions.length > 0) queryParams.set("fuelType", fuelTypeOptions[0].id.toString());
+  
+      navigate(`/cars?${queryParams.toString()}`);
   };
+  
   return (
     <div className="content">
       <header>
@@ -191,7 +198,7 @@ function Home({ language }: { language: "hu" | "en" }) {
               </select>
 
             <label>{langCtx?.translate.fuel}</label>
-            <select id="body-type">
+            <select id="fuel-type">
                   {fuelTypeOptions.map(option => (
                       <option key={option.id} value={option.id}>
                           {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
@@ -221,8 +228,8 @@ function Home({ language }: { language: "hu" | "en" }) {
             {isAdvancedSearchVisible && (
               <div id="reszletes-feltetelek">
                 <label>{langCtx?.translate.drive}</label>
-                <select id="body-type">
-                  {transmissionTypeOptions.map(option => (
+                <select id="drivetrain-type">
+                  {DrivetrainTypeOptions.map(option => (
                       <option key={option.id} value={option.id}>
                       </option>
                   ))}
@@ -270,19 +277,21 @@ function Home({ language }: { language: "hu" | "en" }) {
         <div className="container">
           <h2 className="section-title">{langCtx?.translate.allCar}</h2>
           <div className="cars-list">
-            {cars.map((car, index) => (
-              <div key={index} className="car-item">
-                <img src={car.kep} alt={`${car.marka} ${car.modell}`} className="car-image" />
-                <h3>{car.marka} {car.modell}</h3>
-                <p>{langCtx?.translate.year} {car.ev}</p>
-                <p>{langCtx?.translate.type} {car.kivitel}</p>
-                <p>{langCtx?.translate.fuelType} {car.uzemanyag}</p>
-                <p>{langCtx?.translate.price} {car.ar.toLocaleString()} Ft</p>
-                <button className="btn" onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}>
-                  {langCtx?.translate.viewDetails}
-                </button>
-              </div>
-            ))}
+          {cars?.map((car) => (
+      <div key={car.id} className="car-item">
+        
+    <h3>{car.brand.brandEnglish} {car.carModel.modelNameEnglish}</h3>
+    <p>{langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}</p>
+    <p>{langCtx?.translate.type} {car.bodyType.nameEnglish}</p>
+    <p>{langCtx?.translate.fuelType} {car.fuelType.nameEnglish}</p>
+    <p>{langCtx?.translate.price} {Number(car.price).toLocaleString()} Ft</p>
+    <button className="btn" onClick={() => navigate(`/Car-Details?carId=${car.id}`)}>
+      {langCtx?.translate.viewDetails}
+    </button>
+  
+
+      </div>
+))}
           </div>
         </div>
       </section>

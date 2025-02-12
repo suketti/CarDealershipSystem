@@ -72,3 +72,12 @@ export const getAllModelsTypes = async () => {
     const response = await api.get("/cars/models");
     return response.data;
 };
+
+
+// Összes autó lekérése
+export const getAllCars = async () => {
+    const response = await api.get("/cars");
+    return response.data;
+};
+
+

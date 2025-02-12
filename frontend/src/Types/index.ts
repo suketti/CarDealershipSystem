@@ -19,6 +19,7 @@ export type CarDTO = {
     isSmoking: boolean;
     extras: CarExtraDTO[];
     isInTransfer: boolean;
+    
 };
 
 
