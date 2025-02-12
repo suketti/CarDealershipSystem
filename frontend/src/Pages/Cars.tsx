@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { CarDTO } from "../Types";
+import { CarDTO, DrivetrainTypeDTO } from "../Types";
 import { getCars } from "../api/carService.ts";
 import styles from './Cars.module.css'; // Import the CSS module
 import CarDetails from "./CarDetails.tsx";
@@ -30,7 +30,7 @@ function Cars() {
   const [fuelTypeOptions, setFuelTypeOptions] = useState<FuelTypeDTO[]>([]);
   const [transmissionTypeOptions, setTransmissionTypeOptions] = useState<TransmissionTypeDTO[]>([]);
   const [colorTypeOptions, setColorTypeOptions] = useState<ColorDTO[]>([]);
-  const [DrivetrainTypeOptions, setDrivetrainTypeOptions] = useState<ColorDTO[]>([]);
+  const [DrivetrainTypeOptions, setDrivetrainTypeOptions] = useState<DrivetrainTypeDTO[]>([]);
   const [MakerTypeOptions, setMakerTypeOptions] = useState<CarMakerDTO[]>([]);
   const [ModelTypeOptions, setModelTypeOptions] = useState<CarModelDTO[]>([]);
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -40,6 +40,7 @@ function Cars() {
   const [yearFrom, setYearFrom] = useState<number | null>(null);
   const [yearTo, setYearTo] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState("");
+  const [selectedDrivetrain, setSelectedDrivetrain] = useState("");
   const [minEngineSize, setMinEngineSize] = useState<number | null>(null);
   const [maxEngineSize, setMaxEngineSize] = useState<number | null>(null);
   const [minMileage, setMinMileage] = useState<number | null>(null);
@@ -81,7 +82,6 @@ function Cars() {
     setModel(modelParam);
     setBodyType(bodyTypeParam);
     setFuelType(fuelTypeParam);
-    setSelectedTransmission(transmissionParam);
     setSelectedDrivetrain(drivetrainParam);
     setSelectedColor(colorParam);
   
@@ -146,15 +146,21 @@ function Cars() {
   ))}
 </select>
 
-              <label htmlFor="model">{langCtx?.translate.model}</label>
-              <select id="model-type" value={model} onChange={(e) => setModel(e.target.value)} disabled={filteredModels.length === 0}>
+<label htmlFor="model">{langCtx?.translate.model}</label>
+<select 
+  id="model-type" 
+  value={model} 
+  onChange={(e) => setModel(e.target.value)} 
+  disabled={!brand} // Ha nincs kiválasztva márka, letiltjuk
+>
   <option value="">{filteredModels.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
-  {filteredModels.map(option => (
+  {ModelTypeOptions.map(option => (
     <option key={option.id} value={option.id}>
       {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
     </option>
   ))}
 </select>
+
 
               <label htmlFor="bodyType">{langCtx?.translate.bodyType}</label>
               <select id="body-type" value={bodyType} onChange={(e) => setBodyType(e.target.value)}>
@@ -204,7 +210,7 @@ function Cars() {
   <option value="">{langCtx?.translate.chooseDrivetrain}</option>
   {DrivetrainTypeOptions.map(option => (
     <option key={option.id} value={option.id}>
-      {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
+      {option.type}
     </option>
   ))}
 </select>

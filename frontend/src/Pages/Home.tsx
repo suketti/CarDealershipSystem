@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
 import { LanguageCtx } from "../App";
 import {getAllMakerTypes, getAllModelsTypes, getAllBodyTypes, getAllTransmissionTypes, getAllFuelTypes, getAllColors, getAllDrivetrainTypes} from "../api/carMetadataService.ts";
-import {BodyTypeDTO, CarMakerDTO, CarModelDTO, ColorDTO, FuelTypeDTO, TransmissionTypeDTO} from "../Types";
+import {BodyTypeDTO, CarMakerDTO, CarModelDTO, ColorDTO, DrivetrainTypeDTO, FuelTypeDTO, TransmissionTypeDTO} from "../Types";
 import Cars from "./Cars.tsx";
 import { CarDTO } from "../Types";
 import { getCars } from "../api/carService.ts";
@@ -26,7 +26,7 @@ function Home({ language }: { language: "hu" | "en" }) {
   const [fuelTypeOptions, setFuelTypeOptions] = useState<FuelTypeDTO[]>([]);
   const [transmissionTypeOptions, setTransmissionTypeOptions] = useState<TransmissionTypeDTO[]>([]);
   const [colorTypeOptions, setColorTypeOptions] = useState<ColorDTO[]>([]);
-  const [DrivetrainTypeOptions, setDrivetrainTypeOptions] = useState<ColorDTO[]>([]);
+  const [DrivetrainTypeOptions, setDrivetrainTypeOptions] = useState<DrivetrainTypeDTO[]>([]);
   const [MakerTypeOptions, setMakerTypeOptions] = useState<CarMakerDTO[]>([]);
   const [ModelTypeOptions, setModelTypeOptions] = useState<CarModelDTO[]>([]);
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -228,12 +228,14 @@ function Home({ language }: { language: "hu" | "en" }) {
             {isAdvancedSearchVisible && (
               <div id="reszletes-feltetelek">
                 <label>{langCtx?.translate.drive}</label>
-                <select id="drivetrain-type">
-                  {DrivetrainTypeOptions.map(option => (
-                      <option key={option.id} value={option.id}>
-                      </option>
-                  ))}
-              </select>
+<select id="drivetrain-type">
+  {DrivetrainTypeOptions.map(option => (
+    <option key={option.id} value={option.id}>
+      {option.type}
+    </option>
+  ))}
+</select>
+
 
                 <label>{langCtx?.translate.color}</label>
                 <select id="body-type">
