@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CarDTO, DrivetrainTypeDTO } from "../Types";
 import { getCars } from "../api/carService.ts";
 import styles from './Cars.module.css'; // Import the CSS module
@@ -197,6 +197,9 @@ function Cars() {
     maxMileage,
     cars,
   ]);
+
+  
+
   if (error) return <p>{error}</p>;
 
   return (
