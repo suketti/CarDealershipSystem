@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { CarDTO } from "../Types";
 
 
+
 function CarDetails() {
   const location = useLocation();
   const [carData, setCarData] = useState<CarDTO | null>(null);
@@ -17,17 +18,24 @@ function CarDetails() {
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const carString = query.get("car");
+    const carId = query.get("carId");
+  
     if (carString) {
       try {
-        const parsedCar: CarDTO = JSON.parse(carString);
-        console.log("Betöltött autó:", parsedCar);
-        //console.log("Autó képe:", parsedCar.image);
+        const parsedCar: CarDTO = JSON.parse(decodeURIComponent(carString));
         setCarData(parsedCar);
       } catch (error) {
-        console.error("Hibás autó paraméter");
+        console.error("Hibás autó paraméter:", error);
       }
+    } else if (carId) {
+      // Ha nincs JSON az URL-ben, kérjük le az autó adatait API-ból
+      fetch(`/api/getCarById/${carId}`)
+        .then((res) => res.json())
+        .then((data) => setCarData(data))
+        .catch((error) => console.error("Hiba az autó lekérésekor:", error));
     }
   }, [location.search]);
+  
   
 
   const additionalImages = [
@@ -56,14 +64,19 @@ function CarDetails() {
   };
 
   const handleSaveCar = () => {
+    console.log("Mentett autó:", carData);
+
     if (!carData) return;
+  
     const isLoggedIn = document.querySelector(".profile-btn") !== null;
     if (!isLoggedIn) {
       alert("Jelentkezz be az autó mentéséhez!");
       return;
     }
+  
     const savedCars = JSON.parse(localStorage.getItem("savedCars") || "[]") as CarDTO[];
-    //const exists = savedCars.some((c) => c.image === carData.image);
+    const exists = savedCars.some((c) => c.carModel.modelNameEnglish === carData.carModel.modelNameEnglish && c.brand.brandEnglish === carData.brand.brandEnglish);
+  
     if (!exists) {
       savedCars.push(carData);
       localStorage.setItem("savedCars", JSON.stringify(savedCars));
@@ -72,7 +85,14 @@ function CarDetails() {
       alert("Ez az autó már mentve van!");
     }
   };
-
+  
+  const addMessage = (content: string) => {
+    const storedMessages = localStorage.getItem("messages");
+    const messages = storedMessages ? JSON.parse(storedMessages) : [];
+    const newMessage = { sender: "Rendszer", content, date: new Date().toLocaleString("hu-HU") };
+    messages.push(newMessage);
+    localStorage.setItem("messages", JSON.stringify(messages));
+  };
   const handleBooking = () => {
     const isLoggedIn = document.querySelector(".profile-btn") !== null;
     if (!isLoggedIn) {
@@ -83,6 +103,8 @@ function CarDetails() {
       setBookingMessage("❌ Kérlek, válassz egy dátumot!");
       return;
     }
+
+    
     const now = new Date();
   now.setSeconds(0, 0);
   const selectedDateTime = new Date(selectedDate);
@@ -91,9 +113,20 @@ function CarDetails() {
       setBookingMessage("❌ Nem lehet múltbeli időpontot foglalni!");
       return;
     }
+    const existingBooking = localStorage.getItem("bookingDate");
+    if (existingBooking) {
+      const existingBookingDate = new Date(existingBooking);
+      if (existingBookingDate > now) {
+        setBookingMessage(`❌ Már van egy foglalt időpontod: ${existingBooking}. Csak egyet foglalhatsz.`);
+        return;
+      } else {
+        localStorage.removeItem("bookingDate");
+      }
+    }
     const bookingDate = `${selectedDate.toLocaleDateString("hu-HU")} ${selectedHour}:${selectedMinute}`;
     localStorage.setItem("bookingDate", bookingDate);
-    setBookingMessage(`✅ Foglalt időpont: ${bookingDate}`);
+    setBookingMessage(`✅ Foglalt időpont: ${bookingDate}\n📩 Időpont lefoglalás megkezdődött!`);
+    addMessage(`Időpont lefoglalva: ${bookingDate}`);
   };
 
   if (!carData) {
@@ -148,8 +181,8 @@ function CarDetails() {
         <button className="btn-save" onClick={handleSaveCar}>
           Autó mentése
         </button>
-        <h2 id="car-title">{carData.brand + " " + carData.carModel}</h2>
-        <p id="car-price">Ár: 222222 Ft</p>
+        <h2 id="car-title">{carData.brand.brandEnglish + " " + carData.carModel.modelNameEnglish}</h2>
+        <p id="car-price">Ár: {carData.price} Ft</p>
         <p id="car-year">Évjárat: {carData.carModel.manufacturingEndYear}</p>
         <p id="car-type">Kivitel: {carData.bodyType.nameEnglish}</p>
         <p id="car-fuel">Üzemanyag: {carData.fuelType.nameEnglish}</p>

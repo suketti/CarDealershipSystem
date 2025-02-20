@@ -47,7 +47,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home brands={[]} models={[]} bodyTypes={[]} fuelTypes={[]} />} />
         <Route path="/cars" element={<Cars />} />
-        <Route path="/cars/details" element={<CarDetails />} />
+        <Route path="/Car-Details" element={<CarDetails />} />
         <Route
           path="/profile"
           element={<Profile isLoggedIn={isLoggedIn} user={user} />}

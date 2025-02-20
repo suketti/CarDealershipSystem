@@ -49,6 +49,18 @@ function Cars() {
 
   useEffect(() => {
     async function fetchCars() {
+      try {
+        const carsData = await getCars();
+        setCars(carsData);
+        setFilteredCars(carsData); // Initialize filteredCars with all cars
+      } catch (err) {
+        setError("Error fetching cars");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function fetchMetadata() {
       const respBody = await getAllBodyTypes();
       setBodyTypeOptions(respBody);
       const respFuel = await getAllFuelTypes();
@@ -64,76 +76,28 @@ function Cars() {
       const respModel = await getAllModelsTypes();
       setModelTypeOptions(respModel);
     }
+
     fetchCars();
+    fetchMetadata();
   }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-  
-    // Brand
-    const brandParam = params.get("brand") || "";
-    setBrand(brandParam);
-  
-    // Model
-    const modelParam = params.get("model") || "";
-    setModel(modelParam);
-  
-    // Body Type
-    const bodyTypeParam = params.get("bodyType") || "";
-    setBodyType(bodyTypeParam);
-  
-    // Fuel Type
-    const fuelTypeParam = params.get("fuelType") || "";
-    setFuelType(fuelTypeParam);
-  
-    // Drivetrain Type
-    const drivetrainParam = params.get("drivetrain") || "";
-    setSelectedDrivetrain(drivetrainParam);
-  
-    // Color
-    const colorParam = params.get("color") || "";
-    setSelectedColor(colorParam);
-  
-    // Min Price
-    const minPriceParam = params.get("minPrice");
-    setMinPrice(minPriceParam ? Number(minPriceParam) : null);
-  
-    // Max Price
-    const maxPriceParam = params.get("maxPrice");
-    setMaxPrice(maxPriceParam ? Number(maxPriceParam) : null);
-  
-    // Year From
-    const yearFromParam = params.get("yearFrom");
-    setYearFrom(yearFromParam ? Number(yearFromParam) : null);
-  
-    // Year To
-    const yearToParam = params.get("yearTo");
-    setYearTo(yearToParam ? Number(yearToParam) : null);
-  
-    // Min Engine Size (cm³)
-    const minEngineSizeParam = params.get("minEngineSize");
-    setMinEngineSize(minEngineSizeParam ? Number(minEngineSizeParam) : null);
-  
-    // Max Engine Size (cm³)
-    const maxEngineSizeParam = params.get("maxEngineSize");
-    setMaxEngineSize(maxEngineSizeParam ? Number(maxEngineSizeParam) : null);
-  
-    // Min Mileage (km)
-    const minMileageParam = params.get("minMileage");
-    setMinMileage(minMileageParam ? Number(minMileageParam) : null);
-  
-    // Max Mileage (km)
-    const maxMileageParam = params.get("maxMileage");
-    setMaxMileage(maxMileageParam ? Number(maxMileageParam) : null);
-  
-    // Beállítjuk a megfelelő modelleket a márka alapján
-    if (brandParam) {
-      const filtered = ModelTypeOptions.filter(model => model.maker.id.toString() === brandParam);
-      setFilteredModels(filtered);
-    }
-  }, [location.search, ModelTypeOptions]);
-  
-  
+    setBrand(params.get("brand") || "");
+    setModel(params.get("model") || "");
+    setBodyType(params.get("bodyType") || "");
+    setFuelType(params.get("fuelType") || "");
+    setSelectedDrivetrain(params.get("drivetrain") || "");
+    setSelectedColor(params.get("color") || "");
+    setMinPrice(params.get("minPrice") ? Number(params.get("minPrice")) : null);
+    setMaxPrice(params.get("maxPrice") ? Number(params.get("maxPrice")) : null);
+    setYearFrom(params.get("yearFrom") ? Number(params.get("yearFrom")) : null);
+    setYearTo(params.get("yearTo") ? Number(params.get("yearTo")) : null);
+    setMinEngineSize(params.get("minEngineSize") ? Number(params.get("minEngineSize")) : null);
+    setMaxEngineSize(params.get("maxEngineSize") ? Number(params.get("maxEngineSize")) : null);
+    setMinMileage(params.get("minMileage") ? Number(params.get("minMileage")) : null);
+    setMaxMileage(params.get("maxMileage") ? Number(params.get("maxMileage")) : null);
+  }, [location.search]);
 
   useEffect(() => {
     if (selectedBrand) {
@@ -151,31 +115,52 @@ function Cars() {
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    console.log("Current Filters:", {
+      brand,
+      model,
+      bodyType,
+      fuelType,
+      selectedDrivetrain,
+      selectedColor,
+      minPrice,
+      maxPrice,
+      yearFrom,
+      yearTo,
+      minEngineSize,
+      maxEngineSize,
+      minMileage,
+      maxMileage,
+    });
+  
     const filtered = cars.filter((car) => {
+      console.log("Checking car:", car);
+  
       return (
-        (!brand || car.brand.brandEnglish.toLowerCase() === brand.toLowerCase()) &&
-        (!model || car.carModel.modelNameEnglish.toLowerCase() === model.toLowerCase()) &&
-        (!bodyType || car.bodyType.nameEnglish.toLowerCase() === bodyType.toLowerCase()) &&
-        (!fuelType || car.fuelType.nameEnglish.toLowerCase() === fuelType.toLowerCase()) &&
+        (!brand || car.brand.id.toString() === brand) &&
+        (!model || car.carModel.id.toString() === model) &&
+        (!bodyType || car.bodyType.id.toString() === bodyType) &&
+        (!fuelType || car.fuelType.id.toString() === fuelType) &&
         (!selectedDrivetrain || car.driveTrain.type.toLowerCase() === selectedDrivetrain.toLowerCase()) &&
         (!selectedColor || car.color.colorNameEnglish.toLowerCase() === selectedColor.toLowerCase()) &&
-        (!minPrice || car.price >= minPrice) &&
-        (!maxPrice || car.price <= maxPrice) &&
         (!yearFrom || car.carModel.manufacturingStartYear >= yearFrom) &&
         (!yearTo || car.carModel.manufacturingEndYear <= yearTo) &&
-        (!minEngineSize || car.engineSize >= minEngineSize) &&
-        (!maxEngineSize || car.engineSize <= maxEngineSize) &&
+        (!minPrice || Number(car.price) >= Number(minPrice)) &&
+        (!maxPrice || Number(car.price) <= Number(maxPrice)) &&
+        (!minEngineSize || Number(car.engineSize.engineSize) >= Number(minEngineSize)) &&
+        (!maxEngineSize || Number(car.engineSize.engineSize) <= Number(maxEngineSize)) &&
         (!minMileage || car.mileage >= minMileage) &&
         (!maxMileage || car.mileage <= maxMileage)
       );
     });
+  
+    console.log("Filtered Cars After Search:", filtered);
     setFilteredCars(filtered);
   };
-
-
+  
   
 
-
+  
   useEffect(() => {
     if (cars.length > 0) {
       handleSearch(new Event("submit") as unknown as React.FormEvent<HTMLFormElement>);
@@ -197,10 +182,9 @@ function Cars() {
     maxMileage,
     cars,
   ]);
-
   
 
-  if (error) return <p>{error}</p>;
+
 
   return (
     <div className={styles['cars-page']}>
@@ -211,46 +195,43 @@ function Cars() {
             <form onSubmit={handleSearch}>
               <label htmlFor="brand">{langCtx?.translate.brand}</label>
               <select id="brand-type" value={brand} onChange={(e) => setBrand(e.target.value)}>
-  <option value="">{langCtx?.translate.chooseBrand}</option>
-  {MakerTypeOptions.map(option => (
-    <option key={option.id} value={option.id}>
-      {langCtx?.language === "jp" ? option.brandJapanese : option.brandEnglish}
-    </option>
-  ))}
-</select>
+                <option value="">{langCtx?.translate.chooseBrand}</option>
+                {MakerTypeOptions.map(option => (
+                  <option key={option.id} value={option.id.toString()}>
+                    {langCtx?.language === "jp" ? option.brandJapanese : option.brandEnglish}
+                  </option>
+                ))}
+              </select>
 
-<label htmlFor="model">{langCtx?.translate.model}</label>
-<select id="model-type" value={model} onChange={(e) => setModel(e.target.value)} disabled={!brand}>
-  <option value="">{ModelTypeOptions.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
-  {ModelTypeOptions.map(option => (
-    <option key={option.id} value={option.id}>
-      {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
-    </option>
-  ))}
-</select>
-
+              <label htmlFor="model">{langCtx?.translate.model}</label>
+              <select id="model-type" value={model} onChange={(e) => setModel(e.target.value)} disabled={!brand}>
+                <option value="">{ModelTypeOptions.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
+                {ModelTypeOptions.map(option => (
+                  <option key={option.id} value={option.id.toString()}>
+                    {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
+                  </option>
+                ))}
+              </select>
 
               <label htmlFor="bodyType">{langCtx?.translate.bodyType}</label>
               <select id="body-type" value={bodyType} onChange={(e) => setBodyType(e.target.value)}>
-  <option value="">{langCtx?.translate.chooseBodyType}</option>
-  {bodyTypeOptions.map(option => (
-    <option key={option.id} value={option.id}>
-      {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
-    </option>
-  ))}
-</select>
-
+                <option value="">{langCtx?.translate.chooseBodyType}</option>
+                {bodyTypeOptions.map(option => (
+                  <option key={option.id} value={option.id.toString()}>
+                    {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
+                  </option>
+                ))}
+              </select>
 
               <label htmlFor="fuelType">{langCtx?.translate.fuelType}</label>
               <select id="fuel-type" value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
-  <option value="">{langCtx?.translate.chooseFuel}</option>
-  {fuelTypeOptions.map(option => (
-    <option key={option.id} value={option.id}>
-      {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
-    </option>
-  ))}
-</select>
-
+                <option value="">{langCtx?.translate.chooseFuel}</option>
+                {fuelTypeOptions.map(option => (
+                  <option key={option.id} value={option.id.toString()}>
+                    {langCtx?.language === "jp" ? option.nameJapanese : option.nameEnglish}
+                  </option>
+                ))}
+              </select>
 
               <label>{langCtx?.translate.minPrice}</label>
               <input type="number" id="min-price" name="min-price" placeholder="Ft" onChange={(e) => setMinPrice(Number(e.target.value))} />
@@ -275,23 +256,22 @@ function Cars() {
                 <div id="reszletes-feltetelek">
                   <label>{langCtx?.translate.drive}</label>
                   <select id="drivetrain-type" value={selectedDrivetrain} onChange={(e) => setSelectedDrivetrain(e.target.value)}>
-  <option value="">{langCtx?.translate.chooseDrivetrain}</option>
-  {DrivetrainTypeOptions.map(option => (
-    <option key={option.id} value={option.id}>
-      {option.type}
-    </option>
-  ))}
-</select>
+                    <option value="">{langCtx?.translate.chooseDrivetrain}</option>
+                    {DrivetrainTypeOptions.map(option => (
+                      <option key={option.id} value={option.id}>
+                        {option.type}
+                      </option>
+                    ))}
+                  </select>
                   <label>{langCtx?.translate.color}</label>
                   <select id="color-type" value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)}>
-  <option value="">{langCtx?.translate.chooseColor}</option>
-  {colorTypeOptions.map(option => (
-    <option key={option.id} value={option.colorNameEnglish}>
-      {langCtx?.language === "jp" ? option.colorNameJapanese : option.colorNameEnglish}
-    </option>
-  ))}
-</select>
-
+                    <option value="">{langCtx?.translate.chooseColor}</option>
+                    {colorTypeOptions.map(option => (
+                      <option key={option.id} value={option.colorNameEnglish}>
+                        {langCtx?.language === "jp" ? option.colorNameJapanese : option.colorNameEnglish}
+                      </option>
+                    ))}
+                  </select>
 
                   <label>{langCtx?.translate.engineSize}</label>
                   <input type="number" id="motor-meret-min" placeholder="Min cm³" onChange={(e) => setMinEngineSize(Number(e.target.value))} />
@@ -311,22 +291,27 @@ function Cars() {
           </aside>
 
           <main className={styles['cars-list']}>
-          {filteredCars.length === 0 ? (
-  <p>{langCtx?.translate.noResults}</p>
+          {filteredCars && filteredCars.length > 0 ? (
+  filteredCars.map((car, index) => {
+    console.log(`Car ${index}:`, car); // Debugging
+    return (
+      <div key={car?.id || index}>
+       <h2>{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
+<p>{car?.carModel?.modelNameEnglish || "Unknown Model"}</p>
+<p>{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
+<p>{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
+<p>{car?.location?.locationName || "Unknown Location"}</p>
+<p>{langCtx?.translate.price}: {Number(car?.price).toLocaleString()} Ft</p>
+<p>{langCtx?.translate.mileage}: {car?.mileage ?? "N/A"} km</p>
+<p>{langCtx?.translate.engineSize}: {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
+
+      </div>
+    );
+  })
 ) : (
-  filteredCars.map((car) => (
-    <div key={car.id} className={styles['car-card']}>
-      <h3>{car.carModel.modelNameEnglish}</h3>
-      <p>{car.brand.brandEnglish}</p>
-      <p>{car.bodyType.nameEnglish}</p>
-      <p>{car.fuelType.nameEnglish}</p>
-      <p>{car.location.locationName}</p>
-      <p>{langCtx?.translate.price}: {car.price} Ft</p>
-      <p>{langCtx?.translate.mileage}: {car.mileage} km</p>
-      <p>{langCtx?.translate.engineSize}: {car.engineSize} cm³</p>
-    </div>
-  ))
+  <p>No cars available</p>
 )}
+
           </main>
         </div>
       </div>

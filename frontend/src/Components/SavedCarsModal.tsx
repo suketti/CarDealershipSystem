@@ -11,13 +11,26 @@ interface SavedCarsModalProps {
 
 function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
   const [savedCars, setSavedCars] = useState<Car[]>([]);
+  
 
   useEffect(() => {
-    const carsFromStorage = localStorage.getItem("savedCars");
-    if (carsFromStorage) {
-      setSavedCars(JSON.parse(carsFromStorage));
+    try {
+      const carsFromStorage = localStorage.getItem("savedCars");
+      console.log("📌 Raw localStorage:", carsFromStorage); // 🔴 Ellenőrizzük, mit kapunk
+      if (carsFromStorage) {
+        const parsedCars: Car[] = JSON.parse(carsFromStorage);
+        console.log("📌 Parsed cars:", parsedCars); // 🔴 Megnézzük, jól olvassa-e be
+        setSavedCars(Array.isArray(parsedCars) ? parsedCars : []);
+      }
+    } catch (error) {
+      console.error("Hiba a mentett autók betöltésekor:", error);
+      setSavedCars([]); 
     }
   }, []);
+  
+  
+  
+  
 
   const handleDeleteCar = (index: number) => {
     const updated = [...savedCars];
@@ -67,20 +80,18 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
             savedCars.map((car, index) => (
               <div key={index} className="saved-car-item" style={{ borderBottom: "1px solid #ddd", marginBottom: "10px" }}>
                 <img
-                  src={car.kep}
-                  alt={`${car.marka} ${car.modell}`}
-                  style={{ width: "150px", height: "100px", objectFit: "cover", marginRight: "10px" }}
-                />
+  src={car.image || "/default-image.jpg"} 
+  alt={`${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
+  style={{ width: "150px", height: "100px", objectFit: "cover", marginRight: "10px" }}
+/>
+
                 <div className="saved-car-info">
-                  <h3>
-                    {car.marka} {car.modell}
-                  </h3>
-                  <p>{langCtx?.translate.price} {car.ar.toLocaleString()} Ft</p>
-                  <p>{langCtx?.translate.year} {car.ev}</p>
+                <h3>{car.brand.brandEnglish} {car.carModel.modelNameEnglish}</h3>
+<p>{langCtx?.translate.price} {Number(car.price).toLocaleString()} Ft</p>
+<p>{langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}</p>
+
                   <a
-                    href={`/autok/reszletek?car=${encodeURIComponent(
-                      JSON.stringify(car)
-                    )}`}
+                    href={(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}
                   >
                     {langCtx?.translate.details || "Részletek"}
                   </a>

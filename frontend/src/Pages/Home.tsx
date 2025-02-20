@@ -347,7 +347,7 @@ function Home({ language }: { language: "hu" | "en" }) {
     <p>{langCtx?.translate.type} {car.bodyType.nameEnglish}</p>
     <p>{langCtx?.translate.fuelType} {car.fuelType.nameEnglish}</p>
     <p>{langCtx?.translate.price} {Number(car.price).toLocaleString()} Ft</p>
-    <button className="btn" onClick={() => navigate(`/Car-Details?carId=${car.id}`)}>
+    <button className="btn" onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}>
       {langCtx?.translate.viewDetails}
     </button>
   
