@@ -38,6 +38,7 @@ public class Program
         builder.Services.AddScoped<CarMakerService>();
         builder.Services.AddScoped<CarModelService>();
         builder.Services.AddScoped<EngineSizeService>();
+        builder.Services.AddScoped<ImageService>();
         
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -78,6 +79,14 @@ public class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
+        var webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        if (!Directory.Exists(webRootPath))
+        {
+            Directory.CreateDirectory(webRootPath);
+        }
+
+        builder.Environment.WebRootPath = webRootPath; 
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -112,7 +121,7 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        
+        app.UseStaticFiles();
         
         using (var scope = app.Services.CreateScope())
         {
