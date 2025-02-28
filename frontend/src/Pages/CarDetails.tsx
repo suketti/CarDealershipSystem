@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { CarDTO } from "../Types";
+import { LanguageCtx } from "../App";
+import { useContext } from "react";
+
 
 
 
@@ -13,7 +16,7 @@ function CarDetails() {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [bookingMessage, setBookingMessage] = useState<string>("");
   const [imageIndex, setImageIndex] = useState<number>(0);
-
+  const langCtx = useContext(LanguageCtx)
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -96,11 +99,11 @@ function CarDetails() {
   const handleBooking = () => {
     const isLoggedIn = document.querySelector(".profile-btn") !== null;
     if (!isLoggedIn) {
-      setBookingMessage("❌ Kérlek, jelentkezz be az időpont foglalásához!");
+      setBookingMessage(`${langCtx?.translate.loginToBook}`);
       return;
     }
     if (!selectedDate) {
-      setBookingMessage("❌ Kérlek, válassz egy dátumot!");
+      setBookingMessage(`${langCtx?.translate.chooseDate}`);
       return;
     }
 
@@ -110,14 +113,14 @@ function CarDetails() {
   const selectedDateTime = new Date(selectedDate);
   selectedDateTime.setHours(selectedHour, selectedMinute, 0, 0);
     if (selectedDateTime < now) {
-      setBookingMessage("❌ Nem lehet múltbeli időpontot foglalni!");
+      setBookingMessage(`${langCtx?.translate.noPastDate}`);
       return;
     }
     const existingBooking = localStorage.getItem("bookingDate");
     if (existingBooking) {
       const existingBookingDate = new Date(existingBooking);
       if (existingBookingDate > now) {
-        setBookingMessage(`❌ Már van egy foglalt időpontod: ${existingBooking}. Csak egyet foglalhatsz.`);
+        setBookingMessage(`${langCtx?.translate.alreadyBookedFirst} ${existingBooking}. ${langCtx?.translate.alreadyBookedSecond}`);
         return;
       } else {
         localStorage.removeItem("bookingDate");
@@ -125,7 +128,7 @@ function CarDetails() {
     }
     const bookingDate = `${selectedDate.toLocaleDateString("hu-HU")} ${selectedHour}:${selectedMinute}`;
     localStorage.setItem("bookingDate", bookingDate);
-    setBookingMessage(`✅ Foglalt időpont: ${bookingDate}\n📩 Időpont lefoglalás megkezdődött!`);
+    setBookingMessage(`${langCtx?.translate.doneBookFirst} ${bookingDate}\n ${langCtx?.translate.doneBookSecond}`);
     addMessage(`Időpont lefoglalva: ${bookingDate}`);
   };
 
@@ -179,16 +182,16 @@ function CarDetails() {
 
         <div className="details">
         <button className="btn-save" onClick={handleSaveCar}>
-          Autó mentése
+          {langCtx?.translate.saveCars}
         </button>
         <h2 id="car-title">{carData.brand.brandEnglish + " " + carData.carModel.modelNameEnglish}</h2>
-        <p id="car-price">Ár: {carData.price} Ft</p>
-        <p id="car-year">Évjárat: {carData.carModel.manufacturingEndYear}</p>
-        <p id="car-type">Kivitel: {carData.bodyType.nameEnglish}</p>
-        <p id="car-fuel">Üzemanyag: {carData.fuelType.nameEnglish}</p>
-        <p id="car-description" className="description"> "Nincs leírás az autóról."</p>
+        <p id="car-price">{langCtx?.translate.price} {carData.price} Ft</p>
+        <p id="car-year">{langCtx?.translate.year} {carData.carModel.manufacturingEndYear}</p>
+        <p id="car-type">{langCtx?.translate.type} {carData.bodyType.nameEnglish}</p>
+        <p id="car-fuel">{langCtx?.translate.fuelType} {carData.fuelType.nameEnglish}</p>
+        <p id="car-description" className="description"> {langCtx?.translate.noDetails}</p>
         <div className="calendar-container bg-white p-4 rounded-lg shadow-md w-80 mx-auto">
-        <h3 className="text-lg font-bold mb-2">Időpont foglalása</h3>
+        <h3 className="text-lg font-bold mb-2">{langCtx?.translate.appointment}</h3>
         <input 
           type="date" 
           className="border p-2 rounded w-full mb-2"
@@ -221,12 +224,12 @@ function CarDetails() {
           className="bg-green-500 text-white py-2 px-4 rounded w-full" 
           onClick={handleBooking}
         >
-          Foglalás
+          {langCtx?.translate.book}
         </button>
         {bookingMessage && <p className="mt-2 text-center text-red-500">{bookingMessage}</p>}
 
         </div>
-        <a href="/" className="btn-back">Vissza a Kezdőlapra</a>
+        <a href="/" className="btn-back">{langCtx?.translate.backHome}</a>
       </div>
       {/*<section id="car-location">*/}
       {/*  <h3>Autó elhelyezkedése</h3>*/}

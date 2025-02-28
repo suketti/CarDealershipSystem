@@ -96,6 +96,18 @@ export type TranslationType = {
     chooseFuel: string;
     chooseDrivetrain: string;
     chooseColor: string;
+    saveCars: string;
+    noDetails: string;
+    appointment: string;
+    book: string;
+    backHome: string;
+    loginToBook: string;
+    chooseDate: string;
+    noPastDate: string;
+    alreadyBookedFirst: string;
+    alreadyBookedSecond: string;
+    doneBookFirst: string;
+    doneBookSecond: string;
 };
 
 
@@ -198,6 +210,18 @@ export const translations = {
     chooseFuel: "Choose fuel",
     chooseDrivetrain: "Choose drivetrain",
     chooseColor: "Choose color",
+    saveCars: "Save Car",
+    noDetails: "No Details",
+    appointment: "Appointment Booking",
+    book: "Booking",
+    backHome: "Back to Home page",
+    loginToBook: "❌ Please login to book an appointment!",
+    chooseDate: "❌ Please choose a date!",
+    noPastDate: "❌ You can't book a past date",
+    alreadyBookedFirst: "❌ You have already a booked date: ",
+    alreadyBookedSecond: "You can book only one appointment",
+    doneBookFirst: "✅ Booked date: ",
+    doneBookSecond: "\n📩 Booked appointment have started!"
   },
   hu: {
     searchTitle: "Autókereső",
@@ -297,6 +321,18 @@ export const translations = {
     chooseFuel: "Válassz üzemanyagot",
     chooseDrivetrain: "Válassz meghajtást",
     chooseColor: "Válassz színt",
+    saveCars: "Autó Mentése",
+    noDetails: "Nincs leírás az autóról",
+    appointment: "Időpont foglalás",
+    book: "Foglalás",
+    backHome: "Vissza a Kezdőlapra",
+    loginToBook: "❌ Kérlek, jelentkezz be az időpont foglalásához!",
+    chooseDate: "❌ Kérlek, válassz egy dátumot!",
+    noPastDate: "❌ Nem lehet múltbeli időpontot foglalni!",
+    alreadyBookedFirst: "❌ Már van egy foglalt időpontod: ",
+    alreadyBookedSecond: "Csak egyet foglalhatsz.",
+    doneBookFirst: "✅ Foglalt időpont: ",
+    doneBookSecond: "\n📩 Időpont lefoglalás megkezdődött!"
   },
   jp: {
     searchTitle: "検索",
@@ -396,5 +432,17 @@ export const translations = {
     chooseFuel: "",
     chooseDrivetrain: "",
     chooseColor: "",
+    saveCars: "",
+    noDetails: "",
+    appointment: "",
+    book: "",
+    backHome: "",
+    loginToBook: "",
+    chooseDate: "",
+    noPastDate: "",
+    alreadyBookedFirst: "",
+    alreadyBookedSecond: "",
+    doneBookFirst: "",
+    doneBookSecond: "\n"
   }
 };
