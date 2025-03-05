@@ -6,8 +6,8 @@ import Home from "./Pages/Home";
 import Cars from "./Pages/Cars";
 import CarDetails from "./Pages/CarDetails";
 import Profile from "./Pages/Profile";
-import { UserDTO } from "/Interfaces/User.ts"
 import { translations, TranslationType } from "./translations";
+import { UserProvider } from "./UserContext.tsx"; // Import UserProvider
 
 export const LanguageCtx = createContext<
     {
@@ -18,44 +18,28 @@ export const LanguageCtx = createContext<
 >(undefined);
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
-  const [user, setUser] = useState<UserDTO>({
-    username: "",
-    name: "Test User",
-    email: "testuser@example.com",
-    phone: "+36 30 123 4567"
-  });
   const [language, setLanguage] = useState<"hu" | "en" | "jp">("hu");
-  const [translate, setTranslate] = useState<TranslationType>(translations.hu)
+  const [translate, setTranslate] = useState<TranslationType>(translations.hu);
 
-  const changeTranslate = (translate:TranslationType)=>{
-    setTranslate(translate)
-  }
+  const changeTranslate = (translate: TranslationType) => {
+    setTranslate(translate);
+  };
 
   return (
-      <LanguageCtx.Provider value={{ translate, changeTranslate, language }}>
-
-    <Router>
-      <Header
-        isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        user={user}
-        setUser={setUser}
-        language={language} setLanguage={setLanguage}
-        />
-      <Routes>
-        <Route path="/" element={<Home brands={[]} models={[]} bodyTypes={[]} fuelTypes={[]} />} />
-        <Route path="/cars" element={<Cars />} />
-        <Route path="/Car-Details" element={<CarDetails />} />
-        <Route
-          path="/profile"
-          element={<Profile isLoggedIn={isLoggedIn} user={user} />}
-          />
-      </Routes>
-      <Footer language={language}/>
-    </Router>
-          </LanguageCtx.Provider>
+      <UserProvider> {/* Wrap your entire app in UserProvider */}
+        <LanguageCtx.Provider value={{ translate, changeTranslate, language }}>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home language={language}  />} />
+              <Route path="/cars" element={<Cars />} />
+              <Route path="/Car-Details" element={<CarDetails />} />
+              <Route path="/profile" element={<Profile/>} />
+            </Routes>
+            <Footer language={"hu"} />
+          </Router>
+        </LanguageCtx.Provider>
+      </UserProvider>
   );
 }
 

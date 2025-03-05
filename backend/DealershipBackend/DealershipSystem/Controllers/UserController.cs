@@ -68,7 +68,7 @@ public class UserController : ControllerBase
 
             Response.Cookies.Append("RefreshToken", refreshToken, new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Secure = true, // Use HTTPS
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddDays(30)
@@ -76,11 +76,20 @@ public class UserController : ControllerBase
 
             Response.Cookies.Append("AccessToken", accessToken, new CookieOptions
             {
-                HttpOnly = true,
+                HttpOnly = false,
                 Secure = true, // Use HTTPS
                 SameSite = SameSiteMode.Strict,
                 Expires = DateTime.UtcNow.AddMinutes(15)
             });
+            
+            Response.Cookies.Append("userId", user.Id, new CookieOptions
+            {
+                HttpOnly = false,       
+                Secure = true,          // Only sends the cookie over HTTPS
+                SameSite = SameSiteMode.Strict, // CSRF protection
+                Expires = DateTime.UtcNow.AddDays(30) // Cookie expiration
+            });
+
 
             return Ok(new { User = userDto });
         }
@@ -88,6 +97,27 @@ public class UserController : ControllerBase
         return Unauthorized();
     }
 
+    [HttpGet("{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetUserByIdAsync(Guid id)
+    {
+        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+
+        if (userIdFromToken == null || (userIdFromToken != id.ToString() && !User.IsInRole("Admin")))
+        {
+            return Unauthorized(new { Message = "You are not authorized to access this user." });
+        }
+
+        var user = await _userService.GetUserByIdAsync(id);
+    
+        if (user == null)
+        {
+            return NotFound(new { Message = "User not found." });
+        }
+
+        var userDto = _mapper.Map<UserDTO>(user);
+        return Ok(userDto);
+    }
 
 
     [HttpPut("update")]

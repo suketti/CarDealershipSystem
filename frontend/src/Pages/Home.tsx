@@ -13,7 +13,7 @@ import { getCars } from "../api/carService.ts";
 
 
 
-function Home({ language }: { language: "hu" | "en" }) {
+function Home({ language }: { language: "hu" | "en" | "jp"}) {
   const navigate = useNavigate();
   const [cars, setCars] = useState<CarDTO[]>([]);
   const [showLocationModal, setShowLocationModal] = useState(false);

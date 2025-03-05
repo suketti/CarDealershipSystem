@@ -27,7 +27,9 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Color> Colors { get; set; } = null!;
     public DbSet<CarExtra> CarExtras { get; set; } = null!;
     public DbSet<Image> Images { get; set; } = null!;
+    public DbSet<Message> Messages { get; set; } = null!;
 
+    public DbSet<SavedCar> SavedCars { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
