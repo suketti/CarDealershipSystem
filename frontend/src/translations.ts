@@ -96,18 +96,6 @@ export type TranslationType = {
     chooseFuel: string;
     chooseDrivetrain: string;
     chooseColor: string;
-    saveCars: string;
-    noDetails: string;
-    appointment: string;
-    book: string;
-    backHome: string;
-    loginToBook: string;
-    chooseDate: string;
-    noPastDate: string;
-    alreadyBookedFirst: string;
-    alreadyBookedSecond: string;
-    doneBookFirst: string;
-    doneBookSecond: string;
 };
 
 
@@ -210,18 +198,6 @@ export const translations = {
     chooseFuel: "Choose fuel",
     chooseDrivetrain: "Choose drivetrain",
     chooseColor: "Choose color",
-    saveCars: "Save Car",
-    noDetails: "No Details",
-    appointment: "Appointment Booking",
-    book: "Booking",
-    backHome: "Back to Home page",
-    loginToBook: "❌ Please login to book an appointment!",
-    chooseDate: "❌ Please choose a date!",
-    noPastDate: "❌ You can't book a past date",
-    alreadyBookedFirst: "❌ You have already a booked date: ",
-    alreadyBookedSecond: "You can book only one appointment",
-    doneBookFirst: "✅ Booked date: ",
-    doneBookSecond: "\n📩 Booked appointment have started!"
   },
   hu: {
     searchTitle: "Autókereső",
@@ -321,18 +297,6 @@ export const translations = {
     chooseFuel: "Válassz üzemanyagot",
     chooseDrivetrain: "Válassz meghajtást",
     chooseColor: "Válassz színt",
-    saveCars: "Autó Mentése",
-    noDetails: "Nincs leírás az autóról",
-    appointment: "Időpont foglalás",
-    book: "Foglalás",
-    backHome: "Vissza a Kezdőlapra",
-    loginToBook: "❌ Kérlek, jelentkezz be az időpont foglalásához!",
-    chooseDate: "❌ Kérlek, válassz egy dátumot!",
-    noPastDate: "❌ Nem lehet múltbeli időpontot foglalni!",
-    alreadyBookedFirst: "❌ Már van egy foglalt időpontod: ",
-    alreadyBookedSecond: "Csak egyet foglalhatsz.",
-    doneBookFirst: "✅ Foglalt időpont: ",
-    doneBookSecond: "\n📩 Időpont lefoglalás megkezdődött!"
   },
   jp: {
     searchTitle: "検索",
@@ -403,46 +367,34 @@ export const translations = {
     mileage: "走行距離",
     color: "色",
     langu:"言語",
-    successMessage: "",
-    uploadImage: "",
-    selectBrand: "",
-    selectModel: "",
-    dealership: "",
-    closed:"",
-    searchResult: "",
-    welcomeText: "",
-    searchCars: "",
-    viewCars: "",
-    drive:"",
-    engineSize: "",
-    mileageNum: "",
-    savedCars: "",
-    noSavedCars: "",
-    savedCarsHome: "",
-    noMessage: "",
-    sender: "",
-    loginForData: "",
-    myData: "",
-    save: "",
-    viewDetails:"",
-    chooseBrand: "",
-    noModel: "",
-    chooseModel: "",
-    chooseBodyType: "",
-    chooseFuel: "",
-    chooseDrivetrain: "",
-    chooseColor: "",
-    saveCars: "",
-    noDetails: "",
-    appointment: "",
-    book: "",
-    backHome: "",
-    loginToBook: "",
-    chooseDate: "",
-    noPastDate: "",
-    alreadyBookedFirst: "",
-    alreadyBookedSecond: "",
-    doneBookFirst: "",
-    doneBookSecond: "\n"
+      successMessage: "報告の投稿成功しました。",
+      uploadImage: "画像をアップロード",
+      selectBrand: "銘柄",
+      selectModel: "モデル",
+      dealership: "中古車販売店",
+      closed: "閉店",
+      searchResult: "検索結果",
+      welcomeText: "中古販売店へようこそ",
+      searchCars: "車を検索",
+      viewCars: "車を見る",
+      drive: "駆動",
+      engineSize: "エンジンサイズ",
+      mileageNum: "走行距離",
+      savedCars: "保存されている車",
+      noSavedCars: "保存されている車がありません。",
+      savedCarsHome: "保存されている車",
+      noMessage: "メッセージがありません",
+      sender: "差出人",
+      loginForData: "プロフィール拝見するためにログインしてください",
+      myData: "情報",
+      save: "保存",
+      viewDetails: "詳細説明",
+      chooseBrand: "ブランドを選択",
+      noModel: "ブランドは存在しません",
+      chooseModel: "モデルを選んで",
+      chooseBodyType: "ボディタイプを選択",
+      chooseFuel: "燃料を選択",
+      chooseDrivetrain: "駆動を選択",
+      chooseColor: "色を選択"
   }
 };
