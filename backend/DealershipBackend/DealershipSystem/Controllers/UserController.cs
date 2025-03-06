@@ -68,25 +68,28 @@ public class UserController : ControllerBase
 
             Response.Cookies.Append("RefreshToken", refreshToken, new CookieOptions
             {
+                Path = "/",
                 HttpOnly = false,
-                Secure = true, // Use HTTPS
-                SameSite = SameSiteMode.Strict,
+                Secure = true,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(30)
             });
 
             Response.Cookies.Append("AccessToken", accessToken, new CookieOptions
             {
+                Path = "/",
                 HttpOnly = false,
-                Secure = true, // Use HTTPS
-                SameSite = SameSiteMode.Strict,
+                Secure = true,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddMinutes(15)
             });
             
             Response.Cookies.Append("userId", user.Id, new CookieOptions
             {
+                Path = "/",
                 HttpOnly = false,       
-                Secure = true,          // Only sends the cookie over HTTPS
-                SameSite = SameSiteMode.Strict, // CSRF protection
+                Secure = true,          
+                SameSite =  SameSiteMode.None, // CSRF protection
                 Expires = DateTime.UtcNow.AddDays(30) // Cookie expiration
             });
 
