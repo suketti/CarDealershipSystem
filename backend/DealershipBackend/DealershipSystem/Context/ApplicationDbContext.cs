@@ -30,7 +30,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Message> Messages { get; set; } = null!;
 
     public DbSet<SavedCar> SavedCars { get; set; } = null!;
-
+    public DbSet<Reservation> Reservations { get; set; } = null!;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new PrefectureConfiguration());
