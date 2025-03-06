@@ -135,10 +135,7 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
   
   return (
     <div className="content">
-      <header>
-        <h1>{langCtx?.translate.dealership}</h1>
-        
-      </header>
+
       
       {/* Helyszínválasztó modal */}
       {showLocationModal && (

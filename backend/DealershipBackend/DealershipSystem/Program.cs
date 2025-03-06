@@ -40,7 +40,7 @@ public class Program
         builder.Services.AddScoped<EngineSizeService>();
         builder.Services.AddScoped<ImageService>();
         builder.Services.AddScoped<IMessageService, MessageService>();
-        builder.Services.AddScoped<SavedCarService>();
+        builder.Services.AddScoped<ISavedCarService, SavedCarService>();
         
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

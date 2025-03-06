@@ -375,7 +375,7 @@ export const translations = {
       closed: "閉店",
       searchResult: "検索結果",
       welcomeText: "中古販売店へようこそ",
-      searchCars: "車を検索",
+      searchCars: "私たちの自動車販売店のウェブサイトへようこそ！豊富な中古車のラインアップからお好きなものをお選びください！",
       viewCars: "車を見る",
       drive: "駆動",
       engineSize: "エンジンサイズ",

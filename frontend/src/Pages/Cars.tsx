@@ -292,19 +292,22 @@ function Cars() {
 
           <main className={styles['cars-list']}>
           {filteredCars && filteredCars.length > 0 ? (
-  filteredCars.map((car, index) => {
-    console.log(`Car ${index}:`, car); // Debugging
-    return (
-      <div key={car?.id || index}>
-       <h2>{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
-<p>{car?.carModel?.modelNameEnglish || "Unknown Model"}</p>
-<p>{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
-<p>{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
-<p>{car?.location?.locationName || "Unknown Location"}</p>
-<p>{langCtx?.translate.price}: {Number(car?.price).toLocaleString()} Ft</p>
-<p>{langCtx?.translate.mileage}: {car?.mileage ?? "N/A"} km</p>
-<p>{langCtx?.translate.engineSize}: {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
-
+        filteredCars.map((car, index) => {
+          console.log(`Car ${index}:`, car); // Debugging
+          return (
+            <div key={car?.id || index}>
+             <h2>{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
+      <p>{car?.carModel?.modelNameEnglish || "Unknown Model"}</p>
+      <p>{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
+      <p>{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
+      <p>{car?.location?.locationName || "Unknown Location"}</p>
+      <p>{langCtx?.translate.price}: {Number(car?.price).toLocaleString()} Ft</p>
+      <p>{langCtx?.translate.mileage}: {car?.mileage ?? "N/A"} km</p>
+      <p>{langCtx?.translate.engineSize}: {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
+      <a href={(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}
+      >
+        {langCtx?.translate.details || "Részletek"}
+      </a>
       </div>
     );
   })

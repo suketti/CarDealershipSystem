@@ -94,7 +94,7 @@ header {
   background-color: var(--light);
   color: var(--gray-900);
   box-shadow: var(--shadow);
-  position: sticky;
+  margin: 1rem;
   top: 0;
   z-index: 100;
   padding: 1rem 0;
@@ -201,6 +201,8 @@ nav ul li a.nav-link:hover {
 .profile-menu {
   position: relative;
 }
+
+
 
 .dropdown-menu {
   position: absolute;

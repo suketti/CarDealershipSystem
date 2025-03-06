@@ -44,8 +44,10 @@ function Header({ setIsLoggedIn }: HeaderProps) {
 
   return (
       <header className="header">
+
         <div className="container">
           {/* Language Selector */}
+
           <div className="language-selector">
             <label htmlFor="language-selector">{t.langu}</label>
             <select id="language-selector" value={language} onChange={handleLanguageChange}>
@@ -54,7 +56,7 @@ function Header({ setIsLoggedIn }: HeaderProps) {
               <option value="jp">日本語</option>
             </select>
           </div>
-
+          <h1>{langCtx?.translate.dealership}</h1>
           <nav>
             <ul className="nav-list">
               <li>
@@ -102,9 +104,6 @@ function Header({ setIsLoggedIn }: HeaderProps) {
                               >
                                 {t.savedCarsHome}
                               </button>
-                            </li>
-                            <li>
-                              <button onClick={handleLogout}>{t.logout}</button>
                             </li>
                             <li>
                               <button onClick={handleLogout}>{t.logout}</button>
