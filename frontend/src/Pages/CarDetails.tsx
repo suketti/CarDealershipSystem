@@ -4,6 +4,8 @@ import { CarDTO } from "../Types";
 import { LanguageCtx } from "../App";
 import { useUser } from "../UserContext.tsx";
 import SavedCarService from "../api/savedCarService.ts";
+import ReservationService from "../api/reservationService.ts";
+import {getBaseUrl} from "../api/axiosInstance.ts";
 
 function CarDetails() {
   const location = useLocation();
@@ -22,7 +24,6 @@ function CarDetails() {
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const carString = query.get("car");
-    const carId = query.get("carId");
 
     if (carString) {
       try {
@@ -31,28 +32,13 @@ function CarDetails() {
       } catch (error) {
         console.error("Hibás autó paraméter:", error);
       }
-    } else if (carId) {
-      // If no JSON in URL, fetch the car data from API
-      fetch(`/api/getCarById/${carId}`)
-          .then((res) => res.json())
-          .then((data) => setCarData(data))
-          .catch((error) => console.error("Hiba az autó lekérésekor:", error));
     }
   }, [location.search]);
 
-  const additionalImages = [
-    "../Képek/image1.jpg",
-    "../Képek/image2.jpg",
-    "../Képek/image3.jpg",
-    "../Képek/image4.jpg",
-    "../Képek/image5.jpg",
-    "../Képek/image5.jpg",
-    "../Képek/image5.jpg",
-  ];
 
-  const images = carData?.image
-      ? [carData.image, ...additionalImages].filter((img) => img)
-      : additionalImages;
+  // Use images from the car data
+  const images = carData?.images?.length ?
+      carData.images.map((img) => getBaseUrl() + img.url) : [];
 
   const nextImage = () => {
     setImageIndex((prev) => (prev + 1) % images.length);
@@ -89,19 +75,7 @@ function CarDetails() {
     }
   };
 
-  const addMessage = (content: string) => {
-    const storedMessages = localStorage.getItem("messages");
-    const messages = storedMessages ? JSON.parse(storedMessages) : [];
-    const newMessage = {
-      sender: "Rendszer",
-      content,
-      date: new Date().toLocaleString("hu-HU"),
-    };
-    messages.push(newMessage);
-    localStorage.setItem("messages", JSON.stringify(messages));
-  };
-
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!isAuthenticated) {
       setBookingMessage(`${langCtx?.translate.loginToBook}`);
       return;
@@ -115,26 +89,33 @@ function CarDetails() {
     now.setSeconds(0, 0);
     const selectedDateTime = new Date(selectedDate);
     selectedDateTime.setHours(selectedHour, selectedMinute, 0, 0);
+
     if (selectedDateTime < now) {
       setBookingMessage(`${langCtx?.translate.noPastDate}`);
       return;
     }
-    const existingBooking = localStorage.getItem("bookingDate");
-    if (existingBooking) {
-      const existingBookingDate = new Date(existingBooking);
-      if (existingBookingDate > now) {
+
+    try {
+      const reservations = await ReservationService.getAllReservations();
+      const existingBooking = reservations.find(res => new Date(res.date) > now);
+
+      if (existingBooking) {
         setBookingMessage(
-            `${langCtx?.translate.alreadyBookedFirst} ${existingBooking}. ${langCtx?.translate.alreadyBookedSecond}`
+            `${langCtx?.translate.alreadyBookedFirst} ${existingBooking.date}. ${langCtx?.translate.alreadyBookedSecond}`
         );
         return;
-      } else {
-        localStorage.removeItem("bookingDate");
       }
+
+      const reservationData = {
+        date: selectedDateTime.toISOString(),
+        userId: user?.id // Assuming user ID is available
+      };
+
+      const newReservation = await ReservationService.createReservation(reservationData);
+      setBookingMessage(`${langCtx?.translate.doneBookFirst} ${newReservation.date}\n ${langCtx?.translate.doneBookSecond}`);
+    } catch (error) {
+      setBookingMessage(`${langCtx?.translate.errorBooking}`);
     }
-    const bookingDate = `${selectedDate.toLocaleDateString("hu-HU")} ${selectedHour}:${selectedMinute}`;
-    localStorage.setItem("bookingDate", bookingDate);
-    setBookingMessage(`${langCtx?.translate.doneBookFirst} ${bookingDate}\n ${langCtx?.translate.doneBookSecond}`);
-    addMessage(`Időpont lefoglalva: ${bookingDate}`);
   };
 
   if (!carData) {
@@ -151,7 +132,7 @@ function CarDetails() {
               className="main-image"
               onClick={() => setLightboxImage(images[imageIndex])}
           />
-          {images.length > 5 && (
+          {images.length > 1 && (
               <button className="prev-button" onClick={prevImage}>
                 &#8249;
               </button>
@@ -167,7 +148,7 @@ function CarDetails() {
                 />
             ))}
           </div>
-          {images.length > 5 && (
+          {images.length > 1 && (
               <button className="next-button" onClick={nextImage}>
                 &#8250;
               </button>
@@ -237,12 +218,12 @@ function CarDetails() {
               </select>
             </div>
             <button
-                className="bg-green-500 text-white py-2 px-4 rounded w-full"
+                className="btn-book"
                 onClick={handleBooking}
             >
               {langCtx?.translate.book}
             </button>
-            {bookingMessage && <p className="mt-2 text-center text-red-500">{bookingMessage}</p>}
+            {bookingMessage && <p className="mt-2 text-center text-error">{bookingMessage}</p>}
           </div>
           <a href="/" className="btn-back">{langCtx?.translate.backHome}</a>
         </div>
