@@ -9,6 +9,7 @@ import {BodyTypeDTO, CarMakerDTO, CarModelDTO, ColorDTO, DrivetrainTypeDTO, Fuel
 import Cars from "./Cars.tsx";
 import { CarDTO } from "../Types";
 import { getCars } from "../api/carService.ts";
+import {getBaseUrl} from "../api/axiosInstance.ts";
 
 
 
@@ -136,62 +137,6 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
   return (
     <div className="content">
 
-      
-      {/* Helyszínválasztó modal */}
-      {showLocationModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>{langCtx?.translate.selectLocation}</h2>
-            
-            {/* Térkép konténer */}
-            <div className="map-container">
-              <img 
-                src="/Képek/magyarorszag-terkep.jpg" 
-                alt="Magyarország térképe" 
-                className="map-image" 
-              />
-              
-              {/* Helyszín gombok */}
-              <button 
-                className="map-point" 
-                style={{ top: "40%", left: "45%", cursor: "pointer" }}
-                onClick={() => console.log("Budapest kiválasztva")}
-              >
-                Budapest
-              </button>
-              <button 
-                className="map-point" 
-                style={{ top: "37%", left: "80%", cursor: "pointer" }}
-                onClick={() => console.log("Debrecen kiválasztva")}
-              >
-                Debrecen
-              </button>
-              <button 
-                className="map-point" 
-                style={{ top: "20%", left: "70%", cursor: "pointer" }}
-                onClick={() => console.log("Miskolc kiválasztva")}
-              >
-                Miksolc
-              </button>
-              <button 
-                className="map-point" 
-                style={{ top: "36%", left: "10%", cursor: "pointer" }}
-                onClick={() => console.log("Sopron kiválasztva")}
-              >
-                Sopron
-              </button>
-            </div>
-
-            {/* Bezárás gomb */}
-            <button 
-              className="btn" 
-              onClick={() => setShowLocationModal(false)}
-            >
-              {langCtx?.translate.closed}
-            </button>
-          </div>
-        </div>
-      )}
       
       {/* Keresési eredmények modal */}
       {showSearchResults && (
@@ -330,31 +275,42 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
           </form>
         </div>
       </section>
-      
-      {/* Autólista */}
-      <section className="inventory">
-        <div className="container">
-          <h2 className="section-title">{langCtx?.translate.allCar}</h2>
-          <div className="cars-list">
-          {cars?.map((car) => (
-      <div key={car.id} className="car-item">
-        
-    <h3>{car.brand.brandEnglish} {car.carModel.modelNameEnglish}</h3>
-    <p>{langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}</p>
-    <p>{langCtx?.translate.type} {car.bodyType.nameEnglish}</p>
-    <p>{langCtx?.translate.fuelType} {car.fuelType.nameEnglish}</p>
-    <p>{langCtx?.translate.price} {Number(car.price).toLocaleString()} Ft</p>
-    <button className="btn" onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}>
-      {langCtx?.translate.viewDetails}
-    </button>
-  
 
-      </div>
-))}
-          </div>
-        </div>
-      </section>
-      
+        <section className="inventory">
+            <div className="container">
+                <h2 className="section-title">{langCtx?.translate.allCar}</h2>
+                <div className="cars-list">
+                    {cars?.map((car) => {
+                        const carImage = car.images?.length ? getBaseUrl() + car.images[0].url : null;
+
+                        return (
+                            <div key={car.id} className="car-item">
+                                {carImage && (
+                                    <img
+                                        src={carImage}
+                                        alt={`${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
+                                        className="car-image"
+                                    />
+                                )}
+                                <h3>{car.brand.brandEnglish} {car.carModel.modelNameEnglish}</h3>
+                                <p>{langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}</p>
+                                <p>{langCtx?.translate.type} {car.bodyType.nameEnglish}</p>
+                                <p>{langCtx?.translate.fuelType} {car.fuelType.nameEnglish}</p>
+                                <p>{car.location.locationName}</p>
+                                <p>{langCtx?.translate.price} {Number(car.price).toLocaleString()} yen</p>
+                                <button
+                                    className="btn"
+                                    onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}
+                                >
+                                    {langCtx?.translate.viewDetails}
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </section>
+
       {/* Bejelentkezési modal */}
       {showLoginModal && (
         <div id="login-modal" className="modal">

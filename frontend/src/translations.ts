@@ -85,7 +85,11 @@ export type TranslationType = {
   savedCarsHome: string;
   noMessage: string;
   sender: string;
+  loginToBook: string;
+  chooseDate: string;
   loginForData: string;
+  book: string;
+  backHome: string;
     myData:string;
     save:string;
     viewDetails: string;
@@ -297,6 +301,8 @@ export const translations = {
     chooseFuel: "Válassz üzemanyagot",
     chooseDrivetrain: "Válassz meghajtást",
     chooseColor: "Válassz színt",
+    book: "Foglalás",
+    backHome: "Vissza"
   },
   jp: {
     searchTitle: "検索",

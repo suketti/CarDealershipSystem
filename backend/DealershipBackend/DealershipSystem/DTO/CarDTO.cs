@@ -22,6 +22,6 @@ public class CarDTO
     public bool IsSmoking { get; set; }
     public string? Price { get; set; }
     public List<CarExtraDTO> Extras { get; set; } = new List<CarExtraDTO>();
-    //public List<ImageDTO> Images { get; set; } = new List<ImageDTO>();
+    public List<ImageDTO> Images { get; set; } = new List<ImageDTO>();
     public bool IsInTransfer { get; set; }
 }

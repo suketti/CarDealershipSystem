@@ -19,8 +19,14 @@ export type CarDTO = {
     isSmoking: boolean;
     extras: CarExtraDTO[];
     isInTransfer: boolean;
-    
+    price?: string | null;
+    images: ImageDTO[];
 };
+
+export type ImageDTO = {
+    url: string;
+};
+
 
 
 export type CarMakerDTO = {

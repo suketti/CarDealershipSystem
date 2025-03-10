@@ -14,6 +14,12 @@ const api = axios.create({
     withCredentials: true, // Ensures cookies are sent with the request
 });
 
+export const getBaseUrl = (): string => {
+    const baseUrl = api.defaults.baseURL ?? "";
+    return baseUrl.replace('/api', '');
+};
+
+
 // Add an interceptor to include the Bearer token in the Authorization header
 api.interceptors.request.use(
     (config) => {

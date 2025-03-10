@@ -2,7 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { CarDTO } from "../Types";
 import { LanguageCtx } from "../App";
 import SavedCarService from "../api/savedCarService.ts"; // Importing the service
-import { useUser } from "../UserContext.tsx"; // Importing the useUser hook
+import { useUser } from "../UserContext.tsx";
+import { getBaseUrl } from "../api/axiosInstance.ts";
+import axiosInstance from "../api/axiosInstance.ts"; // Importing the useUser hook
 
 interface SavedCarsModalProps {
     onClose: () => void;
@@ -75,6 +77,7 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
                     {savedCars.length === 0 ? (
                         <p>{langCtx?.translate.noSavedCars}</p>
                     ) : (
+
                         savedCars.map((car, index) => (
                             <div
                                 key={index}
@@ -82,7 +85,7 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
                                 style={{ borderBottom: "1px solid #ddd", marginBottom: "10px" }}
                             >
                                 <img
-                                    src={car.image || "/default-image.jpg"}
+                                    src={car.images?.length ? getBaseUrl() + car.images[0].url : "/default-image.jpg"}
                                     alt={`${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
                                     style={{
                                         width: "150px",
@@ -91,6 +94,8 @@ function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
                                         marginRight: "10px",
                                     }}
                                 />
+
+
                                 <div className="saved-car-info">
                                     <h3>
                                         {car.brand.brandEnglish} {car.carModel.modelNameEnglish}

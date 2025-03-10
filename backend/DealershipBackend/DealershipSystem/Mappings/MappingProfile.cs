@@ -24,6 +24,7 @@ public class MappingProfile : Profile
         CreateMap<CarModel, CarModelDTO>();
         CreateMap<EngineSizeModel, EngineSizeModelDTO>();
         CreateMap<Car, CarDTO>();
+        CreateMap<Image, ImageDTO>();
 
         //Reverse mappings
         CreateMap<LocationDto, Location>();

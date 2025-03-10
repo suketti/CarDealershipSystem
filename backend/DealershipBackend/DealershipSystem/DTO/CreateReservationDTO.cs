@@ -5,7 +5,7 @@ namespace DealershipSystem.DTO;
 public class CreateReservationDTO
 {
     [Required]
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
         
     [Required]
     public int CarId { get; set; }
