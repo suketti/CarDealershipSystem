@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WpfApp1.Models;
 
 
 
@@ -14,47 +15,33 @@ namespace WpfApp1
 {
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Car> autok { get; set; } = new ObservableCollection<Car>();
-        private Car tempCar; // Ideiglenes változat a szerkesztéshez
+        public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
+        private Car tempCar;
+        private UserDTO _loggedInUser;
 
-        public MainWindow()
+        public MainWindow(UserDTO user)
         {
             InitializeComponent();
-            AutoListView.ItemsSource = autok; // Biztosítsd, hogy az elején is működik
-            ShowLoginWindow();
+            _loggedInUser = user;
+            AutoListView.ItemsSource = Cars;
             this.DataContext = this;
         }
 
-
-        private void ShowLoginWindow()
-        {
-            LoginWindow loginWindow = new LoginWindow();
-            if (loginWindow.ShowDialog() != true)
-            {
-                this.Close();
-            }
-        }
 
         private void lblOsszesAuto_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
-                autok.Clear(); // Előző adatokat töröljük
+                Cars.Clear(); // Előző adatokat töröljük
 
-                autok.Add(new Car { Kep = "https://via.placeholder.com/80", Marka = "Toyota", Modell = "Corolla", Ar = "3 500 000 Ft", Uzemanyag = "Benzin", Meghajtas = "Elsőkerék", Szin = "Fehér", MotorMeret = "1.6 L", KmAllas = "85 000 km", Evjarat = "2020", Kivitel = "Sedan" });
+                Cars.Add(new Car { Kep = "https://via.placeholder.com/80", Marka = "Toyota", Modell = "Corolla", Ar = "3 500 000 Ft", Uzemanyag = "Benzin", Meghajtas = "Elsőkerék", Szin = "Fehér", MotorMeret = "1.6 L", KmAllas = "85 000 km", Evjarat = "2020", Kivitel = "Sedan" });
 
-                autok.Add(new Car { Kep = "https://via.placeholder.com/80", Marka = "Ford", Modell = "Focus", Ar = "2 900 000 Ft", Uzemanyag = "Dízel", Meghajtas = "Elsőkerék", Szin = "Kék", MotorMeret = "1.5 L", KmAllas = "65 000 km", Evjarat = "2019", Kivitel = "Hatchback" });
+                Cars.Add(new Car { Kep = "https://via.placeholder.com/80", Marka = "Ford", Modell = "Focus", Ar = "2 900 000 Ft", Uzemanyag = "Dízel", Meghajtas = "Elsőkerék", Szin = "Kék", MotorMeret = "1.5 L", KmAllas = "65 000 km", Evjarat = "2019", Kivitel = "Hatchback" });
 
-                AutoListView.ItemsSource = autok; // Frissítés
+                AutoListView.ItemsSource = Cars; // Frissítés
                 AutoListView.Visibility = Visibility.Visible; // Megjelenítés
             });
         }
-
-
-
-
-
-
 
 
 
@@ -64,13 +51,9 @@ namespace WpfApp1
             if (deleteButton != null)
             {
                 Car selectedCar = (Car)deleteButton.DataContext;
-                Dispatcher.Invoke(() => autok.Remove(selectedCar)); // A UI Thread kezeli
+                Dispatcher.Invoke(() => Cars.Remove(selectedCar)); // A UI Thread kezeli
             }
         }
-
-
-
-
 
 
         private void EditCar(object sender, RoutedEventArgs e)
