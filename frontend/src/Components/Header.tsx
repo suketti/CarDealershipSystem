@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { LanguageCtx, MobileMenuContext } from '../App';
@@ -18,22 +18,35 @@ const Header = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [showMessagesModal, setShowMessagesModal] = useState(false);
   const [showSavedCarsModal, setShowSavedCarsModal] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(langCtx?.language || "hu");
   
+  // Update selectedLanguage when context language changes
+  useEffect(() => {
+    if (langCtx?.language) {
+      setSelectedLanguage(langCtx.language);
+    }
+  }, [langCtx?.language]);
+
+  // Add effect to update isLoggedIn when authentication state changes
+  useEffect(() => {
+    setIsLoggedIn(isAuthenticated);
+  }, [isAuthenticated]);
+
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
   };
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLanguage = e.target.value as "hu" | "en" | "jp";
+    const newLanguage = e.target.value as "hu" | "en" | "jp";
+    setSelectedLanguage(newLanguage);
     if (langCtx) {
-      langCtx.changeTranslate(translations[selectedLanguage]);
+      langCtx.changeTranslate(translations[newLanguage]);
     }
   };
 
   // Handle logout
   const handleLogout = () => {
     logoutUser();
-    setIsLoggedIn(false);
     setShowUserMenu(false);
   };
 
@@ -58,7 +71,7 @@ const Header = () => {
             <FontAwesomeIcon icon="language" className="language-icon" />
             <select
               onChange={handleLanguageChange}
-              value={langCtx?.language}
+              value={selectedLanguage}
             >
               <option value="hu">Magyar</option>
               <option value="en">English</option>
@@ -127,7 +140,6 @@ const Header = () => {
       {showLoginModal && (
         <LoginModal
           onClose={() => setShowLoginModal(false)}
-          setIsLoggedIn={setIsLoggedIn}
           language={langCtx?.language || "hu"}
           t={langCtx?.translate || translations.hu}
         />

@@ -1,135 +1,138 @@
 import React, { useEffect, useState, useContext } from "react";
-import { CarDTO } from "../Types";
-import { LanguageCtx } from "../App";
-import SavedCarService from "../api/savedCarService.ts"; // Importing the service
-import { useUser } from "../UserContext.tsx";
-import { getBaseUrl } from "../api/axiosInstance.ts";
-import axiosInstance from "../api/axiosInstance.ts"; // Importing the useUser hook
+import { LanguageCtx } from "../App.tsx";
+import { useUser } from "../UserContext";
+import SavedCarService from "../api/savedCarService";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from "react-router-dom";
+import { getBaseUrl } from "../api/axiosInstance";
 
 interface SavedCarsModalProps {
     onClose: () => void;
     t: { [key: string]: string };
 }
 
-function SavedCarsModal({ onClose, t }: SavedCarsModalProps) {
-    const [savedCars, setSavedCars] = useState<CarDTO[]>([]);
+const SavedCarsModal: React.FC<SavedCarsModalProps> = ({ onClose, t }) => {
+    const { user } = useUser();
     const langCtx = useContext(LanguageCtx);
-    const { user } = useUser(); // Get the userId from the UserContext
+    const [savedCars, setSavedCars] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSavedCars = async () => {
-            if (!user?.id) return; // If no userId, do not fetch saved cars
+            if (!user) return;
+
+            setLoading(true);
+
             try {
-                const cars = await SavedCarService.getSavedCars(user.id);
-                setSavedCars(cars);
-            } catch (error) {
-                console.error("Error fetching saved cars:", error);
+                const userId = user.id;
+                const fetchedCars = await SavedCarService.getSavedCarsByUser(userId);
+                setSavedCars(fetchedCars);
+            } catch (err) {
+                console.error("Failed to fetch saved cars", err);
+                setError("Failed to load saved cars.");
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchSavedCars();
-    }, [user?.id]);
 
-    const handleDeleteCar = async (carId: number) => {
-        if (!user?.id) return; // Ensure there's a userId before attempting to delete
+        return () => {
+            setLoading(false);
+            setSavedCars([]);
+            setError(null);
+        };
+    }, [user]);
+
+    const handleViewDetails = (car) => {
+        onClose();
+        navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`);
+    };
+
+    const handleRemoveCar = async (carId) => {
+        if (!user) return;
+        
         try {
-            await SavedCarService.removeSavedCar(user?.id, carId);
-            setSavedCars(savedCars.filter((car) => car.id !== carId));
-        } catch (error) {
-            console.error("Error deleting saved car:", error);
+            await SavedCarService.removeSavedCar(user.id, carId);
+            // Update the state to remove the car from the list
+            setSavedCars(savedCars.filter(car => car.id !== carId));
+        } catch (err) {
+            console.error("Failed to remove saved car", err);
+            setError("Failed to remove car from saved list.");
         }
     };
 
     return (
-        <div id="saved-cars-overlay" style={{ display: "block" }}>
-            <div
-                id="saved-cars-modal"
-                style={{
-                    display: "block",
-                    background: "#fff",
-                    padding: "2rem",
-                    borderRadius: "8px",
-                    width: "80%",
-                    maxWidth: "800px",
-                    maxHeight: "90vh",
-                    overflowY: "auto",
-                    margin: "50px auto",
-                    position: "relative",
-                }}
-            >
-                <span
-                    className="close-saved-cars-modal"
-                    style={{
-                        position: "absolute",
-                        top: "15px",
-                        right: "15px",
-                        cursor: "pointer",
-                        fontSize: "24px",
-                    }}
-                    onClick={onClose}
-                >
-                    &times;
-                </span>
-                <div className="saved-cars-header">
-                    <h2>{langCtx?.translate.savedCars}</h2>
+        <div className="modal-overlay">
+            <div className="modal-container">
+                <button className="modal-close" onClick={onClose}>&times;</button>
+                
+                <div className="modal-header">
+                    <h2 className="modal-title">{langCtx?.translate.savedCars || "Saved Cars"}</h2>
                 </div>
-                <div id="saved-cars-list" className="saved-cars-container">
-                    {savedCars.length === 0 ? (
-                        <p>{langCtx?.translate.noSavedCars}</p>
+                
+                <div className="modal-content">
+                    {loading ? (
+                        <div className="empty-state">
+                            <div className="loading-spinner">Loading...</div>
+                        </div>
+                    ) : error ? (
+                        <div className="empty-state">
+                            <FontAwesomeIcon icon="exclamation-circle" className="empty-state-icon" />
+                            <p>{error}</p>
+                        </div>
+                    ) : savedCars.length === 0 ? (
+                        <div className="empty-state">
+                            <FontAwesomeIcon icon="heart" className="empty-state-icon" />
+                            <p>{langCtx?.translate.noSavedCars || "You don't have any saved cars yet."}</p>
+                        </div>
                     ) : (
-
-                        savedCars.map((car, index) => (
-                            <div
-                                key={index}
-                                className="saved-car-item"
-                                style={{ borderBottom: "1px solid #ddd", marginBottom: "10px" }}
-                            >
-                                <img
-                                    src={car.images?.length ? getBaseUrl() + car.images[0].url : "/default-image.jpg"}
-                                    alt={`${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
-                                    style={{
-                                        width: "150px",
-                                        height: "100px",
-                                        objectFit: "cover",
-                                        marginRight: "10px",
-                                    }}
-                                />
-
-
+                        savedCars.map((car) => (
+                            <div key={car.id} className="saved-car-item">
+                                {car.images && car.images.length > 0 && (
+                                    <img 
+                                        src={getBaseUrl() + car.images[0].url} 
+                                        alt={`${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`} 
+                                        className="saved-car-image" 
+                                    />
+                                )}
                                 <div className="saved-car-info">
-                                    <h3>
+                                    <div className="saved-car-title">
                                         {car.brand.brandEnglish} {car.carModel.modelNameEnglish}
-                                    </h3>
-                                    <p>
-                                        {langCtx?.translate.price}{" "}
+                                    </div>
+                                    <div className="saved-car-price">
                                         {Number(car.price).toLocaleString()} Ft
-                                    </p>
-                                    <p>
-                                        {langCtx?.translate.year} {car.carModel.manufacturingStartYear} -{" "}
-                                        {car.carModel.manufacturingEndYear}
-                                    </p>
-                                    <a
-                                        href={`/Car-Details?car=${encodeURIComponent(
-                                            JSON.stringify(car)
-                                        )}`}
-                                    >
-                                        {langCtx?.translate.details || "Részletek"}
-                                    </a>
+                                    </div>
                                 </div>
-                                <button
-                                    className="delete-car-btn"
-                                    style={{ marginLeft: "auto", cursor: "pointer" }}
-                                    onClick={() => handleDeleteCar(car.id)}
-                                >
-                                    🗑️
-                                </button>
+                                <div className="saved-car-actions">
+                                    <button 
+                                        className="btn btn-primary"
+                                        onClick={() => handleViewDetails(car)}
+                                    >
+                                        <FontAwesomeIcon icon="eye" /> {langCtx?.translate.view || "View"}
+                                    </button>
+                                    <button 
+                                        className="btn btn-secondary"
+                                        onClick={() => handleRemoveCar(car.id)}
+                                    >
+                                        <FontAwesomeIcon icon="trash-alt" /> {langCtx?.translate.remove || "Remove"}
+                                    </button>
+                                </div>
                             </div>
                         ))
                     )}
                 </div>
+                
+                <div className="modal-footer">
+                    <button className="btn btn-secondary" onClick={onClose}>
+                        {langCtx?.translate.close || "Close"}
+                    </button>
+                </div>
             </div>
         </div>
     );
-}
+};
 
 export default SavedCarsModal;

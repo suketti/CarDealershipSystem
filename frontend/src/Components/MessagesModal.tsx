@@ -3,6 +3,7 @@ import { Message } from "../Interfaces/Message.ts";
 import { LanguageCtx } from "../App.tsx";
 import { useUser } from "../UserContext";
 import { getMessagesByUser } from "../api/messageService.ts";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface MessagesModalProps {
     onClose: () => void;
@@ -10,7 +11,7 @@ interface MessagesModalProps {
 }
 
 const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
-    const { user } = useUser(); // Get user from UserContext
+    const { user } = useUser();
     const langCtx = useContext(LanguageCtx);
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
@@ -20,7 +21,7 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
         const fetchMessages = async () => {
             if (!user) return;
 
-            setLoading(true); // Set loading to true when fetching begins
+            setLoading(true);
 
             try {
                 const fetchedMessages = await getMessagesByUser(user.id);
@@ -30,64 +31,66 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
                 console.error("Failed to fetch messages", err);
                 setError("Failed to load messages.");
             } finally {
-                setLoading(false); // Set loading to false after fetch is complete
+                setLoading(false);
             }
         };
 
         fetchMessages();
 
-        // Cleanup function in case the component unmounts before fetching completes
         return () => {
             setLoading(false);
             setMessages([]);
             setError(null);
         };
-    }, [user]); // Re-fetch messages whenever the user changes
+    }, [user]);
 
     return (
-        <div id="messages-overlay" style={{ display: "block" }}>
-            <div
-                id="messages-modal"
-                style={{
-                    display: "block",
-                    background: "#fff",
-                    padding: "20px",
-                    margin: "50px auto",
-                    width: "600px",
-                    maxHeight: "80vh",
-                    overflowY: "auto",
-                    position: "relative",
-                }}
-            >
-                <span
-                    className="close-messages-modal"
-                    style={{ position: "absolute", top: "15px", right: "15px", cursor: "pointer" }}
-                    onClick={onClose}
-                >
-                    &times;
-                </span>
-                <div className="messages-header">
-                    <h2>{langCtx?.translate.myMessages || "My Messages"}</h2>
+        <div className="modal-overlay">
+            <div className="modal-container">
+                <button className="modal-close" onClick={onClose}>&times;</button>
+                
+                <div className="modal-header">
+                    <h2 className="modal-title">{langCtx?.translate.myMessages || "My Messages"}</h2>
                 </div>
-
-                <div id="messages-list">
+                
+                <div className="modal-content">
                     {loading ? (
-                        <p>Loading...</p>
+                        <div className="empty-state">
+                            <div className="loading-spinner">Loading...</div>
+                        </div>
                     ) : error ? (
-                        <p style={{ color: "red" }}>{error}</p>
+                        <div className="empty-state">
+                            <FontAwesomeIcon icon="exclamation-circle" className="empty-state-icon" />
+                            <p>{error}</p>
+                        </div>
                     ) : messages.length === 0 ? (
-                        <p>{langCtx?.translate.noMessage || "No messages found."}</p>
+                        <div className="empty-state">
+                            <FontAwesomeIcon icon="envelope-open" className="empty-state-icon" />
+                            <p>{langCtx?.translate.noMessage || "No messages found."}</p>
+                        </div>
                     ) : (
                         messages.map((msg) => (
-                            <div key={msg.date} className="message-item" style={{ padding: "10px 0", borderBottom: "1px solid #eee" }}>
-                                <strong>{langCtx?.translate.sender || "Sender"}:</strong>
-                                <br />
-                                <span>{msg.content}</span>
-                                <br />
-                                <small>{new Date(msg.date).toLocaleString()}</small>
+                            <div key={msg.date} className="message-item">
+                                <div className="message-sender">
+                                    <FontAwesomeIcon icon="user" style={{ marginRight: '8px' }} />
+                                    {msg.sender || "System"}
+                                </div>
+                                <div className="message-content">
+                                    {msg.content}
+                                </div>
+                                <div className="message-date">
+                                    <FontAwesomeIcon icon="calendar-alt" style={{ marginRight: '5px' }} />
+                                    {new Date(msg.date).toLocaleString()}
+                                </div>
                             </div>
                         ))
                     )}
+                </div>
+                
+                <div className="modal-footer">
+                    <button className="btn btn-secondary" onClick={onClose}>
+                        {langCtx?.translate.close || "Close"}
+                    </button>
                 </div>
             </div>
         </div>

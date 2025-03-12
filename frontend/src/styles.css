@@ -855,6 +855,10 @@ footer {
 /* Form Styles */
 .form-group {
   margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .form-label {
@@ -916,6 +920,50 @@ footer {
   font-size: 0.875rem;
   color: var(--gray-700);
 }
+
+.filter form label {
+  min-width: 120px;
+  margin-right: 10px;
+  margin-bottom: 0;
+  font-weight: 500;
+  color: var(--gray-700);
+  flex-shrink: 0;
+  flex-basis: 120px;
+}
+
+.filter form input,
+.filter form select {
+  height: 48px; /* Egységes magasság minden form elemnek */
+  box-sizing: border-box;
+}
+
+.filter form input:focus,
+.filter form select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.filter form .btn {
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.filter {
+  padding: 2rem 0;
+}
+
+.filter form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem 3rem; /* Növelt térköz a form elemek között: függőleges 2rem, vízszintes 3rem */
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
 
 /* Filter Styles */
 .filter-section {
@@ -1030,6 +1078,131 @@ footer {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1rem;
+}
+
+#reszletes-kereses-container {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: var(--gray-100);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  margin: 1.5rem 0;
+}
+
+#reszletes-kereses-label {
+  font-weight: 500;
+  color: var(--primary);
+}
+
+#toggle-arrow {
+  font-size: 1.25rem;
+  color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+/* A részletes feltételek doboza */
+#reszletes-feltetelek {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem 3rem; /* Megegyezik a fő form elrendezéssel */
+  padding: 1.5rem;
+  background-color: var(--gray-50);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--gray-200);
+  margin-bottom: 1.5rem;
+}
+
+/* Két egymás melletti beviteli mező a min-max értékekhez */
+#reszletes-feltetelek label + input + input,
+#reszletes-feltetelek label ~ input {
+  min-width: 120px;
+  margin-right: 10px;
+}
+
+/* Gomb konténer a form alján */
+.filter-buttons {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.filter-buttons .btn {
+  min-width: 150px; /* Egységes gombszélesség */
+}
+
+/* Reszponzív igazítások */
+@media (max-width: 768px) {
+  .filter form {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .form-group {
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .filter form label {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+  
+  .filter form input,
+  .filter form select {
+    width: 100%;
+  }
+  
+  .filter-buttons {
+    flex-direction: column;
+  }
+  
+  .filter-buttons .btn {
+    width: 100%;
+    min-width: unset;
+  }
+
+  #reszletes-feltetelek {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .input-pair {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .input-pair input {
+    width: 100%;
+  }
+}
+@media (min-width: 769px) {
+  .filter form {
+    align-items: center;
+  }
+  
+  .form-group {
+    margin-bottom: 0; /* Kiegyenlítjük a grid gap miatt */
+  }
+}
+/* Motorméret és kilométer mezők egymás melletti elrendezéséhez */
+.input-pair {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  width: 100%;
+}
+
+.input-pair input {
+  flex: 1;
+  width: calc(50% - 0.5rem); /* Egyenlő szélesség, gap figyelembevételével */
 }
 
 /* Car Details Page */
@@ -1603,3 +1776,789 @@ input:focus, select:focus {
   border-color: var(--primary);
   outline: none;
 }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--gray-500);
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  color: var(--error);
+}
+
+.modal-header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  color: var(--gray-900);
+}
+
+.modal-content {
+  padding: 0 1.5rem 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.message-item {
+  padding: 1rem;
+  border-bottom: 1px solid var(--gray-200);
+  transition: background-color 0.2s;
+}
+
+.message-item:last-child {
+  border-bottom: none;
+}
+
+.message-item:hover {
+  background-color: var(--gray-50);
+}
+
+.message-sender {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--gray-800);
+  display: flex;
+  align-items: center;
+}
+
+.message-content {
+  color: var(--gray-700);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.message-date {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  display: flex;
+  align-items: center;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  color: var(--gray-400);
+  margin-bottom: 1rem;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--primary);
+}
+
+.saved-car-item {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid var(--gray-200);
+  gap: 1rem;
+  align-items: center;
+}
+
+.saved-car-item:last-child {
+  border-bottom: none;
+}
+
+.saved-car-item:hover {
+  background-color: var(--gray-50);
+}
+
+.saved-car-image {
+  width: 100px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  flex-shrink: 0;
+}
+
+.saved-car-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.saved-car-title {
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.saved-car-price {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.saved-car-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.saved-car-actions .btn {
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .saved-car-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .saved-car-image {
+    width: 100%;
+    height: 140px;
+  }
+  
+  .saved-car-actions {
+    flex-direction: row;
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+  
+  .saved-car-actions .btn {
+    flex: 1;
+  }
+
+  .modal-container {
+    width: 95%;
+    max-height: 85vh;
+  }
+}
+
+/* Car Details Page Styles */
+.car-details-page {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.back-link {
+  margin-bottom: 1.5rem;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--gray-100);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--gray-700);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-back:hover {
+  background: var(--gray-200);
+  color: var(--gray-900);
+}
+
+.car-details-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .car-details-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Gallery Styles */
+.car-gallery {
+  position: relative;
+}
+
+.main-image-container {
+  position: relative;
+  height: 400px;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.main-car-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.main-car-image:hover {
+  transform: scale(1.02);
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray-200);
+  color: var(--gray-600);
+}
+
+.no-image svg {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-800);
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 5;
+  transition: var(--transition);
+}
+
+.gallery-nav:hover {
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-nav.prev-button {
+  left: 15px;
+}
+
+.gallery-nav.next-button {
+  right: 15px;
+}
+
+.thumbnail-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.75rem;
+}
+
+.thumbnail {
+  height: 60px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+  opacity: 0.9;
+}
+
+.thumbnail.active {
+  opacity: 1;
+  border-color: var(--primary);
+}
+
+/* Car Info Styles */
+.car-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.car-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--gray-900);
+}
+
+.btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--primary);
+  border-radius: var(--border-radius);
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-save:hover {
+  background: var(--primary-bg);
+}
+
+.car-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.car-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.spec-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray-500);
+}
+
+.spec-value {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.car-description {
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.car-description h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.car-description p {
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+
+/* Appointment Section Styles */
+.appointment-section {
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.appointment-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.appointment-prompt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.selected-date-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--primary-bg);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.selected-date-display svg {
+  color: var(--primary);
+}
+
+.btn-change-date {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  text-decoration: underline;
+}
+
+.btn-select-date, .btn-book {
+  min-width: 200px;
+  justify-content: center;
+}
+
+.booking-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-top: 1rem;
+}
+
+.booking-message.success {
+  background-color: #ecfdf5;
+  color: #064e3b;
+}
+
+.booking-message.error {
+  background-color: #fef2f2;
+  color: #7f1d1d;
+}
+
+.booking-message svg {
+  margin-top: 0.25rem;
+}
+
+/* Calendar Styles */
+.calendar-container {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--primary);
+  color: white;
+}
+
+.calendar-nav {
+  background: transparent;
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.current-month {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: var(--primary-light);
+  color: white;
+  font-weight: 600;
+  text-align: center;
+}
+
+.weekday {
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0.5rem;
+  gap: 0.25rem;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-day:not(.empty):hover {
+  background: var(--primary-bg);
+  color: var(--primary);
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.calendar-day.today {
+  background: var(--gray-100);
+  font-weight: 700;
+}
+
+.calendar-day.past {
+  color: var(--gray-400);
+  cursor: not-allowed;
+}
+
+.calendar-day.selected {
+  background: var(--primary);
+  color: white;
+}
+
+.time-selector {
+  padding: 1rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+.time-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.time-inputs select {
+  padding: 0.5rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--border-radius);
+  background: white;
+}
+
+.calendar-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-top: 1px solid var(--gray-200);
+}
+
+/* Lightbox Styles */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox-nav.prev {
+  left: -75px;
+}
+
+.lightbox-nav.next {
+  right: -75px;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.loading-spinner {
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .car-details-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .main-image-container {
+    height: 300px;
+  }
+  
+  .car-specs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .appointment-prompt {
+    flex-direction: column;
+  }
+  
+  .btn-select-date, 
+  .btn-book {
+    width: 100%;
+  }
+  
+  .time-picker {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .lightbox-nav.prev {
+    left: 10px;
+  }
+  
+  .lightbox-nav.next {
+    right: 10px;
+  }
+}
+
+/* Add appropriate FontAwesome icons */
+@font-face {
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Add extra icons to the library in App.tsx */
+/* These should be added to the existing library.add() call: */
+/* 
+  faChevronLeft, faChevronRight, faMapMarkerAlt,
+  faCalendarCheck, faCalendarPlus, faCheckCircle,
+  faExclamationCircle, faSpinner, faCogs, faArrowLeft, faImage
+*/

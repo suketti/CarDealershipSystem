@@ -202,18 +202,22 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                       </option>
                   ))}
               </select>
-
-            <label>{langCtx?.translate.minPrice}</label>
-            <input type="number" id="min-price" name="min-price" placeholder="Ft" />
+              <div className="form-group">
+  <label>{langCtx?.translate.Price}</label>
+  <div className="input-pair">
+    <input type="number" id="min-price" name="min-price" placeholder="Ft" />
+    <input type="number" id="max-price" name="max-price" placeholder="Ft" />
+  </div>
+</div>
             
-            <label>{langCtx?.translate.maxPrice}</label>
-            <input type="number" id="max-price" name="max-price" placeholder="Ft" />
-
-            <label>{langCtx?.translate.yearFrom}</label>
-            <input type="number" id="year-from" placeholder="Pl. 2010" />
-
-            <label>{langCtx?.translate.yearTo}</label>
-            <input type="number" id="year-to" placeholder="Pl. 2020" />
+<div className="form-group">
+  <label>{langCtx?.translate.Year}</label>
+  <div className="input-pair">
+    <input type="number" id="year-from"  placeholder="Pl. 2010" />
+    <input type="number" id="year-to"  placeholder="Pl. 2020" />
+  </div>
+</div>
+            
 
             <div id="reszletes-kereses-container">
               <span id="reszletes-kereses-label" onClick={() => setIsAdvancedSearchVisible(!isAdvancedSearchVisible)}>
@@ -247,30 +251,35 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                   ))}
               </select>
 
-                <label>{langCtx?.translate.engineSize}</label>
-                <input type="number" id="motor-meret-min" placeholder="Min cm³" />
-                <input type="number" id="motor-meret-max" placeholder="Max cm³" />
+              <div className="form-group">
+  <label>{langCtx?.translate.engineSize}</label>
+  <div className="input-pair">
+    <input type="number" id="motor-meret-min" placeholder="Min cm³" />
+    <input type="number" id="motor-meret-max" placeholder="Max cm³" />
+  </div>
+</div>
 
-                <label>{langCtx?.translate.mileageNum}</label>
-                <input type="number" id="km-min" placeholder="Min km" />
-                <input type="number" id="km-max" placeholder="Max km" />
+<div className="form-group">
+  <label>{langCtx?.translate.mileageNum}</label>
+  <div className="input-pair">
+    <input type="number" id="km-min" placeholder="Min km" />
+    <input type="number" id="km-max" placeholder="Max km" />
+  </div>
+</div>
+
+                
               </div>
             )}
 
-            <button 
-            type="button"
-        className="btn" 
-        onClick={() => setShowLocationModal(true)}
-      >
-        {langCtx?.translate.chooseLocation}
-      </button>
-      <button 
-              type="button" 
-              className="btn" 
-              onClick={handleSearchClick} // Keresés gombra kattintva átirányítás
-            >
-              {langCtx?.translate.search}
-            </button>
+<div className="filter-buttons">
+  <button 
+    type="button" 
+    className="btn" 
+    onClick={handleSearchClick}
+  >
+    {langCtx?.translate.search}
+  </button>
+</div>
           </form>
         </div>
       </section>

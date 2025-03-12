@@ -7,6 +7,7 @@ export type TranslationType = {
   fuel: string;
   minPrice: string;
   maxPrice: string;
+  Price: string;
   yearFrom: string;
   yearTo: string;
   chooseLocation: string;
@@ -100,6 +101,39 @@ export type TranslationType = {
     chooseFuel: string;
     chooseDrivetrain: string;
     chooseColor: string;
+    hungarian: string;
+  english: string;
+  japanese: string;
+  Year: string;
+  /* */
+  errorLoadingCar: string;
+  loginToSave: string;
+  errorNoUser: string;
+  carSaved: string;
+  errorSavingCar: string;
+  noPastDate: string;
+  alreadyBookedFirst: string;
+  alreadyBookedSecond: string;
+  doneBookFirst: string;
+  doneBookSecond: string;
+  errorBooking: string;
+  loading: string;
+  back: string;
+  noImage: string;
+  location: string;
+  noDetails: string;
+  appointment: string;
+  mon: string;
+  tue: string;
+  wed: string;
+  thu: string;
+  fri: string;
+  sat: string;
+  sun: string;
+  time: string;
+  cancel: string;
+  change: string;
+  selectDate: string;
 };
 
 
@@ -113,6 +147,7 @@ export const translations = {
     fuel: "Fuel:",
     minPrice: "Min Price:",
     maxPrice: "Max Price:",
+    Price: "Price:",
     yearFrom: "Year From:",
     yearTo: "Year To:",
     chooseLocation: "Search Location",
@@ -202,6 +237,41 @@ export const translations = {
     chooseFuel: "Choose fuel",
     chooseDrivetrain: "Choose drivetrain",
     chooseColor: "Choose color",
+    hungarian: "Hungarian",
+  english: "English",
+  japanese: "Japanese",
+  Year: "Year",
+  // English translations
+errorLoadingCar: "Error loading car data",
+loginToSave: "Please log in to save this car!",
+errorNoUser: "Error: No user is logged in!",
+carSaved: "Car successfully saved!",
+errorSavingCar: "Error occurred while saving the car!",
+loginToBook: "Please log in to book an appointment!",
+chooseDate: "Please select a date for booking!",
+noPastDate: "You cannot select a date in the past!",
+alreadyBookedFirst: "You already have an appointment on",
+alreadyBookedSecond: "You must cancel your existing appointment first.",
+doneBookFirst: "Booking successful!",
+doneBookSecond: "We look forward to seeing you at our dealership!",
+errorBooking: "An error occurred during booking. Please try again later!",
+loading: "Loading...",
+back: "Back",
+noImage: "No image",
+location: "Location",
+noDetails: "No detailed description available.",
+appointment: "Book an Appointment",
+mon: "M",
+tue: "T",
+wed: "W",
+thu: "T",
+fri: "F",
+sat: "S",
+sun: "S",
+time: "Time",
+cancel: "Cancel",
+change: "Change",
+selectDate: "Select date",
   },
   hu: {
     searchTitle: "Autókereső",
@@ -212,6 +282,7 @@ export const translations = {
     fuel: "Üzemanyag:",
     minPrice: "Min ár:",
     maxPrice: "Max ár:",
+    Price: "Ár:",
     yearFrom: "Év - tól:",
     yearTo: "Év - ig:",
     chooseLocation: "Helyszín kiválasztása",
@@ -302,7 +373,41 @@ export const translations = {
     chooseDrivetrain: "Válassz meghajtást",
     chooseColor: "Válassz színt",
     book: "Foglalás",
-    backHome: "Vissza"
+    backHome: "Vissza",
+    hungarian: "Magyar",
+  english: "Angol",
+  japanese: "Japán",
+  Year: "Év:",
+  errorLoadingCar: "Hiba az autó adatainak betöltésekor",
+  loginToSave: "Jelentkezz be az autó mentéséhez!",
+  errorNoUser: "Hiba: Nincs bejelentkezett felhasználó!",
+  carSaved: "Autó sikeresen mentve!",
+  errorSavingCar: "Hiba történt az autó mentésekor!",
+  loginToBook: "Jelentkezz be időpontfoglaláshoz!",
+  chooseDate: "Válassz időpontot a foglaláshoz!",
+  noPastDate: "Nem választhatsz múltbeli időpontot!",
+  alreadyBookedFirst: "Már van foglalásod",
+  alreadyBookedSecond: "Előbb törölnöd kell a meglévő időpontot.",
+  doneBookFirst: "Sikeres foglalás!",
+  doneBookSecond: "Várunk a szalonunkban!",
+  errorBooking: "Hiba történt a foglalás során. Kérjük, próbáld újra később!",
+  loading: "Betöltés...",
+  back: "Vissza",
+  noImage: "Nincs kép",
+  location: "Telephely",
+  noDetails: "Nincs részletes leírás.",
+  appointment: "Időpontfoglalás",
+  mon: "H",
+  tue: "K",
+  wed: "SZe",
+  thu: "CS",
+  fri: "P",
+  sat: "SZo",
+  sun: "V",
+  time: "Időpont",
+  cancel: "Mégse",
+  change: "Módosítás",
+  selectDate: "Időpont kiválasztása",
   },
   jp: {
     searchTitle: "検索",
@@ -401,6 +506,41 @@ export const translations = {
       chooseBodyType: "ボディタイプを選択",
       chooseFuel: "燃料を選択",
       chooseDrivetrain: "駆動を選択",
-      chooseColor: "色を選択"
+      chooseColor: "色を選択",
+      hungarian: "ハンガリー語",
+  english: "英語",
+  japanese: "日本語",
+  Price: "",
+  Year: "",
+  errorLoadingCar: "",
+  loginToSave: "",
+  errorNoUser: "",
+  carSaved: "",
+  errorSavingCar: "",
+  noPastDate: "",
+  alreadyBookedFirst: "",
+  alreadyBookedSecond: "",
+  doneBookFirst: "",
+  doneBookSecond: "",
+  errorBooking: "",
+  loading: "",
+  back: "",
+  noImage: "",
+  location: "",
+  noDetails: "",
+  appointment: "",
+  mon: "",
+  tue: "",
+  wed: "",
+  thu: "",
+  fri: "",
+  sat: "",
+  sun: "",
+  time: "",
+  cancel: "",
+  change: "",
+  selectDate: "",
+  loginToBook: "",
+  chooseDate: "",
   }
 };

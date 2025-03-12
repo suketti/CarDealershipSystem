@@ -1,10 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MobileMenuContext } from '../App';
 import { LanguageCtx } from '../App';
 import { translations } from '../translations';
 import LoginModal from './LoginModal';
+import MessagesModal from './MessagesModal';
+import SavedCarsModal from './SavedCarsModal';
 import { useUser } from '../UserContext';
 
 const MobileMenu = () => {
@@ -13,12 +15,23 @@ const MobileMenu = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logoutUser } = useUser();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showMessagesModal, setShowMessagesModal] = useState(false);
+  const [showSavedCarsModal, setShowSavedCarsModal] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(langCtx?.language || "hu");
+
+  // Update selectedLanguage when context language changes
+  useEffect(() => {
+    if (langCtx?.language) {
+      setSelectedLanguage(langCtx.language);
+    }
+  }, [langCtx?.language]);
 
   // Handle language change
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedLanguage = e.target.value as "hu" | "en" | "jp";
+    const newLanguage = e.target.value as "hu" | "en" | "jp";
+    setSelectedLanguage(newLanguage);
     if (langCtx) {
-      langCtx.changeTranslate(translations[selectedLanguage]);
+      langCtx.changeTranslate(translations[newLanguage]);
     }
   };
 
@@ -64,6 +77,28 @@ const MobileMenu = () => {
                     </Link>
                   </li>
                   <li>
+                    <button 
+                      className="mobile-nav-link" 
+                      onClick={() => {
+                        setShowSavedCarsModal(true);
+                      }}
+                      style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none' }}
+                    >
+                      <FontAwesomeIcon icon="heart" /> {langCtx?.translate.savedCars}
+                    </button>
+                  </li>
+                  <li>
+                    <button 
+                      className="mobile-nav-link" 
+                      onClick={() => {
+                        setShowMessagesModal(true);
+                      }}
+                      style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none' }}
+                    >
+                      <FontAwesomeIcon icon="envelope" /> {langCtx?.translate.myMessages}
+                    </button>
+                  </li>
+                  <li>
                     <button className="mobile-nav-link" onClick={handleLogout} style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none' }}>
                       <FontAwesomeIcon icon="sign-out-alt" /> {langCtx?.translate.logout}
                     </button>
@@ -85,7 +120,7 @@ const MobileMenu = () => {
             </div>
             <select
               onChange={handleLanguageChange}
-              value={langCtx?.language}
+              value={selectedLanguage}
             >
               <option value="hu">Magyar</option>
               <option value="en">English</option>
@@ -98,11 +133,12 @@ const MobileMenu = () => {
       {showLoginModal && (
         <LoginModal
           onClose={() => setShowLoginModal(false)}
-          setIsLoggedIn={() => toggleMenu()} // Close menu when logged in
           language={langCtx?.language || "hu"}
           t={langCtx?.translate || translations.hu}
         />
       )}
+      {showMessagesModal && <MessagesModal onClose={() => setShowMessagesModal(false)} t={langCtx?.translate || translations.hu} />}
+      {showSavedCarsModal && <SavedCarsModal onClose={() => setShowSavedCarsModal(false)} t={langCtx?.translate || translations.hu} />}
     </div>
   );
 };

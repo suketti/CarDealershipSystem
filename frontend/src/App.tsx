@@ -15,14 +15,20 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
   faCar, faHome, faUser, faSearch, faTachometerAlt, faGasPump, 
   faCalendarAlt, faMap, faAngleDown, faAngleRight, faBars, faTimes,
-  faEnvelope, faHeart, faSignOutAlt, faSignInAlt, faLanguage 
+  faEnvelope, faHeart, faSignOutAlt, faSignInAlt, faLanguage,
+  faChevronLeft, faChevronRight, faMapMarkerAlt, faCalendarCheck,
+  faCalendarPlus, faCheckCircle, faExclamationCircle, faSpinner,
+  faCogs, faArrowLeft, faImage
 } from '@fortawesome/free-solid-svg-icons';
 
 // Add icons to library
 library.add(
   faCar, faHome, faUser, faSearch, faTachometerAlt, faGasPump,
   faCalendarAlt, faMap, faAngleDown, faAngleRight, faBars, faTimes,
-  faEnvelope, faHeart, faSignOutAlt, faSignInAlt, faLanguage
+  faEnvelope, faHeart, faSignOutAlt, faSignInAlt, faLanguage,
+  faChevronLeft, faChevronRight, faMapMarkerAlt, faCalendarCheck, 
+  faCalendarPlus, faCheckCircle, faExclamationCircle, faSpinner,
+  faCogs, faArrowLeft, faImage
 );
 
 export const LanguageCtx = createContext<
