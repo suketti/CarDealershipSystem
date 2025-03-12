@@ -153,7 +153,6 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
       <section className="hero">
         <h2>{langCtx?.translate.welcomeText}</h2>
         <p>{langCtx?.translate.searchCars}</p>
-        <a className="btn" href="/cars">{langCtx?.translate.viewCars}</a>
       </section>
       
       {/* Autókereső szűrő */}
