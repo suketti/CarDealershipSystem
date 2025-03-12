@@ -18,7 +18,6 @@ const Header = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [showMessagesModal, setShowMessagesModal] = useState(false);
   const [showSavedCarsModal, setShowSavedCarsModal] = useState(false);
-  // Mock user state - replace with your actual user authentication state
   
   const toggleUserMenu = () => {
     setShowUserMenu(!showUserMenu);
@@ -29,6 +28,13 @@ const Header = () => {
     if (langCtx) {
       langCtx.changeTranslate(translations[selectedLanguage]);
     }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    logoutUser();
+    setIsLoggedIn(false);
+    setShowUserMenu(false);
   };
 
   return (
@@ -83,22 +89,28 @@ const Header = () => {
               {showUserMenu && (
                 <ul className="dropdown-menu">
                   <li>
-                    <Link to="/profile">
+                    <Link to="/profile" onClick={() => setShowUserMenu(false)}>
                       <FontAwesomeIcon icon="user" /> {langCtx?.translate.myProfile}
                     </Link>
                   </li>
                   <li>
-                    <Link to="/saved-cars">
+                    <button onClick={() => {
+                      setShowSavedCarsModal(true);
+                      setShowUserMenu(false);
+                    }}>
                       <FontAwesomeIcon icon="heart" /> {langCtx?.translate.savedCars}
-                    </Link>
+                    </button>
                   </li>
                   <li>
-                    <Link to="/messages">
+                    <button onClick={() => {
+                      setShowMessagesModal(true);
+                      setShowUserMenu(false);
+                    }}>
                       <FontAwesomeIcon icon="envelope" /> {langCtx?.translate.myMessages}
-                    </Link>
+                    </button>
                   </li>
                   <li>
-                    <button onClick={() => setIsLoggedIn(false)}>
+                    <button onClick={handleLogout}>
                       <FontAwesomeIcon icon="sign-out-alt" /> {langCtx?.translate.logout}
                     </button>
                   </li>
@@ -106,7 +118,7 @@ const Header = () => {
               )}
             </div>
           ) : (
-            <button className="login-button">
+            <button className="login-button" onClick={() => setShowLoginModal(true)}>
               <FontAwesomeIcon icon="sign-in-alt" /> {langCtx?.translate.login}
             </button>
           )}
@@ -116,12 +128,12 @@ const Header = () => {
         <LoginModal
           onClose={() => setShowLoginModal(false)}
           setIsLoggedIn={setIsLoggedIn}
-          language={language}
-          t={t}
+          language={langCtx?.language || "hu"}
+          t={langCtx?.translate || translations.hu}
         />
       )}
-      {showMessagesModal && <MessagesModal onClose={() => setShowMessagesModal(false)} t={t} />}
-      {showSavedCarsModal && <SavedCarsModal onClose={() => setShowSavedCarsModal(false)} t={t} />}
+      {showMessagesModal && <MessagesModal onClose={() => setShowMessagesModal(false)} t={langCtx?.translate || translations.hu} />}
+      {showSavedCarsModal && <SavedCarsModal onClose={() => setShowSavedCarsModal(false)} t={langCtx?.translate || translations.hu} />}
     </header>
   );
 };

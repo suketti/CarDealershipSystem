@@ -1,14 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MobileMenuContext } from '../App';
 import { LanguageCtx } from '../App';
 import { translations } from '../translations';
+import LoginModal from './LoginModal';
+import { useUser } from '../UserContext';
 
 const MobileMenu = () => {
   const { isMenuOpen, toggleMenu } = useContext(MobileMenuContext);
   const langCtx = useContext(LanguageCtx);
   const navigate = useNavigate();
+  const { user, isAuthenticated, logoutUser } = useUser();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Handle language change
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -16,6 +20,15 @@ const MobileMenu = () => {
     if (langCtx) {
       langCtx.changeTranslate(translations[selectedLanguage]);
     }
+  };
+
+  const handleLogin = () => {
+    setShowLoginModal(true);
+  };
+
+  const handleLogout = () => {
+    logoutUser();
+    toggleMenu(); // Close menu after logout
   };
 
   if (!isMenuOpen) return null;
@@ -42,11 +55,27 @@ const MobileMenu = () => {
                   <FontAwesomeIcon icon="car" /> {langCtx?.translate.cars}
                 </Link>
               </li>
-              <li>
-                <Link to="/profile" className="mobile-nav-link" onClick={toggleMenu}>
-                  <FontAwesomeIcon icon="user" /> {langCtx?.translate.myProfile}
-                </Link>
-              </li>
+              
+              {isAuthenticated ? (
+                <>
+                  <li>
+                    <Link to="/profile" className="mobile-nav-link" onClick={toggleMenu}>
+                      <FontAwesomeIcon icon="user" /> {langCtx?.translate.myProfile}
+                    </Link>
+                  </li>
+                  <li>
+                    <button className="mobile-nav-link" onClick={handleLogout} style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none' }}>
+                      <FontAwesomeIcon icon="sign-out-alt" /> {langCtx?.translate.logout}
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <button className="mobile-nav-link" onClick={handleLogin} style={{ width: '100%', textAlign: 'left', border: 'none', background: 'none' }}>
+                    <FontAwesomeIcon icon="sign-in-alt" /> {langCtx?.translate.login}
+                  </button>
+                </li>
+              )}
             </ul>
           </nav>
           
@@ -65,6 +94,15 @@ const MobileMenu = () => {
           </div>
         </div>
       </div>
+      
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          setIsLoggedIn={() => toggleMenu()} // Close menu when logged in
+          language={langCtx?.language || "hu"}
+          t={langCtx?.translate || translations.hu}
+        />
+      )}
     </div>
   );
 };
