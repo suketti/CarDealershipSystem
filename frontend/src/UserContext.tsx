@@ -32,42 +32,40 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<UserDTO | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Fetch user on initial load
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const userId = getUserIdFromCookie(); // Read user ID from cookies
-                if (userId) {
-                    const userData = await getUser(userId,);
-                    setUser(userData);
-                    setIsAuthenticated(true);
-                }
-            } catch (error) {
-                console.error("Error fetching user:", error);
-                setIsAuthenticated(false);
+    const fetchUser = async () => {
+        try {
+            const userId = getUserIdFromCookie();
+            if (userId) {
+                const userData = await getUser(userId);
+                setUser(userData);
+                setIsAuthenticated(true);
             }
-        };
+        } catch (error) {
+            console.error("Error fetching user:", error);
+            setIsAuthenticated(false);
+        }
+    };
+    
+    useEffect(() => {
         fetchUser();
     }, []);
-
+    
     const loginUser = async (email: string, password: string) => {
         try {
-            const { User, AccessToken } = await login(email, password); // Extract User and AccessToken
-
+            const { User, AccessToken } = await login(email, password);
+    
             if (AccessToken) {
-                // Store the AccessToken in localStorage
                 localStorage.setItem("AccessToken", AccessToken);
             }
-
-            // Set user state
-            setUser(User);
-            setIsAuthenticated(true);
+    
+            // Fetch the latest user data
+            await fetchUser();
         } catch (error) {
             console.error("Login failed", error);
             throw new Error("Login failed");
         }
     };
-
+    
 
 
 
