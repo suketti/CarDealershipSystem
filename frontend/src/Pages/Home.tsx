@@ -296,16 +296,32 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                                 {carImage && (
                                     <img
                                         src={carImage}
-                                        alt={`${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
+                                        alt={
+                                            langCtx?.language === 'jp'
+                                                ? `${car.brand.brandJapanese} ${car.carModel.modelNameJapanese}`
+                                                : `${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`
+                                        }
                                         className="car-image"
                                     />
                                 )}
-                                <h3>{car.brand.brandEnglish} {car.carModel.modelNameEnglish}</h3>
-                                <p>{langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}</p>
-                                <p>{langCtx?.translate.type} {car.bodyType.nameEnglish}</p>
-                                <p>{langCtx?.translate.fuelType} {car.fuelType.nameEnglish}</p>
+                                <h3>
+                                    {langCtx?.language == 'jp'
+                                        ? `${car.brand.brandJapanese} ${car.carModel.modelNameJapanese}`
+                                        : `${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
+                                </h3>
+                                <p>
+                                    {langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}
+                                </p>
+                                <p>
+                                    {langCtx?.translate.type} {langCtx?.language === 'jp' ? car.bodyType.nameJapanese : car.bodyType.nameEnglish}
+                                </p>
+                                <p>
+                                    {langCtx?.translate.fuelType} {langCtx?.language === 'jp' ? car.fuelType.nameJapanese : car.fuelType.nameEnglish}
+                                </p>
                                 <p>{car.location.locationName}</p>
-                                <p>{langCtx?.translate.price} {Number(car.price).toLocaleString()} yen</p>
+                                <p>
+                                    {langCtx?.translate.price} {Number(car.price).toLocaleString()} yen
+                                </p>
                                 <button
                                     className="btn"
                                     onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}

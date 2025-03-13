@@ -18,6 +18,7 @@ public class Car
     public string VINNum { get; set; } = string.Empty!;
     public int ColorID { get; set; }
     public bool IsSmoking { get; set; } = false;
+    public int Mileage { get; set; } = 0;
     public bool IsInTransfer { get; set; } = false;
     public string? Price { get; set; }
 
@@ -30,6 +31,7 @@ public class Car
     public virtual FuelType FuelType { get; set; } = null!;
     public virtual DrivetrainType DriveTrain { get; set; } = null!;
     public virtual TransmissionType TransmissionType { get; set; } = null!;
+    
     public virtual Color Color { get; set; } = null!;
     public virtual ICollection<CarExtra> CarExtras { get; set; } = new List<CarExtra>();
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();

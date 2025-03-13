@@ -40,7 +40,7 @@ const Header = () => {
     const newLanguage = e.target.value as "hu" | "en" | "jp";
     setSelectedLanguage(newLanguage);
     if (langCtx) {
-      langCtx.changeTranslate(translations[newLanguage]);
+      langCtx.changeTranslate(translations[newLanguage], newLanguage); // ✅ Now passing both args
     }
   };
 

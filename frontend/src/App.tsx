@@ -34,10 +34,11 @@ library.add(
 export const LanguageCtx = createContext<
     {
       translate: TranslationType;
-      changeTranslate: (translate: TranslationType) => void;
+      changeTranslate: (translate: TranslationType, newLanguage: "hu" | "en" | "jp") => void;
       language: "hu" | "en" | "jp";
     } | undefined
 >(undefined);
+
 
 // Context for managing mobile menu state
 export const MobileMenuContext = createContext<{
@@ -66,9 +67,11 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const changeTranslate = (translate: TranslationType) => {
+  const changeTranslate = (translate: TranslationType, newLanguage: "hu" | "en" | "jp") => {
     setTranslate(translate);
+    setLanguage(newLanguage);  // This updates the language
   };
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);

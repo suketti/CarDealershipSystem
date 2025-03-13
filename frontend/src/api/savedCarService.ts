@@ -5,7 +5,7 @@ import {CarDTO} from "../Types"; // Assuming you've already created and exported
 
 class SavedCarService {
     // Fetch saved cars for a user
-    static async getSavedCars(userId: string): Promise<CarDTO[]> {
+    static async getSavedCarsByUser(userId: string): Promise<CarDTO[]> {
         try {
             const response = await axios.get(`/SavedCars/${userId}`);
             return response.data; // Assuming the response is a list of saved cars
