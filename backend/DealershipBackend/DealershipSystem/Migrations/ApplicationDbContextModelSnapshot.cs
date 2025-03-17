@@ -185,6 +185,9 @@ namespace DealershipSystem.Migrations
                     b.Property<DateTime?>("MOTExpiry")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("Mileage")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ModelID")
                         .HasColumnType("integer");
 

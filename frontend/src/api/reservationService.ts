@@ -25,6 +25,7 @@ const ReservationService = {
     },
 
     async createReservation(reservationData: CreateReservationDTO): Promise<ReservationDTO> {
+        console.log(reservationData);
         try {
             const response = await api.post<ReservationDTO>("/reservations", reservationData);
             return response.data;

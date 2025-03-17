@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security.Claims;
 using DealershipSystem.DTO;
 using DealershipSystem.Interfaces;
@@ -18,13 +19,13 @@ public class ReservationController : ControllerBase
         _service = service;
     }
 
-    private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    private string? GetUserId() => User.FindFirst("Id")?.Value;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ReservationDTO>>> GetAll()
     {
         var userId = GetUserId();
-        if (userId == null) return Unauthorized();
+        if (userId! == null) return Unauthorized();
         return Ok(await _service.GetAllAsync(userId));
     }
 
@@ -32,6 +33,7 @@ public class ReservationController : ControllerBase
     public async Task<ActionResult<ReservationDTO>> GetById(int id)
     {
         var userId = GetUserId();
+        Debug.WriteLine(userId);
         if (userId == null) return Unauthorized();
         
         var reservation = await _service.GetByIdAsync(id, userId);
