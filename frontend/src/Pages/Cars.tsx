@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
 import { LanguageCtx } from "../App";
 import { useContext } from "react";
+import {getBaseUrl} from "../api/axiosInstance.ts";
 import {getAllMakerTypes, getAllModelsTypes, getAllBodyTypes, getAllTransmissionTypes, getAllFuelTypes, getAllColors, getAllDrivetrainTypes} from "../api/carMetadataService.ts";
 import {BodyTypeDTO, CarMakerDTO, CarModelDTO, ColorDTO, FuelTypeDTO, TransmissionTypeDTO} from "../Types";
 
@@ -291,31 +292,45 @@ function Cars() {
           </aside>
 
           <main className={styles['cars-list']}>
-          {filteredCars && filteredCars.length > 0 ? (
+  <div className="card-container"> {/* Add a container for the cards */}
+  {filteredCars && filteredCars.length > 0 ? (
         filteredCars.map((car, index) => {
           console.log(`Car ${index}:`, car); // Debugging
+          const carImage = car.images?.length ? getBaseUrl() + car.images[0].url : null;
           return (
-            <div key={car?.id || index}>
-             <h2>{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
-      <p>{car?.carModel?.modelNameEnglish || "Unknown Model"}</p>
-      <p>{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
-      <p>{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
-      <p>{car?.location?.locationName || "Unknown Location"}</p>
-      <p>{langCtx?.translate.price}: {Number(car?.price).toLocaleString()} Ft</p>
-      <p>{langCtx?.translate.mileage}: {car?.mileage ?? "N/A"} km</p>
-      <p>{langCtx?.translate.engineSize}: {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
-      <a href={(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}
-      >
-        {langCtx?.translate.details || "Részletek"}
-      </a>
-      </div>
+            <div key={car?.id || index} className="card"> {/* Add the card class */}
+                    {carImage && (
+                                    <img
+                                        src={carImage}
+                                        alt={
+                                            langCtx?.language === 'jp'
+                                                ? `${car.brand.brandJapanese} ${car.carModel.modelNameJapanese}`
+                                                : `${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`
+                                        }
+                                        className="car-image"
+                                    />
+                                )}
+                    <div className="card-body"> {/* Add the card-body class */}
+                      <h2 className="card-title">{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
+                      <p className="card-description">{car?.carModel?.modelNameEnglish || "Unknown Model"}</p>
+                      <p className="card-description">{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
+                      <p className="card-description">{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
+                      <p className="card-description">{car?.location?.locationName || "Unknown Location"}</p>
+                      <p className="card-price">{langCtx?.translate.price}: {Number(car?.price).toLocaleString()} Ft</p>
+                      <p className="card-description">{langCtx?.translate.mileage}: {car?.mileage ?? "N/A"} km</p>
+                      <p className="card-description">{langCtx?.translate.engineSize}: {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
+                      <a href={(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}>
+                        {langCtx?.translate.details || "Részletek"}
+                      </a>
+                    </div>
+                  </div>
     );
   })
 ) : (
   <p>No cars available</p>
 )}
-
-          </main>
+  </div>
+</main>
         </div>
       </div>
 
