@@ -1,0 +1,57 @@
+﻿<Window x:Class="WpfApp1.Views.CreateNewCarModelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Új autómodell létrehozása" Height="600" Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <StackPanel Margin="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="5" Grid.Column="0">
+                        <Label Content="Gyártó:"/>
+                        <ComboBox Name="cbMakers" DisplayMemberPath="BrandEnglish" SelectedValuePath="ID" Margin="0,10"/>
+
+                        <Label Content="Modell neve (angol):"/>
+                        <TextBox Name="tbModelNameEnglish" Margin="0,10"/>
+
+                        <Label Content="Modell kódja:"/>
+                        <TextBox Name="tbModelCode" Margin="0,10"/>
+
+                        <Label Content="Gyártás kezdete:"/>
+                        <TextBox Name="tbManufacturingStartYear" Margin="0,10"/>
+
+                        <Label Content="Utasok száma:"/>
+                        <TextBox Name="tbPassengerCount" Margin="0,10"/>
+
+                        <Label Content="Szélesség:"/>
+                        <TextBox Name="tbWidth" Margin="0,10"/>
+
+                        <Label Content="Tömeg:"/>
+                        <TextBox Name="tbMass" Margin="0,10"/>
+                    </StackPanel>
+                    <StackPanel Margin="5" Grid.Column="1">
+                        <Label Content="Modell neve (japán):"/>
+                        <TextBox Name="tbModelNameJapanese" Margin="0,10"/>
+
+                        <Label Content="Gyártás vége:"/>
+                        <TextBox Name="tbManufacturingEndYear" Margin="0,10"/>
+
+                        <Label Content="Hosszúság:"/>
+                        <TextBox Name="tbLength" Margin="0,10"/>
+
+                        <Label Content="Magasság:"/>
+                        <TextBox Name="tbHeight" Margin="0,10"/>
+
+                        <Label Content="Motorok"/>
+                        <ComboBox Name="cbEngines" Margin="0,10" DisplayMemberPath="EngineSize"/>
+                        <Button Content="Új motor hozzáadása" Click="btnAddEngine_Click" Margin="0,10"/>
+                    </StackPanel>
+                </Grid>
+                <Button Content="Mentés" HorizontalAlignment="Left" Click="btnSave_Click"/>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

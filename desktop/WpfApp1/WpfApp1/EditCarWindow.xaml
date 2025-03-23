@@ -1,0 +1,61 @@
+﻿<Window x:Class="WpfApp1.EditCarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit Car" Height="600" Width="800">
+    <Grid Margin="10">
+        <StackPanel>
+            <Label Content="Brand" />
+            <TextBox Name="BrandTextBox" Margin="5"/>
+
+            <Label Content="Model" />
+            <TextBox Name="ModelTextBox" Margin="5"/>
+
+            <Label Content="Grade" />
+            <TextBox Name="GradeTextBox" Margin="5"/>
+
+            <Label Content="Body Type" />
+            <ComboBox Name="BodyTypeComboBox" Margin="5"/>
+
+            <Label Content="Location" />
+            <ComboBox Name="LocationComboBox" Margin="5"/>
+
+            <Label Content="Engine Size" />
+            <TextBox Name="EngineSizeTextBox" Margin="5"/>
+
+            <Label Content="Fuel Type" />
+            <ComboBox Name="FuelTypeComboBox" Margin="5"/>
+
+            <Label Content="Drive Train" />
+            <ComboBox Name="DriveTrainComboBox" Margin="5"/>
+
+            <Label Content="Transmission Type" />
+            <ComboBox Name="TransmissionTypeComboBox" Margin="5"/>
+
+            <Label Content="Color" />
+            <ComboBox Name="ColorComboBox" Margin="5"/>
+
+            <Label Content="Price" />
+            <TextBox Name="PriceTextBox" Margin="5"/>
+
+            <Label Content="License Plate Number" />
+            <TextBox Name="LicensePlateNumberTextBox" Margin="5"/>
+
+            <Label Content="MOT Expiry" />
+            <TextBox Name="MOTExpiryTextBox" Margin="5"/>
+
+            <Label Content="VIN Number" />
+            <TextBox Name="VINNumTextBox" Margin="5"/>
+
+            <Label Content="Repair History" />
+            <CheckBox Name="RepairHistoryCheckBox" Margin="5"/>
+
+            <Label Content="Is In Transfer" />
+            <CheckBox Name="IsInTransferCheckBox" Margin="5"/>
+
+            <Label Content="Is Smoking" />
+            <CheckBox Name="IsSmokingCheckBox" Margin="5"/>
+
+            <Button Content="Save Changes" Click="EditCar_Click" Width="100" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

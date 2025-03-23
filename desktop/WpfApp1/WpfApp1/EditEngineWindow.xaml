@@ -1,0 +1,16 @@
+﻿<Window x:Class="WpfApp1.Views.EditEngineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Motor szerkesztése" Height="300" Width="400">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="10">
+            <Label Content="Motor mérete:"/>
+            <TextBox Name="tbEngineSize" Margin="0,10"/>
+
+            <Label Content="Üzemanyag típusa:"/>
+            <ComboBox Name="cbFuelTypes" DisplayMemberPath="NameEnglish" SelectedValuePath="ID" Margin="0,10"/>
+
+            <Button Content="Mentés" Click="btnSaveEngine_Click" Margin="0,10"/>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
