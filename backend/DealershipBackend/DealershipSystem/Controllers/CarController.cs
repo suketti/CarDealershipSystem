@@ -7,11 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace DealershipSystem.Controllers;
 
 [ApiController]
-[Route("api/cars/")]
+[Route("api/cars")]
 public class CarController : ControllerBase
 {
     private readonly CarService _carService;
-
 
     public CarController(CarService carService)
     {
@@ -50,5 +49,31 @@ public class CarController : ControllerBase
         {
             return BadRequest(new { message = ex.Message });
         }
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> EditCar(int id, [FromBody] CreateCarDTO carDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var updatedCar = await _carService.EditCarAsync(id, carDto);
+            return updatedCar != null ? Ok(updatedCar) : NotFound();
+        }
+        catch (ValidationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCar(int id)
+    {
+        var result = await _carService.DeleteCarAsync(id);
+        return result ? NoContent() : NotFound();
     }
 }

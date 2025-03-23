@@ -18,12 +18,11 @@ public class LocationService
         _context = context;
     }
 
-    public async Task<List<LocationDto>> GetAllLocationsAsync()
+    public async Task<List<Location>> GetAllLocationsAsync()
     {
         var locations = await _context.Locations.ToListAsync();
-        var locationDtos = _mapper.Map<List<LocationDto>>(locations);
 
-        return locationDtos;
+        return locations;
     }
 
     public async Task<LocationDto> GetLocationByIdAsync(int id)
@@ -59,18 +58,33 @@ public class LocationService
     
     public async Task<Location> UpdateLocationAsync(LocationDto locationDto)
     {
-        var existingLocation = await _context.Locations.FindAsync(locationDto.Id);
+        var existingLocation = await _context.Locations
+            .Include(l => l.Address)
+            .ThenInclude(a => a.Prefecture)
+            .FirstOrDefaultAsync(l => l.ID == locationDto.Id);
+
         if (existingLocation == null)
         {
             return null; // Location not found
         }
+
+        // Check if the new prefecture already exists
+        var existingPrefecture = await _context.Prefectures
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.NameJP == locationDto.Address.Prefecture.NameJP);
+
+        if (existingPrefecture == null)
+        {
+            return null; // Prefecture not found, handle this case as needed
+        }
+
+        // Update the location details
         existingLocation.LocationName = locationDto.LocationName;
         existingLocation.Address.City = locationDto.Address.City;
         existingLocation.Address.CityRomanized = locationDto.Address.CityRomanized;
         existingLocation.Address.Street = locationDto.Address.Street;
         existingLocation.Address.StreetRomanized = locationDto.Address.StreetRomanized;
-        existingLocation.Address.Prefecture.Name = locationDto.Address.Prefecture.Name;
-        existingLocation.Address.Prefecture.NameJP = locationDto.Address.Prefecture.NameJP;
+        existingLocation.Address.PrefectureId = existingPrefecture.Id;
         existingLocation.PhoneNumber = locationDto.PhoneNumber;
         existingLocation.MaxCapacity = locationDto.MaxCapacity;
 
@@ -87,6 +101,12 @@ public class LocationService
         }
     }
 
+    public async Task<List<PrefectureDTO>> GetAllPrefectures()
+    {
+        var prefectures = await _context.Prefectures.ToListAsync();
+        return _mapper.Map<List<PrefectureDTO>>(prefectures);
+    }
+    
     public async Task<bool> DeleteLocationAsync(int locationId)
     {
         var location = await _context.Locations.FindAsync(locationId);

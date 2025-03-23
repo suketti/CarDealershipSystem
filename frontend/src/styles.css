@@ -247,7 +247,7 @@ a:hover {
   transition: var(--transition);
   cursor: pointer;
   min-width: 120px; /* Ensure consistent width for all languages */
-  justify-content: center; 
+  justify-content: center;
   white-space: nowrap;
 }
 
@@ -314,7 +314,7 @@ a:hover {
   border-top: 1px solid var(--gray-200);
 }
 
-.dropdown-menu a, 
+.dropdown-menu a,
 .dropdown-menu button {
   display: flex;
   align-items: center;
@@ -332,13 +332,13 @@ a:hover {
   min-height: 3rem;
 }
 
-.dropdown-menu a svg, 
+.dropdown-menu a svg,
 .dropdown-menu button svg {
   color: var(--primary);
   min-width: 1em;
 }
 
-.dropdown-menu a:hover, 
+.dropdown-menu a:hover,
 .dropdown-menu button:hover {
   background-color: var(--gray-100);
   color: var(--primary);
@@ -1179,26 +1179,26 @@ footer {
     gap: 1rem;
     padding: 1.5rem;
   }
-  
+
   .form-group {
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .filter form label {
     margin-bottom: 0.5rem;
     width: 100%;
   }
-  
+
   .filter form input,
   .filter form select {
     width: 100%;
   }
-  
+
   .filter-buttons {
     flex-direction: column;
   }
-  
+
   .filter-buttons .btn {
     width: 100%;
     min-width: unset;
@@ -1209,12 +1209,12 @@ footer {
     gap: 1rem;
     padding: 1rem;
   }
-  
+
   .input-pair {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .input-pair input {
     width: 100%;
   }
@@ -1223,7 +1223,7 @@ footer {
   .filter form {
     align-items: center;
   }
-  
+
   .form-group {
     margin-bottom: 0; /* Kiegyenlítjük a grid gap miatt */
   }
@@ -1507,16 +1507,16 @@ footer {
   .car-details-container {
     grid-template-columns: 1fr;
   }
-  
+
   .car-info-sidebar {
     position: static;
     margin-top: 2rem;
   }
-  
+
   .inventory-container {
     display: block;
   }
-  
+
   .filter-sidebar {
     width: 100%;
     margin-bottom: 2rem;
@@ -1528,58 +1528,58 @@ footer {
   .header-container {
     padding: 0 1rem;
   }
-  
+
   .desktop-nav {
     display: none;
   }
-  
+
   .hamburger-menu {
     display: block;
   }
-  
+
   h1 { font-size: 2rem; }
   h2 { font-size: 1.75rem; }
   h3 { font-size: 1.5rem; }
-  
+
   .hero {
     padding: 3rem 0 2rem;
   }
-  
+
   .hero h2 {
     font-size: 2.25rem;
   }
-  
+
   .hero p {
     font-size: 1.125rem;
   }
-  
+
   .hero-buttons {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .hero-buttons .btn {
     width: 100%;
     max-width: 300px;
   }
-  
+
   .cars-list {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
-  
+
   .filter-form {
     grid-template-columns: 1fr;
   }
-  
+
   .footer-container {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
   }
-  
+
   .main-image {
     height: 300px;
   }
-  
+
   .thumbnails {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -1590,48 +1590,48 @@ footer {
     width: 95%;
     padding: 0 0.5rem;
   }
-  
+
   .logo a {
     font-size: 1.25rem;
   }
-  
+
   .car-title {
     font-size: 1.5rem;
   }
-  
+
   .car-price {
     font-size: 1.75rem;
   }
-  
+
   .cars-list {
     grid-template-columns: 1fr;
   }
-  
+
   .main-image {
     height: 250px;
   }
-  
+
   .thumbnails {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .car-spec-label {
     font-size: 0.75rem;
   }
-  
+
   .car-spec-value {
     font-size: 0.875rem;
   }
-  
+
   .tab-button {
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
   }
-  
+
   .hero h2 {
     font-size: 1.75rem;
   }
-  
+
   .hero p {
     font-size: 1rem;
   }
@@ -2005,18 +2005,18 @@ input:focus, select:focus {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .saved-car-image {
     width: 100%;
     height: 140px;
   }
-  
+
   .saved-car-actions {
     flex-direction: row;
     width: 100%;
     margin-top: 0.75rem;
   }
-  
+
   .saved-car-actions .btn {
     flex: 1;
   }
@@ -2552,33 +2552,33 @@ input:focus, select:focus {
   .car-details-container {
     grid-template-columns: 1fr;
   }
-  
+
   .main-image-container {
     height: 300px;
   }
-  
+
   .car-specs {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .appointment-prompt {
     flex-direction: column;
   }
-  
-  .btn-select-date, 
+
+  .btn-select-date,
   .btn-book {
     width: 100%;
   }
-  
+
   .time-picker {
     flex-direction: column;
     gap: 0.5rem;
   }
-  
+
   .lightbox-nav.prev {
     left: 10px;
   }
-  
+
   .lightbox-nav.next {
     right: 10px;
   }
@@ -3048,12 +3048,12 @@ input:focus, select:focus {
     flex-direction: row;
     gap: 30px;
   }
-  
+
   .image-gallery {
     flex: 1;
     max-width: 600px;
   }
-  
+
   .details {
     flex: 1;
   }
@@ -3236,16 +3236,16 @@ input:focus, select:focus {
   .btn-save {
     display: none !important;
   }
-  
+
   .car-details {
     display: block;
   }
-  
+
   .main-image-container {
     height: 300px;
     box-shadow: none;
   }
-  
+
   #car-title {
     padding-right: 0;
   }

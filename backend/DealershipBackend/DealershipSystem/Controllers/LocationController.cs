@@ -15,8 +15,7 @@ public class LocationController : ControllerBase
     {
         _locationService = locationService;
     }
-
-    [HttpGet(Name = "GetLocations")]
+    [HttpGet]
     public async Task<IActionResult> Get()
     {
         var locations = await _locationService.GetAllLocationsAsync();
@@ -27,6 +26,14 @@ public class LocationController : ControllerBase
 
         return Ok(locations);
     }
+    
+    [HttpGet("prefectures")]
+    public async Task<IActionResult> GetPrefectures()
+    {
+        var prefectures = await _locationService.GetAllPrefectures();
+        return Ok(prefectures);
+    }
+
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)

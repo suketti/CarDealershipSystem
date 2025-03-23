@@ -1,30 +1,42 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace WpfApp1.Services
 {
-    public class HttpClientService
+    public static class HttpClientService
     {
+        private static readonly CookieContainer cookieContainer;
         private static readonly HttpClientHandler handler;
         private static readonly HttpClient client;
 
         static HttpClientService()
         {
+            cookieContainer = new CookieContainer();
+
             handler = new HttpClientHandler
             {
-                ServerCertificateCustomValidationCallback = (req, cert, chain, errors) => true
+                CookieContainer = cookieContainer,
+                ServerCertificateCustomValidationCallback = (request, certificate, chain, sslPolicyErrors) => true
             };
-            client = new HttpClient(handler)
+
+            var authenticatedHandler = new AuthenticatedHttpClientHandler(handler);
+            client = new HttpClient(authenticatedHandler)
             {
-                BaseAddress = new Uri("https://172.20.10.2:7268")
+                BaseAddress = new Uri("https://192.168.1.100:7268")
             };
+
         }
 
         public static HttpClient Client => client;
+
+        public static void AddCookie(string name, string value, string domain)
+        {
+            var uri = new Uri(domain);
+            var host = uri.Host;
+            cookieContainer.Add(new Cookie(name, value, "/", host));
+        }
+
+        public static CookieContainer CookieContainer => cookieContainer;
     }
 }

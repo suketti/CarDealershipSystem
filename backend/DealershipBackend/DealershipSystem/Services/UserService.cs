@@ -118,6 +118,8 @@ public class UserService : IUserService
 
         return false;
     }
+    
+    
 
     public async Task<UserDTO[]> GetAllUsersAsync()
     {
@@ -126,5 +128,15 @@ public class UserService : IUserService
         return userDtos;
     }
     
-    
+    public async Task<IdentityResult> ChangePasswordAsync(Guid userId, string newPassword)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return IdentityResult.Failed(new IdentityError { Description = "User not found." });
+        }
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        return await _userManager.ResetPasswordAsync(user, token, newPassword);
+    }
 }

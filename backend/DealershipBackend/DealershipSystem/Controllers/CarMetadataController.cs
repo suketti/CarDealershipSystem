@@ -30,7 +30,7 @@ public class CarMetadataController : ControllerBase
         return bodyType != null ? Ok(bodyType) : NotFound();
     }
     
-    [HttpGet("tranmissionTypes")]
+    [HttpGet("transmissionTypes")]
     public async Task<IActionResult> GetAllTransmissionTypesAsync()
     {
         var transmissionTypes = await _carMetadataService.GetTransmissionTypesAsync();

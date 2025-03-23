@@ -17,4 +17,5 @@ public interface IUserService
     Task<(string AccessToken, string RefreshToken)> GenerateTokensAsync(User user);
     Task<(bool IsValid, string AccessToken)> RefreshAccessTokenAsync(string refreshToken);
 
+    Task<IdentityResult> ChangePasswordAsync(Guid userId, string newPassword);
 }

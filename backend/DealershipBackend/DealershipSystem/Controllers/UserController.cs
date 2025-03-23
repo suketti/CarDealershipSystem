@@ -154,6 +154,25 @@ public class UserController : ControllerBase
         return Ok(new { Message = "User updated successfully." });
     }
 
+    [HttpPost("change-password")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePassswordDTO changePasswordDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _userService.ChangePasswordAsync(changePasswordDto.UserId, changePasswordDto.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
+        }
+
+        return Ok(new { Message = "Password changed successfully." });
+    }
+    
     [HttpDelete("delete")]
     [Authorize]
     public async Task<IActionResult> DeleteUserAsync([FromBody] UserDTO userDto)
