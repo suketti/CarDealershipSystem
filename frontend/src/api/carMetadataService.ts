@@ -14,7 +14,7 @@ export const getBodyTypeById = async (id: number) => {
 
 // Get all transmission types
 export const getAllTransmissionTypes = async () => {
-    const response = await api.get("/cars/metadata/tranmissionTypes");
+    const response = await api.get("/cars/metadata/transmissionTypes");
     return response.data;
 };
 
