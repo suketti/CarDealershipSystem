@@ -144,6 +144,7 @@ namespace WpfApp1.Models
         public DrivetrainTypeDTO DriveTrain { get; set; }
         public DateTime? MOTExpiry { get; set; }
         public TransmissionTypeDTO TransmissionType { get; set; }
+        public int Mileage { get; set; }
         public string VINNum { get; set; } = string.Empty;
         public ColorDTO Color { get; set; }
         public bool IsSmoking { get; set; }
@@ -171,19 +172,20 @@ namespace WpfApp1.Models
     public class BodyTypeDTO
     {
         public int ID { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string NameEnglish { get; set; }
+        public string NameJapanese { get; set; }
     }
 
     public class DrivetrainTypeDTO
     {
         public int ID { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Type { get; set; }
     }
 
     public class TransmissionTypeDTO
     {
         public int ID { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
     }
 
     public class ExtraDTO
@@ -217,6 +219,7 @@ namespace WpfApp1.Models
         public int DriveTrain { get; set; } // Refers to DrivetrainTypes.ID
         public DateTime? MOTExpiry { get; set; } // Optional
         public int TransmissionType { get; set; } // Refers to TransmissionTypes.ID
+        public int Mileage { get; set; }
         public string VINNum { get; set; } = string.Empty; // Vehicle Identification Number
         public int Color { get; set; } // Refers to Colors.ID
         public string Price { get; set; } // Price of the car
