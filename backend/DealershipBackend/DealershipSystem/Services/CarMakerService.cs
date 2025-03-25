@@ -49,7 +49,7 @@ public class CarMakerService : ICarMakerService
 
     public async Task<CarMakerDTO?> GetMakerByIdAsync(int id)
     {
-        var maker = _context.CarMakers.FirstOrDefaultAsync(x => x.ID == id);
+        var maker = await _context.CarMakers.FirstOrDefaultAsync(x => x.ID == id);
         if (maker == null)
         {
             return null;
@@ -91,4 +91,6 @@ public class CarMakerService : ICarMakerService
             return false;
         }
     }
+    
+    
 }

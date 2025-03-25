@@ -93,4 +93,11 @@ public class CarModelController : ControllerBase
         }
         return NoContent();
     }
+    
+     [HttpGet("maker/{makerId}")]
+        public async Task<IActionResult> GetByMakerId(int makerId)
+        {
+            var cars = await _carModelService.GetCarsByMakerIdAsync(makerId);
+            return cars != null && cars.Any() ? Ok(cars) : NotFound();
+        }
 }

@@ -147,4 +147,13 @@ public class CarModelService : ICarModelService
         await _context.SaveChangesAsync();
         return true;
     }
+    
+    public async Task<List<CarModelDTO>> GetCarsByMakerIdAsync(int makerId)
+    {
+        var cars = await _context.CarModels
+            .Where(c => c.MakerID == makerId)
+            .ToListAsync();
+
+        return _mapper.Map<List<CarModelDTO>>(cars);
+    }
 }

@@ -17,6 +17,7 @@ namespace DealershipSystem.DTO
         public string VINNum { get; set; } = string.Empty; // Vehicle Identification Number
         public int Color { get; set; } // Refers to Colors.ID
         public string? Price { get; set; } // Price of the car
+        public int? Mileage { get; set; } //Optional price
         public bool IsSmoking { get; set; } = false; // Defaults to false
         public List<int> Extras { get; set; } // List of Extra.ID values (Optional)
         public bool IsInTransfer { get; set; } = false; // Defaults to false

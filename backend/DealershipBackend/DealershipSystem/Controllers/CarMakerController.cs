@@ -26,7 +26,7 @@ public class CarMakerController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetMakerById(int id)
     {
-        var maker = _carMakerService.GetMakerByIdAsync(id);
+        var maker = await _carMakerService.GetMakerByIdAsync(id);
         if (maker == null)
         {
             return BadRequest();
