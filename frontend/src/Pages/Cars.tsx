@@ -3,9 +3,6 @@ import { useLocation } from "react-router-dom";
 import { CarDTO, DrivetrainTypeDTO } from "../Types";
 import { getCars } from "../api/carService.ts";
 import styles from './Cars.module.css'; // Import the CSS module
-import CarDetails from "./CarDetails.tsx";
-import { useNavigate } from "react-router-dom";
-import { translations } from "../translations";
 import { LanguageCtx } from "../App";
 import { useContext } from "react";
 import {getBaseUrl} from "../api/axiosInstance.ts";
@@ -101,18 +98,18 @@ function Cars() {
   }, [location.search]);
 
   useEffect(() => {
-    if (selectedBrand) {
-      const filtered = ModelTypeOptions.filter(model => model.maker.id === parseInt(selectedBrand));
+    if (brand) {
+      const filtered = ModelTypeOptions.filter(model => {
+        return langCtx?.language === "jp"
+            ? model.maker.brandJapanese === brand
+            : model.maker.brandEnglish === brand;
+      });
       setFilteredModels(filtered);
     } else {
       setFilteredModels([]);
     }
-  }, [selectedBrand, ModelTypeOptions]);
+  }, [brand, ModelTypeOptions, langCtx?.language]);
 
-  const handleMapPointClick = (location: string) => {
-    setSelectedLocations([location]);
-    setShowLocationModal(false);
-  };
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -135,10 +132,8 @@ function Cars() {
     });
   
     const filtered = cars.filter((car) => {
-      console.log("Checking car:", car);
-  
       return (
-        (!brand || car.brand.id.toString() === brand) &&
+          (!brand || car.brand.brandEnglish.toString() === brand || car.brand.brandJapanese.toString() === brand)  &&
         (!model || car.carModel.id.toString() === model) &&
         (!bodyType || car.bodyType.id.toString() === bodyType) &&
         (!fuelType || car.fuelType.id.toString() === fuelType) &&
@@ -195,22 +190,26 @@ function Cars() {
             <h2>{langCtx?.translate.searchTitle}</h2>
             <form onSubmit={handleSearch}>
               <label htmlFor="brand">{langCtx?.translate.brand}</label>
-              <select id="brand-type" value={brand} onChange={(e) => setBrand(e.target.value)}>
+              <select id="brand-type" value={brand} onChange={(e) => {
+                setBrand(e.target.value);
+                setModel('');
+                setBodyType('');// Reset model when brand changes
+              }}>
                 <option value="">{langCtx?.translate.chooseBrand}</option>
                 {MakerTypeOptions.map(option => (
-                  <option key={option.id} value={option.id.toString()}>
-                    {langCtx?.language === "jp" ? option.brandJapanese : option.brandEnglish}
-                  </option>
+                    <option key={option.id} value={langCtx?.language === "jp" ? option.brandJapanese : option.brandEnglish}>
+                      {langCtx?.language === "jp" ? option.brandJapanese : option.brandEnglish}
+                    </option>
                 ))}
               </select>
 
               <label htmlFor="model">{langCtx?.translate.model}</label>
               <select id="model-type" value={model} onChange={(e) => setModel(e.target.value)} disabled={!brand}>
-                <option value="">{ModelTypeOptions.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
-                {ModelTypeOptions.map(option => (
-                  <option key={option.id} value={option.id.toString()}>
-                    {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
-                  </option>
+                <option value="">{filteredModels.length === 0 ? langCtx?.translate.noModel : langCtx?.translate.chooseModel}</option>
+                {filteredModels.map(option => (
+                    <option key={option.id} value={option.id.toString()}>
+                      {langCtx?.language === "jp" ? option.modelNameJapanese : option.modelNameEnglish}
+                    </option>
                 ))}
               </select>
 
@@ -310,18 +309,36 @@ function Cars() {
                                         className="car-image"
                                     />
                                 )}
-                    <div className="card-body"> {/* Add the card-body class */}
-                      <h2 className="card-title">{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
-                      <p className="card-description">{car?.carModel?.modelNameEnglish  + ` (` + (car?.carModel?.modelCode) + `)`|| "Unknown Model"}</p>
-                      <p className="card-description">{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
-                      <p className="card-description">{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
-                      <p className="card-description">{car?.location?.locationName || "Unknown Location"}</p>
-                      <p className="card-price">{langCtx?.translate.price} {Number(car?.price).toLocaleString()} yen</p>
-                      <p className="card-description">{langCtx?.translate.mileage} {car?.mileage ?? "N/A"} km</p>
-                      <p className="card-description">{langCtx?.translate.engineSize} {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
-                      <a href={`/Car-Details?carId=${encodeURIComponent(car?.id)}`}>
-                        {langCtx?.translate.details || "Részletek"}
-                      </a>
+              <div className="card-body"> {/* Add the card-body class */}
+                <h2 className="card-title">
+                  {langCtx?.language === "jp" ? car?.brand?.brandJapanese : car?.brand?.brandEnglish || "Unknown Brand"}
+                </h2>
+                <p className="card-description">
+                  {langCtx?.language === "jp"
+                      ? car?.carModel?.modelNameJapanese + ` (` + (car?.carModel?.modelCode) + `)`
+                      : car?.carModel?.modelNameEnglish + ` (` + (car?.carModel?.modelCode) + `)` || "Unknown Model"}
+                </p>
+                <p className="card-description">
+                  {langCtx?.language === "jp" ? car?.bodyType?.nameJapanese : car?.bodyType?.nameEnglish || "Unknown Body Type"}
+                </p>
+                <p className="card-description">
+                  {langCtx?.language === "jp" ? car?.fuelType?.nameJapanese : car?.fuelType?.nameEnglish || "Unknown Fuel Type"}
+                </p>
+                <p className="card-description">
+                  {car?.location?.locationName || "Unknown Location"}
+                </p>
+                <p className="card-price">
+                  {langCtx?.translate.price} {Number(car?.price).toLocaleString()} yen
+                </p>
+                <p className="card-description">
+                  {langCtx?.translate.mileage} {car?.mileage ?? "N/A"} km
+                </p>
+                <p className="card-description">
+                  {langCtx?.translate.engineSize} {car?.engineSize?.engineSize ?? "N/A"} cm³
+                </p>
+                <a href={`/Car-Details?carId=${encodeURIComponent(car?.id)}`}>
+                  {langCtx?.translate.details || "Részletek"}
+                </a>
                     </div>
                   </div>
     );

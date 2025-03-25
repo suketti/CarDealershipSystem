@@ -230,49 +230,70 @@ function CarDetails() {
   }
 
   return (
-    <section className="car-details">
-      {/* Image Gallery Section */}
-      <div className="image-gallery">
-        <div className="main-image-container">
-          {images.length > 0 && (
-            <img
-              id="main-car-image"
-              src={images[imageIndex]}
-              alt="Autó képe"
-              className="main-image"
-              onClick={() => openLightbox(imageIndex)}
-            />
-          )}
-          
-          {images.length > 1 && (
-            <>
-              <button className="gallery-nav prev-button" onClick={prevImage}>
-                &#8249;
-              </button>
-              <button className="gallery-nav next-button" onClick={nextImage}>
-                &#8250;
-              </button>
-            </>
-          )}
+      <section className="car-details">
+        {/* Image Gallery Section */}
+        <div className="image-gallery">
+          <div className="main-image-container">
+            {images.length > 0 && (
+                <img
+                    id="main-car-image"
+                    src={images[imageIndex]}
+                    alt="Autó képe"
+                    className="main-image"
+                    onClick={() => openLightbox(imageIndex)}
+                />
+            )}
+
+            {images.length > 1 && (
+                <>
+                  <button className="gallery-nav prev-button" onClick={prevImage}>
+                    &#8249;
+                  </button>
+                  <button className="gallery-nav next-button" onClick={nextImage}>
+                    &#8250;
+                  </button>
+                </>
+            )}
+          </div>
+
+          {/* Thumbnails */}
+          <div className="thumbnails-row">
+            {images.length > 0 &&
+                images.map((img, index) => {
+                  const isActive = index === imageIndex;
+
+                  // Calculate the range of thumbnails to display (e.g., 5 or 6 thumbnails)
+                  const numThumbnails = 7; // This can be adjusted to display more thumbnails
+                  const start = (imageIndex - Math.floor(numThumbnails / 2) + images.length) % images.length;
+                  const end = (start + numThumbnails) % images.length;
+
+                  let isVisible = false;
+                  if (start < end) {
+                    // Case when start is before end
+                    isVisible = index >= start && index < end;
+                  } else {
+                    // Case when start wraps around the end of the array
+                    isVisible = index >= start || index < end;
+                  }
+
+                  return (
+                      <div
+                          key={index}
+                          className={`thumbnail-wrapper ${isActive ? "active" : ""}`}
+                          onClick={() => setImageIndex(index)}
+                          style={{ display: isVisible ? 'inline-block' : 'none' }}
+                      >
+                        <img
+                            src={img}
+                            alt={`Kép ${index + 1}`}
+                            className="thumbnail-image"
+                        />
+                      </div>
+                  );
+                })
+            }
+          </div>
         </div>
-        
-        {/* Thumbnails */}
-        <div className="thumbnails-row">
-          {images.map((img, index) => (
-            <div 
-              key={index} 
-              className={`thumbnail-wrapper ${index === imageIndex ? "active" : ""}`}
-              onClick={() => setImageIndex(index)}
-            >
-              <img
-                src={img}
-                alt={`Kép ${index + 1}`}
-                className="thumbnail-image"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
       
       {/* Lightbox */}
       {lightboxImage && (
