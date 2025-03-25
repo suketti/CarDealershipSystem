@@ -312,14 +312,14 @@ function Cars() {
                                 )}
                     <div className="card-body"> {/* Add the card-body class */}
                       <h2 className="card-title">{car?.brand?.brandEnglish || "Unknown Brand"}</h2>
-                      <p className="card-description">{car?.carModel?.modelNameEnglish || "Unknown Model"}</p>
+                      <p className="card-description">{car?.carModel?.modelNameEnglish  + ` (` + (car?.carModel?.modelCode) + `)`|| "Unknown Model"}</p>
                       <p className="card-description">{car?.bodyType?.nameEnglish || "Unknown Body Type"}</p>
                       <p className="card-description">{car?.fuelType?.nameEnglish || "Unknown Fuel Type"}</p>
                       <p className="card-description">{car?.location?.locationName || "Unknown Location"}</p>
-                      <p className="card-price">{langCtx?.translate.price}: {Number(car?.price).toLocaleString()} Ft</p>
-                      <p className="card-description">{langCtx?.translate.mileage}: {car?.mileage ?? "N/A"} km</p>
-                      <p className="card-description">{langCtx?.translate.engineSize}: {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
-                      <a href={(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}>
+                      <p className="card-price">{langCtx?.translate.price} {Number(car?.price).toLocaleString()} yen</p>
+                      <p className="card-description">{langCtx?.translate.mileage} {car?.mileage ?? "N/A"} km</p>
+                      <p className="card-description">{langCtx?.translate.engineSize} {car?.engineSize?.engineSize ?? "N/A"} cm³</p>
+                      <a href={`/Car-Details?carId=${encodeURIComponent(car?.id)}`}>
                         {langCtx?.translate.details || "Részletek"}
                       </a>
                     </div>
@@ -329,34 +329,10 @@ function Cars() {
 ) : (
   <p>No cars available</p>
 )}
-  </div>
-</main>
+          </div>
+        </main>
         </div>
       </div>
-
-      {showLocationModal && (
-        <div id="location-overlay" className={styles['location-overlay']}>
-          <div id="location-modal" className={styles['location-modal']}>
-            <h2>{langCtx?.translate.selectLocation}</h2>
-            <div className={styles['map-container']}>
-              <img src="/Képek/magyarorszag-terkep.jpg" alt="Magyarország térképe" className={styles['map-image']} />
-              <button className={styles['map-point']} style={{ top: "40%", left: "45%" }} onClick={() => handleMapPointClick("Budapest")}>
-                Budapest
-              </button>
-              <button className={styles['map-point']} style={{ top: "37%", left: "80%" }} onClick={() => handleMapPointClick("Debrecen")}>
-                Debrecen
-              </button>
-              <button className={styles['map-point']} style={{ top: "20%", left: "70%" }} onClick={() => handleMapPointClick("Miskolc")}>
-                Miskolc
-              </button>
-              <button className={styles['map-point']} style={{ top: "36%", left: "10%" }} onClick={() => handleMapPointClick("Sopron")}>
-                Sopron
-              </button>
-            </div>
-            <button className={styles.btn} onClick={() => setShowLocationModal(false)}>{langCtx?.translate.complete}</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

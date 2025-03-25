@@ -20,6 +20,7 @@ import {
   faCalendarPlus, faCheckCircle, faExclamationCircle, faSpinner,
   faCogs, faArrowLeft, faImage
 } from '@fortawesome/free-solid-svg-icons';
+import LocationsPage from "./Pages/LocationPage.tsx";
 
 // Add icons to library
 library.add(
@@ -91,6 +92,7 @@ function App() {
                   <Route path="/cars" element={<Cars />} />
                   <Route path="/Car-Details" element={<CarDetails />} />
                   <Route path="/profile" element={<Profile/>} />
+                  <Route path="/locations" element={<LocationsPage/>} />
                 </Routes>
               </main>
               <Footer language={language} />

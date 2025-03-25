@@ -11,3 +11,13 @@ export const getCars = async (): Promise<CarDTO[]> => {
         return [];
     }
 };
+
+export const getCarById = async (id: string): Promise<CarDTO | null> => {
+    try {
+        const response = await api.get<CarDTO>(`/cars/${id}`); // Fetch from /api/cars/{id}
+        return response.data;
+    } catch (error) {
+        console.error(`Error fetching car with ID ${id}:`, error);
+        return null;
+    }
+};

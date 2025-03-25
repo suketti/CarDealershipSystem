@@ -313,6 +313,9 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                                     {langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}
                                 </p>
                                 <p>
+                                    {langCtx?.translate.modelCode} {car.carModel.modelCode}
+                                </p>
+                                <p>
                                     {langCtx?.translate.type} {langCtx?.language === 'jp' ? car.bodyType.nameJapanese : car.bodyType.nameEnglish}
                                 </p>
                                 <p>
@@ -324,7 +327,7 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                                 </p>
                                 <button
                                     className="btn"
-                                    onClick={() => navigate(`/Car-Details?car=${encodeURIComponent(JSON.stringify(car))}`)}
+                                    onClick={() => navigate(`/Car-Details?carId=${encodeURIComponent(car?.id)}`)}
                                 >
                                     {langCtx?.translate.viewDetails}
                                 </button>

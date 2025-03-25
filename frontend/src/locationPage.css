@@ -1,0 +1,39 @@
+.locations-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.locations-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.locations-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.location-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    transition: background-color 0.3s;
+}
+
+.location-item:hover {
+    background-color: #f1f1f1;
+}
+
+.location-name {
+    font-size: 1.5em;
+    margin: 0 0 10px 0;
+}
+
+.location-address,
+.location-phone,
+.location-capacity {
+    margin: 5px 0;
+}

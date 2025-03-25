@@ -18,6 +18,7 @@ export type CarDTO = {
     color: ColorDTO;
     isSmoking: boolean;
     extras: CarExtraDTO[];
+    mileage?: number;
     isInTransfer: boolean;
     price?: string | null;
     images: ImageDTO[];

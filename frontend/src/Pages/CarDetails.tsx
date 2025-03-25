@@ -6,6 +6,7 @@ import { useUser } from "../UserContext.tsx";
 import SavedCarService from "../api/savedCarService.ts";
 import ReservationService from "../api/reservationService.ts";
 import {getBaseUrl} from "../api/axiosInstance.ts";
+import {getCarById} from "../api/carService.ts";
 
 // Define the reservation data interface to match your API
 interface ReservationData {
@@ -33,15 +34,16 @@ function CarDetails() {
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const carString = query.get("car");
+    const carId = query.get("carId");
 
-    if (carString) {
-      try {
-        const parsedCar: CarDTO = JSON.parse(decodeURIComponent(carString));
-        setCarData(parsedCar);
-      } catch (error) {
-        console.error("Hibás autó paraméter:", error);
-      }
+    if (carId) {
+      getCarById(carId).then((fetchedCar) => {
+        if (fetchedCar) {
+          setCarData(fetchedCar);
+        }
+      }).catch(error => {
+        console.error("Error fetching car details:", error);
+      });
     }
   }, [location.search]);
 
@@ -66,23 +68,23 @@ function CarDetails() {
 
     // Ensure the user is authenticated
     if (!isAuthenticated) {
-      alert("Jelentkezz be az autó mentéséhez!");
+      alert(langCtx?.translate.saveCarErrorNoAuth);
       return;
     }
 
     try {
       const userId = user?.id; // Get user ID from context
       if (!userId) {
-        alert("Hiba: Nincs bejelentkezett felhasználó!");
+        alert(langCtx?.translate.saveCarErrorNoUser);
         return;
       }
 
       // Call the service to save the car with user ID
       await SavedCarService.saveCar(userId, carData.id);
-      alert("Autó sikeresen mentve!");
+      alert(langCtx?.translate.saveCarSuccess);
     } catch (error) {
       console.error("Hiba az autó mentésekor:", error);
-      alert("Hiba történt az autó mentésekor!");
+      alert(langCtx?.translate.saveCarError);
     }
   };
 
@@ -319,24 +321,90 @@ function CarDetails() {
         <button className="btn-save" onClick={handleSaveCar}>
           {langCtx?.translate.save}
         </button>
+
         <h2 id="car-title">
-          {carData.brand.brandEnglish + " " + carData.carModel.modelNameEnglish}
+          {langCtx?.language === "jp"
+              ? `${carData.brand.brandJapanese} ${carData.carModel.modelNameJapanese}`
+              : `${carData.brand.brandEnglish} ${carData.carModel.modelNameEnglish}`}
         </h2>
+
         <p id="car-price">
-          {langCtx?.translate.price} {carData.price} Ft
+          {langCtx?.translate.price} {carData.price} yen
         </p>
+
         <p id="car-year">
           {langCtx?.translate.year} {carData.carModel.manufacturingEndYear}
         </p>
+
         <p id="car-type">
-          {langCtx?.translate.type} {carData.bodyType.nameEnglish}
+          {langCtx?.translate.type} {langCtx?.language === "jp" ? carData.bodyType.nameJapanese : carData.bodyType.nameEnglish}
         </p>
+
         <p id="car-fuel">
-          {langCtx?.translate.fuelType} {carData.fuelType.nameEnglish}
+          {langCtx?.translate.fuelType} {langCtx?.language === "jp" ? carData.fuelType.nameJapanese : carData.fuelType.nameEnglish}
         </p>
-        <p id="car-description" className="description">{langCtx?.translate.noDetails}</p>
-        
-        {/* New Calendar Widget */}
+
+        <p id="car-passenger-count">
+          {langCtx?.translate.passengerCount}: {carData.carModel.passengerCount}
+        </p>
+
+        <p id="car-dimensions">
+          {langCtx?.translate.dimensions}: {carData.carModel.length} x {carData.carModel.width} x {carData.carModel.height} cm
+        </p>
+
+        <p id="car-mass">
+          {langCtx?.translate.mass}: {carData.carModel.mass} kg
+        </p>
+
+        <p id="car-engine-size">
+          {langCtx?.translate.engineSize}: {carData.engineSize.engineSize} cc
+        </p>
+
+        <p id="car-color">
+          {langCtx?.translate.color} {langCtx?.language === "jp" ? carData.color.colorNameJapanese : carData.color.colorNameEnglish}
+        </p>
+
+        <p id="car-transmission">
+          {langCtx?.translate.transmission}: {carData.transmissionType.type}
+        </p>
+
+        <p id="car-drive-train">
+          {langCtx?.translate.drivetrain}: {carData.driveTrain.type}
+        </p>
+
+        <p id="car-license-plate">
+          {langCtx?.translate.licenseplate}: {carData.licensePlateNumber || langCtx?.translate.noDetails}
+        </p>
+
+        <p id="car-repair-history">
+          {langCtx?.translate.repairHistory} {carData.repairHistory ? langCtx?.translate.yes : langCtx?.translate.no}
+        </p>
+
+        <p id="car-mot-expiry">
+          {langCtx?.translate.motExpiry} {carData.motExpiry || langCtx?.translate.noDetails}
+        </p>
+
+        <p id="car-location">
+          {langCtx?.translate.location}: {carData.location.locationName}
+        </p>
+
+        <p id="car-is-smoking">
+          {langCtx?.translate.isSmoking}: {carData.isSmoking ? langCtx?.translate.yes : langCtx?.translate.no}
+        </p>
+
+        <p id="car-mileage">
+          {langCtx?.translate.mileage} {carData.mileage || langCtx?.translate.noDetails}
+        </p>
+        <p id="car-vin">
+          {langCtx?.translate.vin}: {carData.vinNum || langCtx?.translate.noDetails}
+        </p>
+
+
+
+
+
+
+      {/* New Calendar Widget */}
         <div className="calendar-container">
           <h3 className="calendar-title">{langCtx?.translate.appointment}</h3>
           
@@ -350,13 +418,13 @@ function CarDetails() {
             <table className="calendar-table" cellSpacing="0" cellPadding="0">
               <thead>
                 <tr>
-                  <th>H</th>
-                  <th>K</th>
-                  <th>Sz</th>
-                  <th>Cs</th>
-                  <th>P</th>
-                  <th>Sz</th>
-                  <th>V</th>
+                  <th>{langCtx?.translate.mon}</th>
+                  <th>{langCtx?.translate.tue}</th>
+                  <th>{langCtx?.translate.wed}</th>
+                  <th>{langCtx?.translate.thu}</th>
+                  <th>{langCtx?.translate.fri}</th>
+                  <th>{langCtx?.translate.sat}</th>
+                  <th>{langCtx?.translate.sun}</th>
                 </tr>
               </thead>
               <tbody>

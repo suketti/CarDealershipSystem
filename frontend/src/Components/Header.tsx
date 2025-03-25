@@ -90,6 +90,12 @@ const Header = () => {
                 <Link to="/cars" className="nav-link">
                   <FontAwesomeIcon icon="car" /> {langCtx?.translate.cars}
                 </Link>
+
+              </li>
+              <li>
+                <Link to="/locations" className="nav-link">
+                  <FontAwesomeIcon icon="location-dot" /> {langCtx?.translate.locations}
+                </Link>
               </li>
             </ul>
           </nav>
