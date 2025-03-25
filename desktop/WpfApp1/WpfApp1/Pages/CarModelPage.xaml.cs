@@ -75,8 +75,8 @@ namespace WpfApp1.Views
         {
             var button = sender as Button;
             var engineId = (int)button.Tag;
-            var selectedModel = _models.FirstOrDefault(m => m.EngineSizes.Any(e => e.ID == engineId));
-            var selectedEngine = selectedModel?.EngineSizes.FirstOrDefault(e => e.ID == engineId);
+            var selectedModel = _models.FirstOrDefault(m => m.EngineSizes.Any(engine => engine.ID == engineId));
+            var selectedEngine = selectedModel?.EngineSizes.FirstOrDefault(engine => engine.ID == engineId);
             if (selectedEngine != null)
             {
                 var editEngineWindow = new EditEngineWindow(engineId, selectedEngine);

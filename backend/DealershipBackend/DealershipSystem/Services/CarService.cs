@@ -31,8 +31,8 @@ namespace DealershipSystem.Services
         
         public async Task<CarDTO> AddCarAsync(CreateCarDTO createCarDto)
         {
-            var car = _mapper.Map<Car>(createCarDto); 
-            
+            var car = _mapper.Map<Car>(createCarDto);
+
             car.Brand = await _context.CarMakers.FindAsync(createCarDto.Brand);
             car.CarModel = await _context.CarModels.FindAsync(createCarDto.Model);
             car.BodyType = await _context.BodyTypes.FindAsync(createCarDto.BodyType);
@@ -42,7 +42,7 @@ namespace DealershipSystem.Services
             car.DriveTrain = await _context.DrivetrainTypes.FindAsync(createCarDto.DriveTrain);
             car.TransmissionType = await _context.TransmissionTypes.FindAsync(createCarDto.TransmissionType);
             car.Color = await _context.Colors.FindAsync(createCarDto.Color);
-            
+
             if (createCarDto.Extras != null && createCarDto.Extras.Any())
             {
                 car.CarExtras = await _context.CarExtras
@@ -50,11 +50,26 @@ namespace DealershipSystem.Services
                     .ToListAsync();
             }
 
+            // Convert DateTime properties to UTC if they are not null and are in Unspecified time zone
+            if (createCarDto.MOTExpiry.HasValue)
+            {
+                if (createCarDto.MOTExpiry.Value.Kind == DateTimeKind.Unspecified)
+                {
+                    car.MOTExpiry = DateTime.SpecifyKind(createCarDto.MOTExpiry.Value, DateTimeKind.Utc);
+                }
+                else
+                {
+                    car.MOTExpiry = createCarDto.MOTExpiry.Value.ToUniversalTime();
+                }
+            }
+
             await _context.Cars.AddAsync(car);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<Car, CarDTO>(car);
         }
+
+
 
         public async Task<bool> DeleteCarAsync(int id)
         {
@@ -68,7 +83,6 @@ namespace DealershipSystem.Services
             await _context.SaveChangesAsync();
             return true;
         }
-
         public async Task<CarDTO?> EditCarAsync(int id, CreateCarDTO editCarDto)
         {
             var car = await _context.Cars.FindAsync(id);
@@ -88,14 +102,22 @@ namespace DealershipSystem.Services
             car.DriveTrain = await _context.DrivetrainTypes.FindAsync(editCarDto.DriveTrain);
             car.TransmissionType = await _context.TransmissionTypes.FindAsync(editCarDto.TransmissionType);
             car.Color = await _context.Colors.FindAsync(editCarDto.Color);
-            
+
             if (editCarDto.Extras != null && editCarDto.Extras.Any())
             {
                 car.CarExtras = await _context.CarExtras
                     .Where(extra => editCarDto.Extras.Contains(extra.ExtraID))
                     .ToListAsync();
             }
+            
+            if (car.MOTExpiry != null)
+            {
+                car.MOTExpiry = car.MOTExpiry.Value.Kind == DateTimeKind.Unspecified 
+                    ? (DateTime?)DateTime.SpecifyKind(car.MOTExpiry.Value, DateTimeKind.Utc) 
+                    : car.MOTExpiry.Value.ToUniversalTime();
+            }
 
+            
             _context.Cars.Update(car);
             await _context.SaveChangesAsync();
 
