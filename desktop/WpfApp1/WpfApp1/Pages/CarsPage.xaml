@@ -12,12 +12,12 @@
                         <GridViewColumn Header="Brand" DisplayMemberBinding="{Binding Brand.BrandEnglish}" Width="100" />
                         <GridViewColumn Header="Model" DisplayMemberBinding="{Binding CarModel.ModelNameEnglish}" Width="100" />
                         <GridViewColumn Header="Grade" DisplayMemberBinding="{Binding Grade}" Width="50" />
-                        <GridViewColumn Header="Body Type" DisplayMemberBinding="{Binding BodyType.Name}" Width="100" />
+                        <GridViewColumn Header="Body Type" DisplayMemberBinding="{Binding BodyType.NameEnglish}" Width="100" />
                         <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location.LocationName}" Width="150" />
                         <GridViewColumn Header="Engine Size" DisplayMemberBinding="{Binding EngineSize.EngineSize}" Width="100" />
                         <GridViewColumn Header="Fuel Type" DisplayMemberBinding="{Binding FuelType.NameEnglish}" Width="100" />
-                        <GridViewColumn Header="Drive Train" DisplayMemberBinding="{Binding DriveTrain.Name}" Width="100" />
-                        <GridViewColumn Header="Transmission" DisplayMemberBinding="{Binding TransmissionType.Name}" Width="100" />
+                        <GridViewColumn Header="Drive Train" DisplayMemberBinding="{Binding DriveTrain.Type}" Width="100" />
+                        <GridViewColumn Header="Transmission" DisplayMemberBinding="{Binding TransmissionType.Type}" Width="100" />
                         <GridViewColumn Header="Color" DisplayMemberBinding="{Binding Color.ColorNameEnglish}" Width="100" />
                         <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="100" />
                         <GridViewColumn Header="License Plate" DisplayMemberBinding="{Binding LicensePlateNumber}" Width="150" />
