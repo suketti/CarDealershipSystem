@@ -82,6 +82,8 @@ public class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
 
+        builder.Services.AddResponseCompression();
+        
         var webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
         if (!Directory.Exists(webRootPath))
         {
@@ -91,6 +93,8 @@ public class Program
         builder.Environment.WebRootPath = webRootPath; 
         
         var app = builder.Build();
+        
+        app.UseResponseCompression();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

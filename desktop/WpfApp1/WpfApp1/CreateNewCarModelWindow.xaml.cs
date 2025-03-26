@@ -70,6 +70,7 @@ namespace WpfApp1.Views
                 tbHeight.Text = model.Height.ToString();
                 tbMass.Text = model.Mass.ToString();
                 _engineSizes = model.EngineSizes;
+                dgEngines.ItemsSource = _engineSizes;
                 cbEngines.ItemsSource = _engineSizes;
             }
         }
@@ -116,15 +117,13 @@ namespace WpfApp1.Views
                     var json = await response.Content.ReadAsStringAsync();
                     var createdModel = JsonSerializer.Deserialize<CarModelDTO>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                     await AddEnginesToModel(createdModel.ID);
+                    this.DialogResult = true;
+                    MessageBox.Show("Sikeresen hozzaadva!");
+                    this.Close();
                 }
             }
-
-            if (response.IsSuccessStatusCode)
-            {
-                this.DialogResult = true;
-                this.Close();
-            }
         }
+
 
         private async Task AddEnginesToModel(int modelId)
         {

@@ -35,10 +35,6 @@
                 <Label Content="Motor méret" Margin="5"/>
                 <ComboBox Name="EngineSizeComboBox" Margin="5" IsEnabled="False"/>
 
-                <!-- Fuel Type ComboBox -->
-                <Label Content="Üzemanyag típus" Margin="5"/>
-                <ComboBox Name="FuelTypeComboBox" Margin="5" IsEnabled="False"/>
-
                 <!-- Drive Train ComboBox -->
                 <Label Content="Meghajtás" Margin="5"/>
                 <ComboBox Name="DriveTrainComboBox" Margin="5" IsEnabled="False"/>
@@ -60,7 +56,7 @@
                 <TextBox Name="LicensePlateNumberTextBox" Margin="5" IsEnabled="False"/>
 
                 <!-- MOT Expiry Date TextBox -->
-                <Label Content="MOT lejárati dátuma (yyyy-MM-dd)" Margin="5"/>
+                <Label Content="Muszaki lejárati dátuma (yyyy-MM-dd)" Margin="5"/>
                 <TextBox Name="MOTExpiryTextBox" Margin="5" IsEnabled="False"/>
 
                 <!-- VIN Number TextBox -->

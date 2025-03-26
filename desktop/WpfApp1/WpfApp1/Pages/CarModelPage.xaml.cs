@@ -39,9 +39,14 @@ namespace WpfApp1.Views
         private void btnCreateModel_Click(object sender, RoutedEventArgs e)
         {
             var modelFormWindow = new CreateNewCarModelWindow();
-            modelFormWindow.ShowDialog();
-            LoadModels();
+            bool? result = modelFormWindow.ShowDialog();
+
+            if (result == true)  
+            {
+                LoadModels();
+            }
         }
+
 
         private void btnEditModel_Click(object sender, RoutedEventArgs e)
         {

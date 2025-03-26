@@ -137,7 +137,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
             new BodyType { ID = 5, NameJapanese = "クーペ", NameEnglish = "Coupe" },
             new BodyType { ID = 6, NameJapanese = "ステーションワゴン", NameEnglish = "Station Wagon" },
             new BodyType { ID = 7, NameJapanese = "SUV/クロカン", NameEnglish = "SUV/Crossover" },
-            new BodyType { ID = 8, NameJapanese = "トラック/バン", NameEnglish = "Truck/Van" }
+            new BodyType { ID = 8, NameJapanese = "トラック/バン", NameEnglish = "Truck/Van" },
+            new BodyType { ID = 9, NameJapanese = "ハッチバック", NameEnglish = "Hatchback" }
         );
         
         modelBuilder.Entity<TransmissionType>().HasData(

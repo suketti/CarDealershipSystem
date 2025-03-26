@@ -65,7 +65,7 @@ namespace WpfApp1
                 CarDTO selectedCar = editButton.DataContext as CarDTO;
                 if (selectedCar != null)
                 {
-                    EditCarWindow editCarWindow = new EditCarWindow(selectedCar);
+                    EditCarWindow editCarWindow = new EditCarWindow(selectedCar.ID);
                     editCarWindow.CarEdited += EditCarWindow_CarEdited;
                     editCarWindow.ShowDialog();
                 }

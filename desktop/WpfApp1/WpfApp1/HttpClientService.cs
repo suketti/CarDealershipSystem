@@ -23,7 +23,7 @@ namespace WpfApp1.Services
             var authenticatedHandler = new AuthenticatedHttpClientHandler(handler);
             client = new HttpClient(authenticatedHandler)
             {
-                BaseAddress = new Uri("https://192.168.1.100:7268")
+                BaseAddress = new Uri("https://172.20.10.2:7268")
             };
 
         }

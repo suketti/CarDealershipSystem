@@ -7,7 +7,7 @@ import SavedCarService from "../api/savedCarService.ts";
 import ReservationService from "../api/reservationService.ts";
 import {getBaseUrl} from "../api/axiosInstance.ts";
 import {getCarById} from "../api/carService.ts";
-import "../CarDetails.css";
+import { useSearchParams } from "react-router-dom";
 
 // Define the reservation data interface to match your API
 interface ReservationData {
@@ -25,6 +25,7 @@ function CarDetails() {
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [bookingMessage, setBookingMessage] = useState<string>("");
   const [imageIndex, setImageIndex] = useState<number>(0);
+  const [searchParams] = useSearchParams();
   const langCtx = useContext(LanguageCtx);
   
   // Calendar state
@@ -34,8 +35,7 @@ function CarDetails() {
   const { user, isAuthenticated } = useUser();
 
   useEffect(() => {
-    const query = new URLSearchParams(location.search);
-    const carId = query.get("carId");
+    const carId = searchParams.get("carId");
 
     if (carId) {
       getCarById(carId).then((fetchedCar) => {
@@ -46,7 +46,7 @@ function CarDetails() {
         console.error("Error fetching car details:", error);
       });
     }
-  }, [location.search]);
+  }, [searchParams]);
 
   // Use images from the car data
   const images = carData?.images?.length ?

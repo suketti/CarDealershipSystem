@@ -52,7 +52,7 @@ public class EngineSizeService : IEngineSizeService
 
     public async Task<EngineSizeModelDTO?> UpdateEngineAsync(int engineId, int newEngineSize, int fuelTypeId)
     {
-        var engine = await _context.EngineSizeModels.FirstOrDefaultAsync(e => e.ModelID == engineId);
+        var engine = await _context.EngineSizeModels.FirstOrDefaultAsync(e => e.ID == engineId);
         if (engine == null)
         {
             return null;
