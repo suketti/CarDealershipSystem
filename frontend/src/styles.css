@@ -40,6 +40,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
 body {
@@ -597,11 +598,11 @@ a:hover {
 }
 
 .hero h2 {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-  color: var(--gray-900);
   position: relative;
   text-align: center;
+  color: var(--primary);
+  font-size: 2.25rem;
+  margin-bottom: 1rem;
 }
 
 .hero h2::after {
@@ -616,13 +617,14 @@ a:hover {
 }
 
 .hero p {
-  font-size: 1.25rem;
   margin-bottom: 2rem;
-  color: var(--gray-700);
-  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  color: var(--gray-700);
+  font-size: 1.125rem;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .hero-buttons {
@@ -956,7 +958,7 @@ footer {
 
 /* Filter styles */
 .filter {
-  padding: 2rem 0;
+  padding: 1rem 0 3rem;
 }
 
 .filter form {
@@ -976,7 +978,7 @@ footer {
   font-weight: 500;
   color: var(--gray-700);
   flex-shrink: 0;
-  flex-basis: 120px;
+  flex-basis: 1rem;
 }
 
 .filter form input,
@@ -1028,28 +1030,30 @@ footer {
 }
 
 #reszletes-kereses-container {
-  grid-column: 1 / -1;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  background-color: var(--gray-100);
-  border-radius: var(--border-radius);
   cursor: pointer;
-  margin: 1.5rem 0;
+  margin-top: 1rem;
 }
 
 #reszletes-kereses-label {
-  font-weight: 500;
   color: var(--primary);
+  font-weight: 500;
+  margin-right: 0.5rem;
 }
 
 #toggle-arrow {
-  font-size: 1.25rem;
+  font-size: 0.75rem;
   color: var(--primary);
-  transition: transform 0.3s ease;
 }
-
+#reszletes-feltetelek {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-200);
+  display: grid;
+  width: 100%;
+}
 #reszletes-feltetelek div {
   width: 100%;
   padding: 1.5rem;
@@ -1057,7 +1061,31 @@ footer {
 }
 
 #reszletes-feltetelek select {
-  margin-bottom: 0px;
+  border: 1px solid var(--gray-300);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+#reszletes-feltetelek label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+#reszletes-feltetelek select,
+#reszletes-feltetelek input {
+  padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+}
+
+#reszletes-feltetelek select:focus,
+#reszletes-feltetelek input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 .filter-buttons {
@@ -1946,6 +1974,7 @@ input:focus, select:focus {
   .car-details-container {
     grid-template-columns: 1fr;
   }
+  
 
   .car-info-sidebar {
     position: static;
@@ -1964,6 +1993,19 @@ input:focus, select:focus {
 }
 
 @media (max-width: 768px) {
+  .search-form-container {
+    padding: 1.5rem;
+  }
+  
+  
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .search-form-title {
+    font-size: 1.5rem;
+  }
+
   .header-container {
     padding: 0 1rem;
   }
@@ -2377,4 +2419,246 @@ input:focus, select:focus {
 
 .input-pair input {
   width: calc(50% - 0.5rem);
+}
+
+.search-form-container {
+  background-color: #ffffff;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  width: 90%;
+  transition: var(--transition);
+  overflow: hidden;
+}
+.search-form-container,
+.search-form,
+.form-field,
+.form-field select,
+.form-field input,
+.range-inputs,
+.range-inputs input {
+  box-sizing: border-box !important;
+}
+
+.search-form-title {
+  font-size: 1.75rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Minimális távolság a label és a select/input között */
+  margin-bottom: 0;
+}
+
+.form-field label {
+  font-weight: 600;
+  color: var(--gray-700);
+  font-size: 0.85rem; /* Kisebb betűméret */
+  margin: 0; /* Margó eltávolítása */
+  padding: 0; /* Padding eltávolítása */
+  line-height: 1; /* Minimális sormagasság */
+  height: 10px; /* Automatikus magasság a tartalomhoz igazodva */
+  display: inline-block;
+}
+
+.form-field select,
+.form-field input {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-field select:hover,
+.form-field input:hover {
+  border-color: var(--primary-light);
+}
+
+.form-field select:focus,
+.form-field input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-field select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23475569' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.75rem;
+  padding-right: 2.5rem;
+}
+
+.form-field select:disabled {
+  background-color: var(--gray-100);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.range-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.range-inputs input {
+  width: 100%;
+}
+
+.advanced-search-toggle {
+  grid-column: 1 / -1;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: var(--border-radius);
+  margin: 0.5rem 0;
+}
+
+.advanced-search-toggle:hover {
+  background-color: var(--primary-bg);
+}
+.advanced-search-fields {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-200);
+  animation: slideDown 0.3s ease-out;
+}
+
+.toggle-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-form-button {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.search-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.875rem 2.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 200px;
+}
+
+.search-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.search-button:active {
+  transform: translateY(0);
+}
+
+/* Már meglévő media query kiegészítése vagy új hozzáadása */
+@media (max-width: 550px) {
+  .search-form-container {
+    width: 95%;
+    padding: 1rem;
+  }
+  #reszletes-feltetelek {
+    grid-template-columns: 1fr;
+    gap: 0rem;
+  }
+  
+  #reszletes-feltetelek .range-inputs {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+  
+  /* Minden form mező teljes szélességű */
+  .form-field,
+  .advanced-search-fields .form-field {
+    width: 100%;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Range inputok egymás alá rendezve */
+  .range-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  
+  /* A selectek szövegmérete kisebb, hogy a hosszú szöveg is elférjen */
+  .form-field select {
+    font-size: 0.9rem;
+    padding-right: 1.5rem; /* Elég hely a nyíl ikonnak */
+  }
+}
+
+/* Legkisebb képernyőkre további optimalizálás */
+@media (max-width: 400px) {
+  .search-form-container {
+    width: 98%;
+    padding: 0.75rem;
+    margin: 1rem auto;
+  }
+  
+  .search-form-title {
+    font-size: 1.4rem;
+  }
+  
+  .form-field label {
+    font-size: 0.8rem;
+  }
+  
+  .form-field select,
+  .form-field input {
+    height: 36px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+  }
 }

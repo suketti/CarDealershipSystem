@@ -245,8 +245,8 @@ function Cars() {
               <label>{langCtx?.translate.yearTo}</label>
               <input type="number" id="year-to" placeholder="Pl. 2020" onChange={(e) => setYearTo(Number(e.target.value))} />
 
-              <div id="reszletes-kereses-container">
-                <span id="reszletes-kereses-label" onClick={() => setIsAdvancedSearchVisible(!isAdvancedSearchVisible)}>
+              <div id="reszletes-kereses-container" onClick={() => setIsAdvancedSearchVisible(!isAdvancedSearchVisible)}>
+                <span id="reszletes-kereses-label">
                   {langCtx?.translate.moreSearch}
                 </span>
                 <span id="toggle-arrow">{isAdvancedSearchVisible ? "▲" : "▼"}</span>
