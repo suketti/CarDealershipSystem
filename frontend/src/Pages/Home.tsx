@@ -318,38 +318,6 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                                 alt={
                                     langCtx?.language === 'jp'
                                         ? `${car.brand.brandJapanese} ${car.carModel.modelNameJapanese}`
-<<<<<<< HEAD
-                                        : `${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`}
-                                </h3>
-                                <p>
-                                    {langCtx?.translate.year} {car.carModel.manufacturingStartYear} - {car.carModel.manufacturingEndYear}
-                                </p>
-                                <p>
-                                    {langCtx?.translate.modelCode} {car.carModel.modelCode}
-                                </p>
-                                <p>
-                                    {langCtx?.translate.type} {langCtx?.language === 'jp' ? car.bodyType.nameJapanese : car.bodyType.nameEnglish}
-                                </p>
-                                <p>
-                                    {langCtx?.translate.fuelType} {langCtx?.language === 'jp' ? car.fuelType.nameJapanese : car.fuelType.nameEnglish}
-                                </p>
-                                <p>{car.location.locationName}</p>
-                                <p>
-                                    {langCtx?.translate.price} {Number(car.price).toLocaleString()} yen
-                                </p>
-                                <button
-                                    className="btn"
-                                    onClick={() => navigate(`/Car-Details?carId=${encodeURIComponent(car?.id)}`)}
-                                >
-                                    {langCtx?.translate.viewDetails}
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
-=======
                                         : `${car.brand.brandEnglish} ${car.carModel.modelNameEnglish}`
                                 }
                                 className="car-image"
@@ -385,7 +353,6 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
           </div>
         </div>
       </section>
->>>>>>> 325d1f2 (style fix)
 
       {/* Bejelentkezési modal */}
       {showLoginModal && (
