@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import "../styles.css";
-import "../responsive-form.css"; // Import the responsive CSS
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { translations } from "../translations";
