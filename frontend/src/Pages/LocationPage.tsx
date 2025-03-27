@@ -62,8 +62,8 @@ const LocationPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   
   // Updated current date and user info
-  const currentDateTime = "2025-03-27 10:36:14";
-  const currentUser = "Kissdani05A";
+  const currentDateTime = "2025-03-27 11:45:37";
+  const currentUser = "Kissdani05";
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -111,8 +111,7 @@ const LocationPage: React.FC = () => {
 
   return (
     <div className="locations-page">
-      <div className="header-info">
-      </div>
+      
       
       <div className="locations-container">
         {/* Left side - Locations list */}
@@ -143,7 +142,7 @@ const LocationPage: React.FC = () => {
                     <span>Capacity: {location.currentCapacity} / {location.maxCapacity}</span>
                   </div>
                   <button 
-                    className="location-search-button"
+                    className="search-button"
                     onClick={(e) => handleSearchClick(e, location.id)}
                   >
                     Keresés
