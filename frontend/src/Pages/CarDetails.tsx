@@ -8,6 +8,7 @@ import ReservationService from "../api/reservationService.ts";
 import {getBaseUrl} from "../api/axiosInstance.ts";
 import {getCarById} from "../api/carService.ts";
 import { useSearchParams } from "react-router-dom";
+import "../CarDetails.css"
 
 // Define the reservation data interface to match your API
 interface ReservationData {
