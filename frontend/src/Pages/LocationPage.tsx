@@ -142,7 +142,7 @@ const LocationPage: React.FC = () => {
                     <span>Capacity: {location.currentCapacity} / {location.maxCapacity}</span>
                   </div>
                   <button 
-                    className="search-button"
+                    className="location-search-button"
                     onClick={(e) => handleSearchClick(e, location.id)}
                   >
                     Keresés

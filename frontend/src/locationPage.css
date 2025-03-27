@@ -126,7 +126,7 @@
 }
 
 /* Search button styles */
-.search-button {
+.location-search-button {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -143,13 +143,13 @@
     z-index: 1;
 }
 
-.search-button:hover {
+.location-search-button:hover {
     background-color: var(--accent-dark);
     transform: translateY(-2px);
     box-shadow: var(--shadow);
 }
 
-.search-button:active {
+.location-search-button:active {
     transform: translateY(0);
 }
 
