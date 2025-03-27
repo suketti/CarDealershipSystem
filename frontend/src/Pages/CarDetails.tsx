@@ -7,6 +7,7 @@ import SavedCarService from "../api/savedCarService.ts";
 import ReservationService from "../api/reservationService.ts";
 import {getBaseUrl} from "../api/axiosInstance.ts";
 import {getCarById} from "../api/carService.ts";
+import "../CarDetails.css";
 
 // Define the reservation data interface to match your API
 interface ReservationData {

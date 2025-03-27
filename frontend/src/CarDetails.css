@@ -1,0 +1,599 @@
+/* Car Details Page Styles */
+.car-details {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Image Gallery Styles */
+  .image-gallery {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .main-image-container {
+    position: relative;
+    width: 100%;
+    height: 30%;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+  }
+  
+  .main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .main-image:hover {
+    transform: scale(1.02);
+  }
+  
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 2;
+  }
+  
+  .gallery-nav:hover {
+    background: rgba(0,0,0,0.8);
+  }
+  
+  .prev-button {
+    left: 15px;
+  }
+  
+  .next-button {
+    right: 15px;
+  }
+  
+  .thumbnails-row {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 10px 0;
+  }
+  
+  .thumbnail-wrapper {
+    flex: 0 0 80px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  
+  .thumbnail-wrapper.active {
+    border-color: #0066cc;
+  }
+  
+  .thumbnail-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Lightbox Styles */
+  .lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .lightbox-content {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .lightbox-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    color: white;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .lightbox-image-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+  
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    font-size: 36px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+  }
+  
+  .lightbox-nav:hover {
+    background: rgba(255,255,255,0.4);
+  }
+  
+  .lightbox-prev {
+    left: 20px;
+  }
+  
+  .lightbox-next {
+    right: 20px;
+  }
+  
+  .lightbox-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+    overflow-x: auto;
+  }
+  
+  .lightbox-thumbnail {
+    width: 80px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.7;
+    transition: all 0.2s;
+  }
+  
+  .lightbox-thumbnail.active {
+    border-color: white;
+    opacity: 1;
+  }
+  
+  .lightbox-thumbnail:hover {
+    opacity: 1;
+  }
+  
+  .lightbox-thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Car Details Content Styles */
+  .details {
+    width: 100%;
+    position: relative;
+  }
+  
+  .btn-save {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px 16px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .btn-save:hover {
+    background-color: #b71c1c;
+  }
+  
+  #car-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    padding-right: 80px; /* Space for save button */
+  }
+  
+  #car-price,
+  #car-year,
+  #car-type,
+  #car-fuel,
+  #car-passenger-count,
+  #car-dimensions,
+  #car-mass,
+  #car-engine-size,
+  #car-color,
+  #car-transmission,
+  #car-drive-train,
+  #car-license-plate,
+  #car-repair-history,
+  #car-mot-expiry,
+  #car-location,
+  #car-is-smoking,
+  #car-mileage,
+  #car-vin {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  /* Calendar Styles */
+  .calendar-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+  }
+  
+  .calendar-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .calendar-widget {
+    width: 100%;
+  }
+  
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .calendar-month {
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+  
+  .calendar-nav {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .calendar-nav:hover {
+    background: #f5f5f5;
+  }
+  
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+  }
+  
+  .calendar-table th {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: normal;
+    color: #666;
+  }
+  
+  .calendar-day {
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .calendar-day:hover:not(.past):not(.empty-day) {
+    background-color: #f0f0f0;
+  }
+  
+  .calendar-day.today {
+    background-color: #e3f2fd;
+    font-weight: bold;
+  }
+  
+  .calendar-day.selected {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .calendar-day.past {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .empty-day {
+    padding: 8px;
+  }
+  
+  .time-selection {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
+  
+  .selected-date {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .time-inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .time-select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 70px;
+    text-align: center;
+  }
+  
+  .time-separator {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .btn-book {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-book:hover:not(:disabled) {
+    background-color: #0d8aee;
+  }
+  
+  .btn-book:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .booking-message {
+    margin-top: 15px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    color: #d32f2f;
+    background-color: rgba(211, 47, 47, 0.1);
+    white-space: pre-line;
+  }
+  
+  .btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  .btn-back:hover {
+    background-color: #eeeeee;
+  }
+  
+  /* Responsive layout for larger screens */
+  @media (min-width: 768px) {
+    .car-details {
+      flex-direction: row;
+      gap: 30px;
+    }
+  
+    .image-gallery {
+      flex: 1;
+      max-width: 600px;
+    }
+  
+    .details {
+      flex: 1;
+    }
+  }
+  
+  /* Loading and Error States */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+  }
+  
+  .loading-spinner,
+  .save-spinner,
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-radius: 50%;
+    border-top-color: #2196f3;
+    animation: spinner 0.8s linear infinite;
+  }
+  
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Save Button States */
+  .btn-save {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px 16px;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-save:hover:not(:disabled) {
+    background-color: #b71c1c;
+  }
+  
+  .btn-save.saved {
+    background-color: #388e3c;
+  }
+  
+  .btn-save.saved:hover:not(:disabled) {
+    background-color: #2e7d32;
+  }
+  
+  .btn-save:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .btn-save .save-spinner {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Calendar grid styles */
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 15px;
+  }
+  
+  .calendar-table thead tr {
+    display: table-row;
+  }
+  
+  .calendar-table tbody tr {
+    display: table-row;
+  }
+  
+  .calendar-table th,
+  .calendar-table td {
+    display: table-cell;
+    width: 14.285%; /* 100% / 7 days */
+    padding: 8px 2px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .calendar-table th {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .calendar-cell {
+    height: 36px;
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  .calendar-day {
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    position: relative;
+  }
+  
+  .calendar-day:hover:not(.past):not(.empty-day) {
+    background-color: #e3f2fd;
+  }
+  
+  .calendar-day.today {
+    background-color: #e3f2fd;
+    font-weight: bold;
+  }
+  
+  .calendar-day.selected {
+    background-color: #2196f3;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .calendar-day.past {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .empty-day {
+    background: none;
+  }
