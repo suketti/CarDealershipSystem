@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, BrowserRouter, ScrollRestoration} from "react-router-dom";
 import Header from "./Components/Header";
 import MobileMenu from "./Components/MobileMenu";
 import Footer from "./Components/Footer";
@@ -21,6 +21,7 @@ import {
   faCogs, faArrowLeft, faImage
 } from '@fortawesome/free-solid-svg-icons';
 import LocationsPage from "./Pages/LocationPage.tsx";
+import ScrollToTop from "./Components/ScrollToTop.tsx";
 
 // Add icons to library
 library.add(
@@ -82,9 +83,11 @@ function App() {
     <UserProvider>
       <LanguageCtx.Provider value={{ translate, changeTranslate, language }}>
         <MobileMenuContext.Provider value={{ isMenuOpen, toggleMenu }}>
-          <Router>
+          <BrowserRouter>
+            <ScrollToTop />
             <div className="app-container">
               <Header />
+
               {isMobile && <MobileMenu />}
               <main className="main-content">
                 <Routes>
@@ -97,7 +100,7 @@ function App() {
               </main>
               <Footer language={language} />
             </div>
-          </Router>
+          </BrowserRouter>
         </MobileMenuContext.Provider>
       </LanguageCtx.Provider>
     </UserProvider>

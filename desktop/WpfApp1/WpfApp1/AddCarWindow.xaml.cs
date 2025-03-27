@@ -20,7 +20,13 @@ namespace WpfApp1
     {
         public event EventHandler CarAdded;
         private List<string> SelectedImagePaths = new List<string>();
-
+        private List<BodyTypeDTO> bodyTypes;
+        private List<LocationDTO> locations;
+        private List<DrivetrainTypeDTO> driveTrains;
+        private List<TransmissionTypeDTO> transmissionTypes;
+        private List<FuelTypeDTO> fuelTypes;
+        private List<ColorDTO> colors;
+        private List<CarModelDTO> models;
 
         public AddCarWindow()
         {
@@ -88,8 +94,6 @@ namespace WpfApp1
             DriveTrainComboBox.IsEnabled = false;
             TransmissionTypeComboBox.ItemsSource = null;
             TransmissionTypeComboBox.IsEnabled = false;
-            FuelTypeComboBox.ItemsSource = null;
-            FuelTypeComboBox.IsEnabled = false;
             ColorComboBox.ItemsSource = null;
             ColorComboBox.IsEnabled = false;
         }
@@ -101,7 +105,6 @@ namespace WpfApp1
             BodyTypeComboBox.IsEnabled = enable;
             LocationComboBox.IsEnabled = enable;
             EngineSizeComboBox.IsEnabled = enable;
-            FuelTypeComboBox.IsEnabled = enable;
             DriveTrainComboBox.IsEnabled = enable;
             TransmissionTypeComboBox.IsEnabled = enable;
             ColorComboBox.IsEnabled = enable;
@@ -140,13 +143,7 @@ namespace WpfApp1
             }
         }
 
-        private List<BodyTypeDTO> bodyTypes;
-        private List<LocationDTO> locations;
-        private List<DrivetrainTypeDTO> driveTrains;
-        private List<TransmissionTypeDTO> transmissionTypes;
-        private List<FuelTypeDTO> fuelTypes;
-        private List<ColorDTO> colors;
-        private List<CarModelDTO> models;
+
 
         private async Task<List<T>> FetchDataAsync<T>(string endpoint)
         {
@@ -248,7 +245,7 @@ namespace WpfApp1
                 int modelId = (int)ModelComboBox.SelectedValue;
                 var engineSizes = await FetchDataAsync<EngineSizeModelDTO>($"/api/cars/engine/model/{modelId}");
                 EngineSizeComboBox.ItemsSource = engineSizes;
-                EngineSizeComboBox.DisplayMemberPath = "EngineSize";
+                EngineSizeComboBox.DisplayMemberPath = "DisplayText";
                 EngineSizeComboBox.SelectedValuePath = "ID";
 
                 // Populate other ComboBoxes
@@ -267,10 +264,6 @@ namespace WpfApp1
                 TransmissionTypeComboBox.ItemsSource = transmissionTypes;
                 TransmissionTypeComboBox.DisplayMemberPath = "Type";
                 TransmissionTypeComboBox.SelectedValuePath = "ID";
-
-                FuelTypeComboBox.ItemsSource = fuelTypes;
-                FuelTypeComboBox.DisplayMemberPath = "NameEnglish";
-                FuelTypeComboBox.SelectedValuePath = "ID";
 
                 ColorComboBox.ItemsSource = colors;
                 ColorComboBox.DisplayMemberPath = "ColorNameEnglish";
@@ -298,7 +291,7 @@ namespace WpfApp1
                     BodyType = (int)BodyTypeComboBox.SelectedValue,
                     Location = (int)LocationComboBox.SelectedValue,
                     EngineSize = (int)EngineSizeComboBox.SelectedValue,
-                    FuelType = (int)FuelTypeComboBox.SelectedValue,
+                    FuelType = (int)(EngineSizeComboBox.SelectedItem as EngineSizeModelDTO).FuelType.ID,
                     DriveTrain = (int)DriveTrainComboBox.SelectedValue,
                     TransmissionType = (int)TransmissionTypeComboBox.SelectedValue,
                     Color = (int)ColorComboBox.SelectedValue,

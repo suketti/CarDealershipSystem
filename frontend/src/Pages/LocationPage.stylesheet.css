@@ -1,0 +1,16 @@
+.location-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    transition: background 0.2s;
+}
+
+.location-link:hover {
+    background: #f0f0f0;
+}
+
+.location-name {
+    color: royalblue;
+    text-decoration: underline;
+}

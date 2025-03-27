@@ -73,6 +73,10 @@ export const getAllModelsTypes = async () => {
     return response.data;
 };
 
+export const getModelsByBrand = async (id: number) => {
+    const response = await api.get(`/cars/models/maker/${id}`);
+    return response.data;
+};
 
 // Összes autó lekérése
 export const getAllCars = async () => {

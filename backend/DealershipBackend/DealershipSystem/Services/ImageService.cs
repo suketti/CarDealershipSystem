@@ -22,22 +22,34 @@ public class ImageService
             throw new ArgumentException("Invalid image file.");
         }
 
-        string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
-        if (!Directory.Exists(uploadsFolder))
+        // Define the folder path as wwwroot/uploads/{carId}
+        string carFolder = Path.Combine(_environment.WebRootPath, "uploads", carId.ToString());
+        
+        if (!Directory.Exists(carFolder))
         {
-            Directory.CreateDirectory(uploadsFolder);
+            Directory.CreateDirectory(carFolder);
         }
 
-        string uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(imageFile.FileName)}";
-        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        // Get the original filename
+        string fileName = Path.GetFileName(imageFile.FileName);
+        string filePath = Path.Combine(carFolder, fileName);
 
+        // Check if the image already exists
+        if (System.IO.File.Exists(filePath))
+        {
+            return $"/uploads/{carId}/{fileName}"; // Return existing URL if already uploaded
+        }
+
+        // Save the file to disk
         using (var fileStream = new FileStream(filePath, FileMode.Create))
         {
             await imageFile.CopyToAsync(fileStream);
         }
 
-        string imageUrl = $"/uploads/{uniqueFileName}";
-        
+        // Generate the URL in the format /uploads/{carId}/{filename}
+        string imageUrl = $"/uploads/{carId}/{fileName}";
+
+        // Save image record in the database
         var image = new Image
         {
             CarID = carId,
@@ -49,6 +61,7 @@ public class ImageService
 
         return imageUrl;
     }
+
 
     public async Task<List<string>> GetImagesForCarAsync(int carId)
     {

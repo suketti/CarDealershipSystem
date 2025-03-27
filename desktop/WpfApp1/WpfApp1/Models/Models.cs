@@ -53,6 +53,8 @@ namespace WpfApp1.Models
         {
             FuelType = new FuelTypeDTO();
         }
+
+        public string DisplayText => $"{EngineSize} ({FuelType?.NameEnglish})";
     }
 
     public class CarExtraDTO

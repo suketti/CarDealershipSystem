@@ -17,38 +17,47 @@
                         <Label Content="Modell neve (angol):"/>
                         <TextBox Name="tbModelNameEnglish" Margin="0,10"/>
 
+                        <Label Content="Modell neve (japán):"/>
+                        <TextBox Name="tbModelNameJapanese" Margin="0,10"/>
+
                         <Label Content="Modell kódja:"/>
                         <TextBox Name="tbModelCode" Margin="0,10"/>
 
                         <Label Content="Gyártás kezdete:"/>
                         <TextBox Name="tbManufacturingStartYear" Margin="0,10"/>
 
+                        <Label Content="Gyártás vége:"/>
+                        <TextBox Name="tbManufacturingEndYear" Margin="0,10"/>
+
                         <Label Content="Utasok száma:"/>
                         <TextBox Name="tbPassengerCount" Margin="0,10"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="5" Grid.Column="1">
+                        <Label Content="Hosszúság:"/>
+                        <TextBox Name="tbLength" Margin="0,10"/>
 
                         <Label Content="Szélesség:"/>
                         <TextBox Name="tbWidth" Margin="0,10"/>
 
-                        <Label Content="Tömeg:"/>
-                        <TextBox Name="tbMass" Margin="0,10"/>
-                    </StackPanel>
-                    <StackPanel Margin="5" Grid.Column="1">
-                        <Label Content="Modell neve (japán):"/>
-                        <TextBox Name="tbModelNameJapanese" Margin="0,10"/>
-
-                        <Label Content="Gyártás vége:"/>
-                        <TextBox Name="tbManufacturingEndYear" Margin="0,10"/>
-
-                        <Label Content="Hosszúság:"/>
-                        <TextBox Name="tbLength" Margin="0,10"/>
-
                         <Label Content="Magasság:"/>
                         <TextBox Name="tbHeight" Margin="0,10"/>
 
+                        <Label Content="Tömeg:"/>
+                        <TextBox Name="tbMass" Margin="0,10"/>
+
                         <Label Content="Motorok"/>
                         <ComboBox Name="cbEngines" Margin="0,10" DisplayMemberPath="EngineSize"/>
+                        
+                        <DataGrid Name="dgEngines" Margin="0,10" AutoGenerateColumns="False" Height="100" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Méret" Binding="{Binding EngineSize}" Width="*" />
+                                <DataGridTextColumn Header="Üzemanyag" Binding="{Binding FuelType.NameEnglish}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                         <Button Content="Új motor hozzáadása" Click="btnAddEngine_Click" Margin="0,10"/>
                     </StackPanel>
+                    
                 </Grid>
                 <Button Content="Mentés" HorizontalAlignment="Left" Click="btnSave_Click"/>
             </StackPanel>
