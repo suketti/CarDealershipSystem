@@ -281,6 +281,8 @@
         flex-direction: column;
         height: auto;
         gap: 25px;
+        /* Changed to relative for absolute positioning of mobile map */
+        position: relative;
     }
     
     .locations-list-container {
@@ -293,6 +295,25 @@
     
     .map-container {
         height: 500px; /* Taller map on mobile */
+    }
+    
+    /* New styles for mobile map positioning */
+    .map-container-mobile {
+        order: 2; /* Make it appear at the bottom by default */
+        margin-top: 20px;
+    }
+    
+    /* Style for when map appears under a selected location */
+    .map-container-inline {
+        margin: 15px 0;
+        height: 350px; /* Slightly smaller when inline */
+        box-shadow: var(--shadow);
+    }
+    
+    /* The location item that has the map beneath it */
+    .location-item-with-map {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
     }
 }
 
