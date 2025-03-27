@@ -482,7 +482,7 @@ function Cars() {
     );
   })
 ) : (
-  <p>No cars available</p>
+  <p>{langCtx?.translate.noCars}</p>
 )}
           </div>
         </main>

@@ -3,6 +3,9 @@ import '../locationPage.css';
 import {AddressDTO, LocationDTO} from "../Types";
 import {getAllLocations} from "../api/locationService.ts";
 import {useNavigate} from "react-router-dom";
+import { translations } from "../translations";
+import { useContext } from 'react';
+import { LanguageCtx } from "../App";
 
 
 const LocationPage: React.FC = () => {
@@ -10,6 +13,7 @@ const LocationPage: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<LocationDTO  | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+    const langCtx = useContext(LanguageCtx);
 
 
   useEffect(() => {
@@ -43,18 +47,18 @@ const LocationPage: React.FC = () => {
         const fullAddress = `${address.street}, ${address.city}, ${address.prefecture.name}, ${address.postalCode}`;
         return `https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=15&output=embed&iwloc=near`;
     };
-
+    
   return (
     <div className="locations-page">
-      <h1 className="locations-title">Our Dealership Locations</h1>
+      <h1 className="locations-title">{langCtx?.translate.locationDealership}</h1>
       
       <div className="locations-container">
         {/* Left side - Locations list */}
         <div className="locations-list-container">
           {loading ? (
-            <div className="loading-message">Loading locations...</div>
+            <div className="loading-message">{langCtx?.translate.loadingLocation}</div>
           ) : !Array.isArray(locations) || locations.length === 0 ? (
-            <div className="empty-message">No locations found</div>
+            <div className="empty-message">{langCtx?.translate.noLocation}</div>
           ) : (
             <ul className="locations-list">
               {locations.map(location => (
@@ -74,13 +78,13 @@ const LocationPage: React.FC = () => {
                   </div>
                   <div className="location-capacity">
                     <span className="location-icon">🚗</span>
-                    <span>Capacity: {location.maxCapacity} / {location.maxCapacity}</span>
+                    <span>{langCtx?.translate.capacity} {location.maxCapacity} / {location.maxCapacity}</span>
                   </div>
                   <button 
                     className="location-search-button"
                     onClick={(e) => handleSearchClick(e, location.id)}
                   >
-                    Keresés
+                    {langCtx?.translate.search}
                   </button>
                 </li>
               ))}
@@ -111,8 +115,8 @@ const LocationPage: React.FC = () => {
           ) : (
               <div className="map-placeholder">
                 <div className="map-instructions-initial">
-                  <h3>Location Map</h3>
-                  <p>Select a location from the list to see it on the map</p>
+                  <h3>{langCtx?.translate.locationMap}</h3>
+                  <p>{langCtx?.translate.selectLocationMap}</p>
                   <div className="map-icon">🗺️</div>
                 </div>
             </div>

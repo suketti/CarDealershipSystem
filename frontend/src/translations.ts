@@ -161,6 +161,12 @@ export type TranslationType = {
   no: string;
   motExpiry: string;
   isSmoking: string;
+  loadingLocation: string;
+  locationDealership: string;
+  noLocation: string;
+  locationMap: string;
+  selectLocationMap: string;
+  noCars: string;
 };
 
 
@@ -327,7 +333,13 @@ export const translations = {
     no: "No",
     motExpiry: "MOT Expiry",
     isSmoking: "Smoking vehicle",
-  },
+    loadingLocation: "Loading locations...",
+  locationDealership: "Our Dealership Locations",
+  noLocation: "No locations found",
+  locationMap: "Location Map",
+  selectLocationMap: "Select a location from the list to see it on the map",
+    noCars: "No cars available",
+},
   hu: {
     searchTitle: "Autókereső",
     brand: "Márka:",
@@ -491,6 +503,12 @@ export const translations = {
     no: "Nem",
     motExpiry: "Műszaki viszga lejárat",
     isSmoking: "Dohányzázott jármű",
+    loadingLocation: "Helyszínek betöltése...",
+    locationDealership: "Autókereskedésünk helyszínei",
+    noLocation: "Nincs helyszín",
+    locationMap: "Helyszín térképe",
+    selectLocationMap: "Válassz ki egy helyszínt hogy láthasd a térképen.",
+    noCars: "Nincs elérhető autó",
   },
   jp: {
     searchTitle: "検索",
@@ -653,5 +671,11 @@ export const translations = {
     no: "いいえ",
     motExpiry: "車検の有効期限",
     isSmoking: "喫煙車",
+    loadingLocation: "場所を読み込み中...",
+  locationDealership: "当社のディーラー所在地",
+  noLocation: "場所が見つかりません",
+  locationMap: "所在地マップ",
+  selectLocationMap: "リストから場所を選択して地図上で表示する",
+  noCars: "利用可能な車両がありません"
   }
 };
