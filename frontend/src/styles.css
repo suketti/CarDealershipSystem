@@ -479,12 +479,10 @@ a:hover {
 
 .car-item {
   background-color: white;
-  border-radius: var(--border-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: transform 0.3s ease;
 }
 
 .car-item:hover {
@@ -493,9 +491,11 @@ a:hover {
 }
 
 .car-image {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .car-image img {
@@ -534,6 +534,7 @@ a:hover {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
   color: var(--gray-900);
+  text-align: center;
 }
 
 .car-item .price {

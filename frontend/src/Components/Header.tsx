@@ -109,7 +109,7 @@ const Header = () => {
                 <ul className="dropdown-menu">
                   <li>
                     <Link to="/profile" onClick={() => setShowUserMenu(false)}>
-                      <FontAwesomeIcon icon="user" /> {langCtx?.translate.myProfile}
+                      <FontAwesomeIcon icon="user" /> {langCtx?.translate.myData}
                     </Link>
                   </li>
                   <li>

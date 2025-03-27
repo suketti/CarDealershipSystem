@@ -33,9 +33,9 @@ function Footer({ language }: FooterProps) {
         </div>
         <div className="footer-section">
           <h4>{langCtx?.translate.footer_links}</h4>
-          <a href="/rolunk.html">{langCtx?.translate.footer_about}</a>
-          <a href="/kapcsolat.html">{langCtx?.translate.footer_contact_page}</a>
-          <a href="/adatvedelem.html">{langCtx?.translate.footer_privacy}</a>
+          <a>{langCtx?.translate.footer_about}</a>
+          <a>{langCtx?.translate.footer_contact_page}</a>
+          <a>{langCtx?.translate.footer_privacy}</a>
         </div>
         <div className="footer-bottom">
           <p>{langCtx?.translate.footer_rights}</p>
