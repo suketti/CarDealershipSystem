@@ -11,9 +11,6 @@ const LocationPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Current date and user info - UPDATED
-  const currentDateTime = "2025-03-27 10:31:01";
-  const currentUser = "Kissdani05A";
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -42,18 +39,14 @@ const LocationPage: React.FC = () => {
     };
 
   // Create an embed URL for Google Maps based on the selected location
-  const getEmbedMapUrl = (address: AddressDTO) => {
-    const fullAddress = `${address.postalCode}${address.prefecture.nameJP}${address.city}${address.street}`;
-    return `https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=15&output=embed&iwloc=near`;
-  };
+    const getEmbedMapUrl = (address: AddressDTO) => {
+        const fullAddress = `${address.street}, ${address.city}, ${address.prefecture.name}, ${address.postalCode}`;
+        return `https://maps.google.com/maps?q=${encodeURIComponent(fullAddress)}&t=m&z=15&output=embed&iwloc=near`;
+    };
 
   return (
     <div className="locations-page">
       <h1 className="locations-title">Our Dealership Locations</h1>
-      <div className="header-info">
-        <p className="date-display">{currentDateTime}</p>
-        <p className="user-display">Current User: {currentUser}</p>
-      </div>
       
       <div className="locations-container">
         {/* Left side - Locations list */}
@@ -84,7 +77,7 @@ const LocationPage: React.FC = () => {
                     <span>Capacity: {location.maxCapacity} / {location.maxCapacity}</span>
                   </div>
                   <button 
-                    className="search-button"
+                    className="location-search-button"
                     onClick={(e) => handleSearchClick(e, location.id)}
                   >
                     Keresés
@@ -98,30 +91,30 @@ const LocationPage: React.FC = () => {
         {/* Right side - Map (embedded iframe) */}
         <div className="map-container">
           {selectedLocation ? (
-            <div className="map-embed-container">
-              <div className="map-selected-info">
-                <h3 className="map-location-name">{selectedLocation.name}</h3>
-                <p className="map-selected-address">{selectedLocation.address}</p>
+              <div className="map-embed-container">
+                <div className="map-selected-info">
+                  <h3 className="map-location-name">{selectedLocation.locationName}</h3>
+                  <p className="map-selected-address">{selectedLocation.address.prefecture.nameJP + selectedLocation.address.city + selectedLocation.address.street}</p>
+                </div>
+                <iframe
+                    className="map-iframe"
+                    src={getEmbedMapUrl(selectedLocation.address)} // ✅ No more type error
+                    width="100%"
+                    height="100%"
+                    style={{border: 0}}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title={`Map showing ${selectedLocation.locationName}`}
+                />
               </div>
-              <iframe
-                className="map-iframe"
-                src={getEmbedMapUrl(selectedLocation.address)}
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={`Map showing ${selectedLocation.name}`}
-              ></iframe>
-            </div>
           ) : (
-            <div className="map-placeholder">
-              <div className="map-instructions-initial">
-                <h3>Location Map</h3>
-                <p>Select a location from the list to see it on the map</p>
-                <div className="map-icon">🗺️</div>
-              </div>
+              <div className="map-placeholder">
+                <div className="map-instructions-initial">
+                  <h3>Location Map</h3>
+                  <p>Select a location from the list to see it on the map</p>
+                  <div className="map-icon">🗺️</div>
+                </div>
             </div>
           )}
         </div>
