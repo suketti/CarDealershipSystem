@@ -48,13 +48,14 @@
 
                         <Label Content="Motorok"/>
                         <ComboBox Name="cbEngines" Margin="0,10" DisplayMemberPath="EngineSize"/>
-                        <Button Content="Új motor hozzáadása" Click="btnAddEngine_Click" Margin="0,10"/>
+                        
                         <DataGrid Name="dgEngines" Margin="0,10" AutoGenerateColumns="False" Height="100" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Méret" Binding="{Binding EngineSize}" Width="*" />
                                 <DataGridTextColumn Header="Üzemanyag" Binding="{Binding FuelType.NameEnglish}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
+                        <Button Content="Új motor hozzáadása" Click="btnAddEngine_Click" Margin="0,10"/>
                     </StackPanel>
                     
                 </Grid>
