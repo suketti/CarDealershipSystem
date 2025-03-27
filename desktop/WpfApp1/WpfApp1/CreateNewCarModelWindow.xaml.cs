@@ -24,6 +24,7 @@ namespace WpfApp1.Views
             _modelId = modelId;
             LoadMakers();
             LoadFuelTypes();
+            
             if (_modelId.HasValue)
             {
                 LoadModel(_modelId.Value);
@@ -70,7 +71,7 @@ namespace WpfApp1.Views
                 tbHeight.Text = model.Height.ToString();
                 tbMass.Text = model.Mass.ToString();
                 _engineSizes = model.EngineSizes;
-                dgEngines.ItemsSource = _engineSizes;
+                
                 cbEngines.ItemsSource = _engineSizes;
             }
         }
@@ -84,6 +85,8 @@ namespace WpfApp1.Views
                 _engineSizes.Add(newEngine);
                 cbEngines.ItemsSource = null;
                 cbEngines.ItemsSource = _engineSizes;
+                dgEngines.ItemsSource = null;
+                dgEngines.ItemsSource = _engineSizes;
             }
         }
 
