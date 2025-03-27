@@ -68,6 +68,11 @@ const MobileMenu = () => {
                   <FontAwesomeIcon icon="car" /> {langCtx?.translate.cars}
                 </Link>
               </li>
+              <li>
+                              <Link to="/locations" className="mobile-nav-link" onClick={toggleMenu}>
+                                <FontAwesomeIcon icon="location-dot" /> {langCtx?.translate.locations}
+                              </Link>
+                            </li>
               
               {isAuthenticated ? (
                 <>

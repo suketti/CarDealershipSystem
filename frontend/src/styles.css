@@ -1088,7 +1088,32 @@ footer {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
+.details-button {
+  display: inline-block;
+  background-color: var(--primary);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  margin-top: 1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+  width: 100%;
+}
 
+.details-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  color: white;
+}
+
+.details-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
 .filter-buttons {
   grid-column: 1 / -1;
   display: flex;
@@ -1456,9 +1481,59 @@ footer {
 }
 
 .message-item {
+  position: relative;
+  background-color: var(--gray-50);
+  border-radius: var(--border-radius);
   padding: 1rem;
-  border-bottom: 1px solid var(--gray-200);
-  transition: background-color 0.2s;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary);
+  transition: all 0.2s ease;
+}
+
+.message-footer {
+  margin-top: 0.75rem;
+  border-top: 1px dashed var(--gray-200);
+  padding-top: 0.75rem;
+}
+.message-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.message-actions .btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.message-actions .btn-icon:first-child {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+.message-actions .btn-icon:first-child:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: var(--error);
+  transform: translateY(-2px);
+}
+
+.message-actions .btn-icon:last-child {
+  background-color: var(--primary-bg);
+  color: var(--primary);
+}
+
+.message-actions .btn-icon:last-child:hover {
+  background-color: var(--primary-light);
+  color: white;
+  transform: translateY(-2px);
 }
 
 .message-item:last-child {
@@ -1466,9 +1541,17 @@ footer {
 }
 
 .message-item:hover {
-  background-color: var(--gray-50);
+  background-color: var(--gray-100);
+}
+.message-actions .btn-ghost:hover {
+  color: var(--primary);
+  background-color: var(--primary-bg);
 }
 
+.message-actions .btn-ghost:last-child:hover {
+  color: var(--error);
+  background-color: rgba(239, 68, 68, 0.1);
+}
 .message-sender {
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -1477,10 +1560,10 @@ footer {
   align-items: center;
 }
 
-.message-content {
-  color: var(--gray-700);
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
+.modal-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 5px;
 }
 
 .message-date {
@@ -1489,7 +1572,145 @@ footer {
   display: flex;
   align-items: center;
 }
+.appointment-edit-overlay {
+  background-color: rgba(15, 23, 42, 0.7); /* Darker overlay for focus */
+  z-index: 1100; /* Ensure it appears above the main message modal */
+  backdrop-filter: blur(4px);
+}
 
+/* Modal Container for appointment editing */
+.appointment-edit-modal {
+  max-width: 500px;
+  background: linear-gradient(to bottom right, var(--light), var(--gray-100));
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--primary-light);
+}
+
+/* Header styling */
+.appointment-header {
+  background-color: var(--primary);
+  color: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.appointment-header .modal-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  margin-bottom: 0;
+}
+
+.appointment-icon {
+  color: var(--light);
+  font-size: 1.5rem;
+}
+
+/* Content styling */
+.appointment-content {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+.current-appointment-info {
+  background-color: var(--primary-bg);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--primary);
+}
+
+.info-label {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  margin-bottom: 0.25rem;
+}
+
+.info-value {
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.appointment-form-group {
+  margin-bottom: 0;
+}
+
+form-label.appointment- {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 0.75rem;
+}
+
+.appointment-input-icon {
+  color: var(--primary);
+}
+
+.appointment-input {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: all 0.3s;
+  background-color: var(--gray-50);
+}
+
+.appointment-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+/* Footer styling */
+.appointment-footer {
+  padding: 1.25rem 1.5rem;
+  background-color: var(--gray-100);
+  border-top: 1px solid var(--gray-200);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Button styling */
+.appointment-btn-cancel, .appointment-btn-save {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.appointment-btn-save {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.appointment-btn-save:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.appointment-btn-cancel {
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+  border: none;
+}
+
+.appointment-btn-cancel:hover {
+  background-color: var(--gray-300);
+}
+
+.btn-icon-left {
+  font-size: 0.875rem;
+}
 .empty-state {
   text-align: center;
   padding: 2.5rem 1rem;
@@ -1956,7 +2177,7 @@ input:focus, select:focus {
 
 .card img {
   width: 100%;
-  height: auto;
+  max-height: 10rem;
 }
 
 .card-body {
@@ -2413,15 +2634,10 @@ input:focus, select:focus {
   }
   
   .form-group label {
-    flex: 1 1 200px;
     margin-right: 1em;
   }
 
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    flex: 2 1 300px;
-  }
+  
 }
 
 /* Input pair for min-max values */

@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useUser } from "../UserContext.tsx"; // Import the custom hook
 import { LanguageCtx } from "../App";
 import { UserDTO } from "../Interfaces/User.ts";
+import PasswordChangeModal from "../Components/PasswordChangeModal"; // Import the new component
 
 function Profile() {
   const { user, isAuthenticated, registerUser } = useUser(); // Consume user context
@@ -12,6 +13,7 @@ function Profile() {
   const [email, setEmail] = useState<string>(user?.email || "testuser@example.com");
   const [phone, setPhone] = useState<string>(user?.phoneNumber || "+36 30 123 4567");
   const [nameKanji, setNameKanji] = useState<string>(user?.nameKanji || ""); // Field for kanji name
+  const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false); // New state for modal visibility
 
   // Update the state with user data whenever the user context changes
   useEffect(() => {
@@ -48,6 +50,11 @@ function Profile() {
     }).catch((error) => {
       console.error("Error saving user data:", error);
     });
+  };
+
+  // Toggle password change modal
+  const togglePasswordModal = () => {
+    setShowPasswordModal(!showPasswordModal);
   };
 
   return (
@@ -96,6 +103,24 @@ function Profile() {
               {langCtx?.translate.save}
             </button>
           </form>
+          
+          {/* Add password change button */}
+          <div style={{ marginTop: '2rem' }}>
+            <button 
+              onClick={togglePasswordModal} 
+              className="btn btn-secondary"
+            >
+              {langCtx?.translate.changePassword || "Jelszó módosítása"}
+            </button>
+          </div>
+
+          {/* Render password change modal when showPasswordModal is true */}
+          {showPasswordModal && (
+            <PasswordChangeModal 
+              onClose={togglePasswordModal} 
+              t={langCtx?.translate || {}} 
+            />
+          )}
         </div>
       </main>
   );

@@ -167,6 +167,18 @@ export type TranslationType = {
   locationMap: string;
   selectLocationMap: string;
   noCars: string;
+  changePassword: string;
+  passwordChangeSuccess: string;
+  errorOccurred: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  passwordsDoNotMatch: string;
+  editAppointment: string;
+  done: string;
+  deleteMessage: string;
+  currentAppointment: string;
+  newAppointmentDate: string;
 };
 
 
@@ -251,7 +263,7 @@ export const translations = {
     dealership: "Car Dealership",
     closed: "Close",
     searchResult: "Search Result",
-    welcomeText: "Welcome in the Car Dealership!",
+    welcomeText: "Welcome in the Premium Cars Car Dealership!",
     searchCars: "Search between the new and used cars...",
     viewCars: "View Cars",
     drive:"Drive:",
@@ -339,6 +351,18 @@ export const translations = {
   locationMap: "Location Map",
   selectLocationMap: "Select a location from the list to see it on the map",
     noCars: "No cars available",
+    changePassword: "Change Password",
+  passwordChangeSuccess: "Password Change Success",
+  errorOccurred: "Error changing password",
+  oldPassword: "Old Password",
+  newPassword: "New Password",
+  confirmPassword: "New Password Again",
+  passwordsDoNotMatch: "Password doesn't matching",
+  editAppointment: "Edit Appointment",
+  done: "Done",
+  deleteMessage: "Delete Message",
+  newAppointmentDate: "New Appointment Date and Time",
+  currentAppointment: "Current Appointment",
 },
   hu: {
     searchTitle: "Autókereső",
@@ -420,7 +444,7 @@ export const translations = {
     dealership: "Autókereskedés",
     closed: "Bezárás",
     searchResult: "Keresési eredmények",
-    welcomeText: "Üdvözlünk az Autókereskedésben!",
+    welcomeText: "Üdvözlünk a Premium Cars Autókereskedésben!",
     searchCars: "Válogass kedvedre a használt és új autók közül...",
     viewCars: "Autók megtekintése",
     drive:"Meghajtás:",
@@ -509,6 +533,18 @@ export const translations = {
     locationMap: "Helyszín térképe",
     selectLocationMap: "Válassz ki egy helyszínt hogy láthasd a térképen.",
     noCars: "Nincs elérhető autó",
+    changePassword: "Jelszó módosítása",
+  passwordChangeSuccess: "Jelszó sikeresen módosítva!",
+  errorOccurred: "Hiba történt. Kérjük, próbálja újra.",
+  oldPassword: "Régi jelszó",
+  newPassword: "Új jelszó",
+  confirmPassword: "Új jelszó újra",
+  passwordsDoNotMatch: "A jelszavak nem egyeznek",
+  editAppointment: "Foglalás módosítása",
+  done: "Kész",
+  deleteMessage: "Üzenet törlése",
+  newAppointmentDate: "Új időpont Dátum és Idő",
+  currentAppointment: "Jelenlegi időpont",
   },
   jp: {
     searchTitle: "検索",
@@ -676,6 +712,18 @@ export const translations = {
   noLocation: "場所が見つかりません",
   locationMap: "所在地マップ",
   selectLocationMap: "リストから場所を選択して地図上で表示する",
-  noCars: "利用可能な車両がありません"
+  noCars: "利用可能な車両がありません",
+  changePassword: "パスワードを変更",
+  passwordChangeSuccess: "パスワード変更成功",
+  errorOccurred: "パスワード変更エラー",
+  oldPassword: "現在のパスワード",
+  newPassword: "新しいパスワード",
+  confirmPassword: "新しいパスワードの確認",
+  passwordsDoNotMatch: "パスワードが一致しません",
+  editAppointment: "予約を編集",
+  done: "完了",
+  deleteMessage: "メッセージを削除",
+  newAppointmentDate: "新しい予約日時",
+  currentAppointment: "現在の予約"
   }
 };
