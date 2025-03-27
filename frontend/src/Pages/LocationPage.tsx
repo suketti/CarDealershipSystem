@@ -61,8 +61,8 @@ const LocationPage: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [loading, setLoading] = useState(false);
   
-  // Current date and user info - UPDATED
-  const currentDateTime = "2025-03-27 10:31:01";
+  // Updated current date and user info
+  const currentDateTime = "2025-03-27 10:36:14";
   const currentUser = "Kissdani05A";
 
   useEffect(() => {
@@ -111,10 +111,7 @@ const LocationPage: React.FC = () => {
 
   return (
     <div className="locations-page">
-      <h1 className="locations-title">Our Dealership Locations</h1>
       <div className="header-info">
-        <p className="date-display">{currentDateTime}</p>
-        <p className="user-display">Current User: {currentUser}</p>
       </div>
       
       <div className="locations-container">
@@ -146,7 +143,7 @@ const LocationPage: React.FC = () => {
                     <span>Capacity: {location.currentCapacity} / {location.maxCapacity}</span>
                   </div>
                   <button 
-                    className="search-button"
+                    className="location-search-button"
                     onClick={(e) => handleSearchClick(e, location.id)}
                   >
                     Keresés
