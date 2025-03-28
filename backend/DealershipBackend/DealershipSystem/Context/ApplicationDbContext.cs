@@ -31,6 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     public DbSet<SavedCar> SavedCars { get; set; } = null!;
     public DbSet<Reservation> Reservations { get; set; } = null!;
+    public DbSet<EmployeeLocation> EmployeeLocations { get; set; } = null!;
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new PrefectureConfiguration());
@@ -78,6 +79,10 @@ public class ApplicationDbContext : IdentityDbContext<User>
             .WithMany()
             .HasForeignKey(c => c.EngineSizeID)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<EmployeeLocation>()
+            .HasIndex(el => el.EmployeeId) // Index for faster lookup
+            .IsUnique(false);
         
         modelBuilder.Entity<Prefecture>().HasData(
             new Prefecture { Id = 1, Name = "Hokkaido", NameJP = "北海道" },

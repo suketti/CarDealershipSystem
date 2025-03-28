@@ -42,10 +42,7 @@ public class ReservationService : IReservationService
 
     public async Task<ReservationDTO?> CreateAsync(CreateReservationDTO dto, string userId)
     {
-        if (dto.UserId != Guid.Parse(userId))
-        {
-            return null; // Unauthorized attempt
-        }
+        if (dto.UserId != Guid.Parse(userId)) return null;
         
         var reservation = new Reservation
         {
@@ -66,10 +63,31 @@ public class ReservationService : IReservationService
         };
     }
 
-    public async Task<bool> DeleteAsync(int id, string userId)
+    public async Task<ReservationDTO?> UpdateAsync(int id, UpdateReservationDTO dto, string userId)
     {
         var reservation = await _context.Reservations
             .FirstOrDefaultAsync(r => r.Id == id && r.UserId == Guid.Parse(userId));
+        
+        if (reservation == null) return null;
+        
+        reservation.CarId = dto.CarId;
+        reservation.Date = dto.Date;
+        
+        await _context.SaveChangesAsync();
+        
+        return new ReservationDTO()
+        {
+            Id = reservation.Id,
+            UserId = reservation.UserId,
+            CarId = reservation.CarId,
+            Date = reservation.Date
+        };
+    }
+
+    public async Task<bool> DeleteAsync(int id, string userId, bool isAdmin)
+    {
+        var reservation = await _context.Reservations
+            .FirstOrDefaultAsync(r => r.Id == id && (r.UserId == Guid.Parse(userId) || isAdmin));
         
         if (reservation == null) return false;
         

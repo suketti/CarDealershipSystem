@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using AutoMapper;
 using DealershipSystem.DTO;
 using DealershipSystem.Interfaces;
@@ -154,16 +155,34 @@ public class UserController : ControllerBase
         return Ok(new { Message = "User updated successfully." });
     }
 
-    [HttpPost("change-password")]
+    [HttpPost("change-password-admin")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ChangePassword([FromBody] ChangePassswordDTO changePasswordDto)
+    public async Task<IActionResult> ChangePasswordAdmin([FromBody] ChangePasswordAdminDTO changePasswordDto)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var result = await _userService.ChangePasswordAsync(changePasswordDto.UserId, changePasswordDto.NewPassword);
+        var result = await _userService.ChangePasswordAdminAsync(changePasswordDto.UserId, changePasswordDto.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
+        }
+
+        return Ok(new { Message = "Password changed successfully." });
+    }
+    
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO changePasswordDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _userService.ChangePasswordAsync(changePasswordDto.UserId, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
 
         if (!result.Succeeded)
         {
@@ -224,5 +243,39 @@ public class UserController : ControllerBase
         }
 
         return Ok(new { AccessToken = newAccessToken });
+    }
+
+    [HttpGet("getPrivilege")]
+    public async Task<IActionResult> GetUserRank([FromQuery] string userId)
+    {
+        if (string.IsNullOrEmpty(userId))
+        {
+            return BadRequest("User ID is required.");
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+
+        var roles = await _userManager.GetRolesAsync(user);
+        return Ok(roles);
+    }
+    
+    [Authorize] // Requires authentication
+    [HttpPut("updatePreferredLanguage/{targetUserId}")]
+    public async Task<IActionResult> UpdatePreferredLanguage(Guid targetUserId, [FromBody] string language)
+    {
+        var requesterId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); // Get authenticated user's ID
+
+        bool success = await _userService.UpdatePreferredLanguageAsync(requesterId, targetUserId, language);
+
+        if (!success)
+        {
+            return BadRequest("Invalid request, unauthorized update, or user not found.");
+        }
+
+        return Ok("Preferred language updated successfully.");
     }
 }

@@ -114,12 +114,12 @@ function Profile() {
             </button>
           </div>
 
-          {/* Render password change modal when showPasswordModal is true */}
-          {showPasswordModal && (
-            <PasswordChangeModal 
-              onClose={togglePasswordModal} 
-              t={langCtx?.translate || {}} 
-            />
+          {showPasswordModal && user?.id && (
+              <PasswordChangeModal
+                  onClose={togglePasswordModal}
+                  t={langCtx?.translate || {}}
+                  userId={user.id}
+              />
           )}
         </div>
       </main>

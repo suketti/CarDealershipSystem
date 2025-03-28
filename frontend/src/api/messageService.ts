@@ -10,3 +10,13 @@ export const getMessagesByUser = async (userId: string): Promise<Message[]> => {
         throw error;
     }
 };
+
+export const deleteMessage = async (messageId: string): Promise<void> => {
+    try {
+        await api.delete(`/messages/${messageId}`);
+        console.log("Message deleted successfully");
+    } catch (error) {
+        console.error("Error deleting message:", error);
+        throw error;
+    }
+};

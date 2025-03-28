@@ -42,6 +42,7 @@ public class Program
         builder.Services.AddScoped<IMessageService, MessageService>();
         builder.Services.AddScoped<ISavedCarService, SavedCarService>();
         builder.Services.AddScoped<IReservationService, ReservationService>();
+        builder.Services.AddScoped<EmployeeLocationService>();
         
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()

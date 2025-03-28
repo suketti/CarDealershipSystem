@@ -128,7 +128,7 @@ public class UserService : IUserService
         return userDtos;
     }
     
-    public async Task<IdentityResult> ChangePasswordAsync(Guid userId, string newPassword)
+    public async Task<IdentityResult> ChangePasswordAsync(Guid userId, string oldPassword, string newPassword)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
         if (user == null)
@@ -136,7 +136,50 @@ public class UserService : IUserService
             return IdentityResult.Failed(new IdentityError { Description = "User not found." });
         }
 
+        return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+    }
+    
+    public async Task<IdentityResult> ChangePasswordAdminAsync(Guid userId, string newPassword)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return IdentityResult.Failed(new IdentityError { Description = "User not found." });
+        }
+        
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
         return await _userManager.ResetPasswordAsync(user, token, newPassword);
+    }
+    
+    public async Task<string> GetPreferredLanguageAsync(Guid userId)
+    {
+        var user = await _context.Users.FindAsync(userId.ToString());
+        return user?.PreferredLanguage ?? "en";
+    }
+    
+    public async Task<bool> UpdatePreferredLanguageAsync(Guid requesterId, Guid targetUserId, string language)
+    {
+        var allowedLanguages = new[] { "jp", "en", "hu" };
+
+        if (!allowedLanguages.Contains(language.ToLower()))
+        {
+            return false; // Invalid language
+        }
+
+        if (requesterId != targetUserId)
+        {
+            return false; // Unauthorized update attempt
+        }
+
+        var user = await _context.Users.FindAsync(targetUserId);
+        if (user == null)
+        {
+            return false; // User not found
+        }
+
+        user.PreferredLanguage = language;
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

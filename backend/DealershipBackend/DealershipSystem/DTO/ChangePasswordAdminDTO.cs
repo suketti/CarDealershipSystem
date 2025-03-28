@@ -2,14 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DealershipSystem.DTO
 {
-    public class ChangePasswordDTO
+    public class ChangePasswordAdminDTO
     {
         [Required]
         public Guid UserId { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string OldPassword { get; set; }
         
         [Required]
         [StringLength(100, MinimumLength = 6)]

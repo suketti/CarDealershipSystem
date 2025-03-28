@@ -179,6 +179,7 @@ export type TranslationType = {
   deleteMessage: string;
   currentAppointment: string;
   newAppointmentDate: string;
+  wrongPassword: string;
 };
 
 
@@ -363,6 +364,7 @@ export const translations = {
   deleteMessage: "Delete Message",
   newAppointmentDate: "New Appointment Date and Time",
   currentAppointment: "Current Appointment",
+    wrongPassword: "Wrong Password",
 },
   hu: {
     searchTitle: "Autókereső",
@@ -545,6 +547,7 @@ export const translations = {
   deleteMessage: "Üzenet törlése",
   newAppointmentDate: "Új időpont Dátum és Idő",
   currentAppointment: "Jelenlegi időpont",
+    wrongPassword: "Hibás jelszó!"
   },
   jp: {
     searchTitle: "検索",
@@ -724,6 +727,7 @@ export const translations = {
   done: "完了",
   deleteMessage: "メッセージを削除",
   newAppointmentDate: "新しい予約日時",
-  currentAppointment: "現在の予約"
+  currentAppointment: "現在の予約",
+    wrongPassword: "パスワードが間違えてます"
   }
 };

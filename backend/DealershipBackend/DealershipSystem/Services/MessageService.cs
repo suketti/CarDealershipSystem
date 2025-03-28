@@ -31,8 +31,6 @@ public class MessageService : IMessageService
     public async Task<List<Message>> GetMessagesByUserAsync(Guid userId)
     {
         var currentUserId = GetUserIdFromJwt();
-        Debug.WriteLine(currentUserId);
-        Debug.WriteLine(userId);
         if (currentUserId != userId)
         {
             throw new UnauthorizedAccessException("You do not have permission to view these messages.");
@@ -58,4 +56,29 @@ public class MessageService : IMessageService
         return Guid.Parse(userIdClaim.Value);
     }
 
+    public async Task DeleteMessageAsync(int messageId)
+    {
+        var currentUserId = GetUserIdFromJwt();
+
+        // Find the message to delete
+        var message = await _dbContext.Messages
+            .FirstOrDefaultAsync(m => m.Id == messageId);
+
+        if (message == null)
+        {
+            throw new KeyNotFoundException("Message not found.");
+        }
+
+        // Check if the message belongs to the current user
+        if (message.Recipient != currentUserId)
+        {
+            throw new UnauthorizedAccessException("You do not have permission to delete this message.");
+        }
+
+        // Remove the message from the database
+        _dbContext.Messages.Remove(message);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    
 }

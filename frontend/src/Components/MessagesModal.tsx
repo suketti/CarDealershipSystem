@@ -2,16 +2,17 @@ import React, { useEffect, useState, useContext } from "react";
 import { Message } from "../Interfaces/Message.ts";
 import { LanguageCtx } from "../App.tsx";
 import { useUser } from "../UserContext";
-import { getMessagesByUser } from "../api/messageService.ts";
+import {deleteMessage, getMessagesByUser} from "../api/messageService.ts";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faUser, faCalendarAlt, faExclamationCircle, faEnvelopeOpen, faClock, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+import reservationService from "../api/reservationService.ts";
+import {UpdateReservationDTO} from "../Interfaces/Reservation.ts";
 
 interface MessagesModalProps {
     onClose: () => void;
     t: { [key: string]: string };
 }
 
-// Add new interface for appointment editing modal
 interface AppointmentEditModalProps {
     onClose: () => void;
     onSave: (newDate: Date) => void;
@@ -19,7 +20,6 @@ interface AppointmentEditModalProps {
     t: { [key: string]: string };
 }
 
-// New component for editing appointment time
 const AppointmentEditModal: React.FC<AppointmentEditModalProps> = ({ onClose, onSave, currentDate, t }) => {
     const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
     const langCtx = useContext(LanguageCtx);
@@ -33,35 +33,32 @@ const AppointmentEditModal: React.FC<AppointmentEditModalProps> = ({ onClose, on
         onClose();
     };
 
-    // Format date for datetime-local input
     const formatDateForInput = (date: Date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        
+
         return `${year}-${month}-${day}T${hours}:${minutes}`;
     };
-
-    const formattedCurrentDate = new Date(currentDate).toLocaleString();
 
     return (
         <div className="modal-overlay appointment-edit-overlay">
             <div className="modal-container appointment-edit-modal">
                 <button className="modal-close" onClick={onClose}>&times;</button>
-                
+
                 <div className="modal-header appointment-header">
                     <h2 className="modal-title">
                         <FontAwesomeIcon icon={faCalendarAlt} className="appointment-icon" />
                         {langCtx?.translate.editAppointment || "Edit Appointment"}
                     </h2>
                 </div>
-                
+
                 <div className="modal-content appointment-content">
                     <div className="current-appointment-info">
                         <div className="info-label">{langCtx?.translate.currentAppointment || "Current Appointment"}:</div>
-                        <div className="info-value">{formattedCurrentDate}</div>
+                        <div className="info-value">{new Date(currentDate).toLocaleString()}</div>
                     </div>
 
                     <div className="form-group appointment-form-group">
@@ -78,7 +75,7 @@ const AppointmentEditModal: React.FC<AppointmentEditModalProps> = ({ onClose, on
                         />
                     </div>
                 </div>
-                
+
                 <div className="modal-footer appointment-footer">
                     <button className="btn btn-secondary appointment-btn-cancel" onClick={onClose}>
                         <FontAwesomeIcon icon={faTimes} className="btn-icon-left" />
@@ -94,16 +91,14 @@ const AppointmentEditModal: React.FC<AppointmentEditModalProps> = ({ onClose, on
     );
 };
 
-// Rest of the MessagesModal component remains the same...
-
 const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
     const { user } = useUser();
     const langCtx = useContext(LanguageCtx);
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    // New state for appointment editing
-    const [editingAppointment, setEditingAppointment] = useState<{messageId: string, date: Date} | null>(null);
+    const [editingAppointment, setEditingAppointment] = useState<UpdateReservationDTO & { id: number } | null>(null);
+
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -113,7 +108,6 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
 
             try {
                 const fetchedMessages = await getMessagesByUser(user.id);
-                console.log(fetchedMessages);
                 setMessages(fetchedMessages);
             } catch (err) {
                 console.error("Failed to fetch messages", err);
@@ -132,31 +126,28 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
         };
     }, [user]);
 
-    // Handle message deletion
-    const handleDelete = (messageId: string) => {
-        // In a real application, you would call an API to delete the message
-        // For now, we'll just remove it from the local state
-        setMessages(messages.filter(msg => msg.date !== messageId));
+    const handleDelete = async (messageId: string) => {
+        try {
+            // Call API to delete message
+            //await reservationService.deleteReservation();
+            await deleteMessage(messageId);
+            setMessages(messages.filter(msg => msg.date !== messageId));
+        } catch (err) {
+            console.error("Failed to delete message", err);
+            setError("Failed to delete the message.");
+        }
     };
 
-    // Handle appointment time update
-    const handleAppointmentUpdate = (messageId: string, newDate: Date) => {
-        // In a real application, you would call an API to update the appointment
-        // For now, we'll just update the local state
-        setMessages(messages.map(msg => 
-            msg.date === messageId ? {...msg, date: newDate.toISOString()} : msg
-        ));
-    };
 
     return (
         <div className="modal-overlay">
             <div className="modal-container">
                 <button className="modal-close" onClick={onClose}>&times;</button>
-                
+
                 <div className="modal-header">
                     <h2 className="modal-title">{langCtx?.translate.myMessages || "My Messages"}</h2>
                 </div>
-                
+
                 <div className="modal-content">
                     {loading ? (
                         <div className="empty-state">
@@ -177,7 +168,7 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
                             <div key={msg.date} className="message-item">
                                 <div className="message-sender">
                                     <FontAwesomeIcon icon={faUser} style={{ marginRight: '8px' }} />
-                                    {msg.sender || "System"}
+                                    {"System"}
                                 </div>
                                 <div className="message-content">
                                     {msg.content}
@@ -188,19 +179,12 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
                                 </div>
                                 <div className="message-footer">
                                     <div className="message-actions">
-                                        <button 
-                                            className="btn btn-sm btn-icon" 
-                                            onClick={() => handleDelete(msg.date)}
+                                        <button
+                                            className="btn btn-sm btn-icon"
+                                            onClick={() => handleDelete(msg.id)}
                                             title={langCtx?.translate.deleteMessage || "Delete Message"}
                                         >
                                             <FontAwesomeIcon icon={faTrash} />
-                                        </button>
-                                        <button 
-                                            className="btn btn-sm btn-icon" 
-                                            onClick={() => setEditingAppointment({messageId: msg.date, date: new Date(msg.date)})}
-                                            title={langCtx?.translate.editAppointment || "Edit Appointment"}
-                                        >
-                                            <FontAwesomeIcon icon={faEdit} />
                                         </button>
                                     </div>
                                 </div>
@@ -208,7 +192,7 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
                         ))
                     )}
                 </div>
-                
+
                 <div className="modal-footer">
                     <button className="btn btn-secondary" onClick={onClose}>
                         {langCtx?.translate.closed || "Close"}
@@ -216,18 +200,26 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
                 </div>
             </div>
 
-            {/* Appointment Edit Modal */}
-            {editingAppointment && (
-                <AppointmentEditModal
-                    onClose={() => setEditingAppointment(null)}
-                    onSave={(newDate) => {
-                        handleAppointmentUpdate(editingAppointment.messageId, newDate);
-                        setEditingAppointment(null);
-                    }}
-                    currentDate={editingAppointment.date}
-                    t={t}
-                />
-            )}
+            {/*{editingAppointment && (*/}
+            {/*    <AppointmentEditModal*/}
+            {/*        onClose={() => setEditingAppointment(null)}*/}
+            {/*        onSave={(newDate) => {*/}
+            {/*            // Pass the full UpdateReservationDTO including the reservation ID*/}
+            {/*            handleAppointmentUpdate({*/}
+            {/*                id: editingAppointment.id,*/}
+            {/*                carId: editingAppointment.carId,*/}
+            {/*                date: newDate*/}
+            {/*            });*/}
+            {/*            setEditingAppointment(null);*/}
+            {/*        }}*/}
+            {/*        currentDate={editingAppointment.date}*/}
+            {/*        carId={editingAppointment.carId}*/}
+            {/*        reservationId={editingAppointment.id} // Pass the reservation ID as well*/}
+            {/*        t={t}*/}
+            {/*    />*/}
+            {/*)}*/}
+
+
         </div>
     );
 };

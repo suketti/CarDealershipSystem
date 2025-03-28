@@ -10,3 +10,8 @@ export interface CreateReservationDTO {
     carId: number;
     date: string;
 }
+
+export interface UpdateReservationDTO {
+    carId: number;
+    date: string;
+}

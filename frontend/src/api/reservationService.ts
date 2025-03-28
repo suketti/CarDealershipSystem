@@ -1,7 +1,5 @@
 import api from "./axiosInstance.ts";
-import {CreateReservationDTO, ReservationDTO} from "../Interfaces/Reservation.ts";
-
-
+import { CreateReservationDTO, ReservationDTO, UpdateReservationDTO } from "../Interfaces/Reservation.ts";
 
 const ReservationService = {
     async getAllReservations(): Promise<ReservationDTO[]> {
@@ -35,7 +33,18 @@ const ReservationService = {
         }
     },
 
-    async deleteReservation(id: number): Promise<void> {
+    async updateReservation(id: number, updateData: UpdateReservationDTO): Promise<ReservationDTO> {
+        try {
+            const response = await api.put<ReservationDTO>(`/reservations/${id}`, updateData);
+            return response.data;
+        } catch (error) {
+            console.error("Error updating reservation:", error);
+            throw error;
+        }
+    },
+
+
+    async deleteReservation(id: string): Promise<void> {
         try {
             await api.delete(`/reservations/${id}`);
         } catch (error) {

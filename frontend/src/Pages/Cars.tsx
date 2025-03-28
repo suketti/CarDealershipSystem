@@ -48,7 +48,7 @@ function Cars() {
   const [yearFrom, setYearFrom] = useState<number | null>(null);
   const [yearTo, setYearTo] = useState<number | null>(null);
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedDrivetrain, setSelectedDrivetrain] = useState("");
+  const [selectedDrivetrain, setSelectedDrivetrain] = useState<DrivetrainTypeDTO | null>(null);
   const [minEngineSize, setMinEngineSize] = useState<number | null>(null);
   const [maxEngineSize, setMaxEngineSize] = useState<number | null>(null);
   const [minMileage, setMinMileage] = useState<number | null>(null);
@@ -125,6 +125,12 @@ function Cars() {
     const bodyTypeId = params.get("bodyType");
     const fuelTypeId = params.get("fuelType");
     const locationId = params.get("location");
+    const driveTrainId = params.get("drivetrain");
+    const yearFrom = params.get("yearFrom");
+    const yearTo = params.get("yearTo");
+    const minMileage = params.get("minMileage");
+    const maxMileage = params.get("maxMileage");
+
     // Handle brand
     if (brandId) {
       const foundBrand = MakerTypeOptions?.find(
@@ -164,7 +170,32 @@ function Cars() {
       setshopLocation(foundLocationType || null);
     }
 
-  }, [location.search, MakerTypeOptions, filteredModels, bodyTypeOptions, fuelTypeOptions]);
+    if (driveTrainId) {
+      const foundDriveTrainType = DrivetrainTypeOptions?.find(
+          (driveTrainType) => driveTrainType.id.toString() === driveTrainId
+      );
+      setSelectedDrivetrain(foundDriveTrainType || null);
+    }
+
+    if (yearFrom) {
+      setYearFrom(Number(yearFrom));
+    }
+
+    if (yearTo) {
+      setYearTo(Number(yearTo));
+    }
+
+
+    if (minMileage) {
+      setMinMileage(Number(minMileage));
+    }
+
+
+    if (maxMileage) {
+      setMaxMileage(Number(maxMileage));
+    }
+
+  }, [location.search, MakerTypeOptions, filteredModels, bodyTypeOptions, fuelTypeOptions, DrivetrainTypeOptions]);
 
   useEffect(() => {
     const fetchModelsByBrand = async (brand: CarMakerDTO) => {
@@ -193,7 +224,7 @@ function Cars() {
           (!model || car.carModel.id === model.id) &&
           (!bodyType || car.bodyType.id === bodyType.id) &&
           (!fuelType || car.fuelType.id === fuelType.id) &&
-          (!selectedDrivetrain || car.driveTrain.type.toLowerCase() === selectedDrivetrain.toLowerCase()) &&
+          (!selectedDrivetrain || car.driveTrain.id === selectedDrivetrain.id) &&
           (!selectedColor || car.color.colorNameEnglish.toLowerCase() === selectedColor.toLowerCase()) &&
           (!yearFrom || car.carModel.manufacturingStartYear >= yearFrom) &&
           (!yearTo || car.carModel.manufacturingEndYear <= yearTo) &&
@@ -248,7 +279,7 @@ function Cars() {
           (!model || car.carModel.id === model.id) &&
           (!bodyType || car.bodyType.id === bodyType.id) &&
           (!fuelType || car.fuelType.id === fuelType.id) &&
-          (!selectedDrivetrain || car.driveTrain.type.toLowerCase() === selectedDrivetrain.toLowerCase()) &&
+          (!selectedDrivetrain || car.driveTrain === selectedDrivetrain) &&
           (!selectedColor || car.color.colorNameEnglish.toLowerCase() === selectedColor.toLowerCase()) &&
           (!yearFrom || car.carModel.manufacturingStartYear >= yearFrom) &&
           (!yearTo || car.carModel.manufacturingEndYear <= yearTo) &&
@@ -394,12 +425,19 @@ function Cars() {
               {isAdvancedSearchVisible && (
                 <div id="reszletes-feltetelek">
                   <label>{langCtx?.translate.drive}</label>
-                  <select id="drivetrain-type" value={selectedDrivetrain} onChange={(e) => setSelectedDrivetrain(e.target.value)}>
+                  <select
+                      id="drivetrain-type"
+                      value={selectedDrivetrain?.type || ""}
+                      onChange={(e) => {
+                        const selectedOption = DrivetrainTypeOptions.find(option => option.type === e.target.value);
+                        setSelectedDrivetrain(selectedOption || null);
+                      }}
+                  >
                     <option value="">{langCtx?.translate.chooseDrivetrain}</option>
                     {DrivetrainTypeOptions.map(option => (
-                      <option key={option.id} value={option.id}>
-                        {option.type}
-                      </option>
+                        <option key={option.id} value={option.type}>
+                          {option.type}
+                        </option>
                     ))}
                   </select>
                   <label>{langCtx?.translate.color}</label>
@@ -421,10 +459,6 @@ function Cars() {
                   <input type="number" id="km-max" placeholder="Max km" onChange={(e) => setMaxMileage(Number(e.target.value))} />
                 </div>
               )}
-
-              <button type="button" className={styles.btn} onClick={() => setShowLocationModal(true)}>
-                {langCtx?.translate.selectLocation}
-              </button>
               <button type="submit" className={styles.btn}>{langCtx?.translate.search}</button>
             </form>
           </aside>

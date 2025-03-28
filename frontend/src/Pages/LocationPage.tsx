@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import '../locationPage.css';
 import {AddressDTO, LocationDTO} from "../Types";
-import {getAllLocations} from "../api/locationService.ts";
+import {getAllLocations, getLocationCapacity} from "../api/locationService.ts";
 import {useNavigate} from "react-router-dom";
 import { translations } from "../translations";
 import { useContext } from 'react';
@@ -12,6 +12,7 @@ const LocationPage: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<LocationDTO | null>(null);
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [locationCapacities, setLocationCapacities] = useState<{ [key: number]: { currentUsage: number, maxCapacity: number } }>({});
   const selectedLocationRef = useRef<HTMLLIElement | null>(null);
   const navigate = useNavigate();
   const langCtx = useContext(LanguageCtx);
@@ -38,6 +39,27 @@ const LocationPage: React.FC = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+
+  useEffect(() => {
+    const fetchCapacities = async () => {
+      if (!locations) return;
+
+      const capacities = await Promise.all(
+          locations.map(async (location) => {
+            const capacity = await getLocationCapacity(location.id);
+            return { id: location.id, ...capacity };
+          })
+      );
+
+      setLocationCapacities(capacities.reduce((acc, loc) => {
+        acc[loc.id] = { currentUsage: loc.currentUsage, maxCapacity: loc.maxCapacity };
+        return acc;
+      }, {} as { [key: number]: { currentUsage: number, maxCapacity: number } }));
+    };
+
+    fetchCapacities();
+  }, [locations]);
 
   useEffect(() => {
     // Scroll to the selected location when in mobile view
@@ -121,32 +143,40 @@ const LocationPage: React.FC = () => {
                 const showMapUnder = isMobile && isActive;
                 
                 return (
-                  <React.Fragment key={location.id}>
-                    <li 
-                      ref={isActive ? selectedLocationRef : null}
-                      className={`location-item ${isActive ? 'active' : ''} ${showMapUnder ? 'location-item-with-map' : ''}`}
-                      onClick={() => handleLocationClick(location)}
-                    >
-                      <h2 className="location-name">{location.locationName}</h2>
-                      <div className="location-address">
-                        <span className="location-address-icon">📍</span>
-                        <span>{location.address.street}</span>
-                      </div>
-                      <div className="location-phone">
-                        <span className="location-icon">📞</span>
-                        <span>{location.phoneNumber}</span>
-                      </div>
-                      <div className="location-capacity">
-                        <span className="location-icon">🚗</span>
-                        <span>{langCtx?.translate.capacity} {location.maxCapacity} / {location.maxCapacity}</span>
-                      </div>
-                      <button 
-                        className="location-search-button"
-                        onClick={(e) => handleSearchClick(e, location.id)}
+                    <React.Fragment key={location.id}>
+                      <li
+                          ref={isActive ? selectedLocationRef : null}
+                          className={`location-item ${isActive ? 'active' : ''} ${showMapUnder ? 'location-item-with-map' : ''}`}
+                          onClick={() => handleLocationClick(location)}
                       >
-                        {langCtx?.translate.search}
-                      </button>
-                    </li>
+                        <h2 className="location-name">{location.locationName}</h2>
+
+                        <div className="location-address">
+                          <span className="location-address-icon">📍</span>
+                          <span>
+          {["en", "hu"].includes(langCtx?.language)
+              ? location.address.streetRomanized
+              : location.address.street}
+        </span>
+                        </div>
+
+                        <div className="location-phone">
+                          <span className="location-icon">📞</span>
+                          <span>{location.phoneNumber}</span>
+                        </div>
+
+                        <div className="location-capacity">
+                          <span className="location-icon">🚗</span>
+                          <span>{langCtx?.translate.capacity} {locationCapacities[location.id]?.currentUsage ?? 0} / {locationCapacities[location.id]?.maxCapacity ?? location.maxCapacity}</span>
+                        </div>
+
+                        <button
+                            className="location-search-button"
+                            onClick={(e) => handleSearchClick(e, location.id)}
+                        >
+                          {langCtx?.translate.search}
+                        </button>
+                      </li>
                     
                     {/* Render map underneath this location item when in mobile and selected */}
                     {showMapUnder && (

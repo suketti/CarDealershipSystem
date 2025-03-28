@@ -1,5 +1,5 @@
 import api from "./axiosInstance.ts";
-import {LoginResponse, UserDTO} from "../Interfaces/User.ts";
+import {LoginResponse} from "../Interfaces/User.ts";
 
 export const refreshToken = async (): Promise<boolean> => {
     try {
@@ -103,5 +103,36 @@ export const register = async (data: RegisterData) => {
     } catch (error) {
         console.error("Registration failed", error);
         throw new Error("Registration failed");
+    }
+};
+
+
+export const changePassword = async (
+    userId: string,
+    oldPassword: string,
+    newPassword: string
+): Promise<boolean> => {
+    try {
+        const response = await api.post("/users/change-password", {
+            userId,
+            oldPassword,
+            newPassword,
+        });
+
+        return response.status === 200;
+    } catch (error) {
+        console.error("Password change failed", error);
+        return false;
+    }
+};
+
+export const changePreferredLanguage = async (userId: string, preferredLanguage: string): Promise<boolean> => {
+    try {
+        const response = await api.put(`/users/updatePreferredLanguage/${userId}`, { preferredLanguage });
+
+        return response.status === 200;
+    } catch (error) {
+        console.error("Failed to change preferred language", error);
+        return false;
     }
 };

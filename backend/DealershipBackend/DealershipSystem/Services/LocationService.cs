@@ -127,4 +127,23 @@ public class LocationService
             throw new InvalidOperationException("Error deleting location", ex);
         }
     }
+    
+    public async Task<(int MaxCapacity, int CurrentUsage)?> GetCarUsageInLocationAsync(int locationId)
+    {
+        var location = await _context.Locations
+            .Where(l => l.ID == locationId)
+            .Select(l => new
+            {
+                l.MaxCapacity,
+                CurrentUsage = _context.Cars.Count(c => c.LocationID == locationId)
+            })
+            .FirstOrDefaultAsync();
+
+        if (location == null)
+        {
+            return null; // Location not found
+        }
+
+        return (location.MaxCapacity, location.CurrentUsage);
+    }
 }

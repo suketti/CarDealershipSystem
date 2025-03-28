@@ -27,4 +27,24 @@ public class MessagesController : ControllerBase
             return Unauthorized("You are not authorized to view these messages.");
         }
     }
+    
+    [HttpDelete("{messageId}")]
+    public async Task<ActionResult> DeleteMessage(int messageId)
+    {
+        try
+        {
+            // Call the delete method from the service
+            await _messageService.DeleteMessageAsync(messageId);
+            return NoContent();  // No content means the operation was successful
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound("Message not found.");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Unauthorized("You do not have permission to delete this message.");
+        }
+    }
+
 }

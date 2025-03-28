@@ -102,4 +102,21 @@ public class LocationController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
+    [HttpGet("{locationId}/car-usage")]
+    public async Task<IActionResult> GetCarUsageInLocation(int locationId)
+    {
+        var carUsage = await _locationService.GetCarUsageInLocationAsync(locationId);
+
+        if (carUsage == null)
+        {
+            return NotFound("Location not found");
+        }
+
+        return Ok(new
+        {
+            MaxCapacity = carUsage.Value.MaxCapacity,
+            CurrentUsage = carUsage.Value.CurrentUsage
+        });
+    }
 }

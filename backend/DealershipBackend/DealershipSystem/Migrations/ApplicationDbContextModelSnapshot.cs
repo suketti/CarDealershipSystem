@@ -132,6 +132,12 @@ namespace DealershipSystem.Migrations
                             ID = 8,
                             NameEnglish = "Truck/Van",
                             NameJapanese = "トラック/バン"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            NameEnglish = "Hatchback",
+                            NameJapanese = "ハッチバック"
                         });
                 });
 
@@ -475,6 +481,28 @@ namespace DealershipSystem.Migrations
                             ID = 4,
                             Type = "4WD"
                         });
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.EmployeeLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("EmployeeLocations");
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>
