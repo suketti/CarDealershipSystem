@@ -25,6 +25,7 @@ function CarDetails() {
   const [selectedMinute, setSelectedMinute] = useState<number>(0);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const [bookingMessage, setBookingMessage] = useState<string>("");
+  const [bookingSuccess, setBookingSuccess] = useState<boolean>(false);
   const [imageIndex, setImageIndex] = useState<number>(0);
   const [searchParams] = useSearchParams();
   const langCtx = useContext(LanguageCtx);
@@ -91,6 +92,9 @@ function CarDetails() {
   };
 
   const handleBooking = async () => {
+    // Reset the success state whenever we attempt a new booking
+    setBookingSuccess(false);
+    
     if (!isAuthenticated) {
       setBookingMessage(`${langCtx?.translate.loginToBook}`);
       return;
@@ -130,8 +134,10 @@ function CarDetails() {
 
       const newReservation = await ReservationService.createReservation(reservationData);
       setBookingMessage(`${langCtx?.translate.doneBookFirst} ${newReservation.date}\n ${langCtx?.translate.doneBookSecond}`);
+      setBookingSuccess(true); // Set success to true for successful bookings
     } catch (error) {
       setBookingMessage(`${langCtx?.translate.errorBooking}`);
+      setBookingSuccess(false);
     }
   };
 
@@ -493,7 +499,7 @@ function CarDetails() {
             </button>
             
             {bookingMessage && (
-              <p className="booking-message">{bookingMessage}</p>
+              <p className={`booking-message ${bookingSuccess ? 'success' : ''}`}>{bookingMessage}</p>
             )}
           </div>
         </div>

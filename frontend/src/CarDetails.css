@@ -431,6 +431,11 @@
     background-color: rgba(211, 47, 47, 0.1);
     white-space: pre-line;
   }
+  .booking-message.success {
+    color: #2e7d32; /* Dark green text */
+    background-color: rgba(46, 125, 50, 0.1); /* Light green background */
+    border: 1px solid rgba(46, 125, 50, 0.2); /* Green border */
+  }
   
   .btn-back {
     display: inline-block;
