@@ -7,6 +7,7 @@ import LoginModal from './LoginModal';
 import MessagesModal from "./MessagesModal";
 import SavedCarsModal from "./SavedCarsModal";
 import { useUser } from '../UserContext';
+import {changePreferredLanguage} from "../api/userService.ts";
 
 const Header = () => {
   const { user, isAuthenticated, logoutUser } = useUser();
@@ -22,10 +23,17 @@ const Header = () => {
   
   // Update selectedLanguage when context language changes
   useEffect(() => {
-    if (langCtx?.language) {
-      setSelectedLanguage(langCtx.language);
-    }
-  }, [langCtx?.language]);
+    const updateLanguage = async () => {
+      if (langCtx?.language) {
+        setSelectedLanguage(langCtx.language);
+        if (user) {
+          await changePreferredLanguage(user.id, langCtx.language); // Await the language change
+        }
+      }
+    };
+
+    updateLanguage();
+  }, [langCtx?.language, user]);
 
   // Add effect to update isLoggedIn when authentication state changes
   useEffect(() => {
