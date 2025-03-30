@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DealershipSystem.DTO;
+using DealershipSystem.Services;
 
 [Route("api/images")]
 [ApiController]

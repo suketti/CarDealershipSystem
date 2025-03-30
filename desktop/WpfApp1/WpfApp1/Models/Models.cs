@@ -207,6 +207,28 @@ namespace WpfApp1.Models
         public string PreferredLanguage { get; set; } = string.Empty;
     }
 
+    public class DealerLoginResponseDTO
+    {
+        public UserDTO User { get; set; }
+        public string Role { get; set; }
+        public LocationDTO Location { get; set; }
+    }
+
+    public class TokenResponseDTO
+    {
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+    }
+
+    public class LocationResponseDTO
+    {
+        public int ID { get; set; }
+        public string employeeID { get; set; }
+        public int locationID { get; set; }
+        public LocationDTO locationDTO { get; set; }
+    }
+
+
     public class CreateCarDTO
     {
         public int Brand { get; set; } // Refers to CarMaker.ID
@@ -248,5 +270,38 @@ namespace WpfApp1.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public int Mass { get; set; }
+    }
+
+    public class AdminUserCreateDTO
+    {
+        // User information
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Name { get; set; } // Name of the user
+        public string NameKanji { get; set; } // Kanji name for the user
+        public string PhoneNumber { get; set; } // Phone number of the user
+        public string PreferredLanguage { get; set; } // Preferred language for the user
+
+        // Role of the user (Dealer/Admin)
+        public string Role { get; set; }
+
+        // Location (only applicable for Dealer role, optional)
+        public LocationDTO Location { get; set; }
+    }
+
+    public class AdminUserUpdateDTO
+    {
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public string NameKanji { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PreferredLanguage { get; set; }
+        public string Role { get; set; }
+        public LocationDTO Location { get; set; }
+    }
+
+    public class DealerUserDTO : UserDTO
+    {
+        public LocationDTO locationDTO { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfApp1.Models;
 using WpfApp1.Services;
 
 namespace WpfApp1
@@ -57,14 +59,33 @@ namespace WpfApp1
 
         private async Task<bool> LoginAsync(string email, string password)
         {
-            var loginDto = new { Email = email, Password = password };
+            var loginDto = new
+            {
+                Email = email,
+                Password = password
+            };
             string json = JsonSerializer.Serialize(loginDto);
             HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
             try
             {
-                HttpResponseMessage response = await HttpClientService.Client.PostAsync("/api/users/login", content);
-                return response.IsSuccessStatusCode;
+                // Call the new dealer-login endpoint
+                HttpResponseMessage response = await HttpClientService.Client.PostAsync("/api/users/dealer-login", content);
+
+                // Check if the login was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Deserialize the response
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var loginResult = JsonSerializer.Deserialize<DealerLoginResponseDTO>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    if (loginResult != null && loginResult.User != null)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;  // Return false if the login fails
             }
             catch (HttpRequestException ex)
             {

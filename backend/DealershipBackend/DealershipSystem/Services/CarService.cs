@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DealershipSystem.Services
 {
+    /// <summary>
+    /// Service class for managing car-related operations.
+    /// </summary>
     public class CarService
     {
         private readonly IMapper _mapper;
@@ -17,22 +20,37 @@ namespace DealershipSystem.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieves all cars from the database.
+        /// </summary>
+        /// <returns>A list of CarDTOs.</returns>
         public async Task<List<CarDTO>> GetAllCarsAsync()
         {
             var cars = await _context.Cars.ToListAsync();
             return _mapper.Map<List<CarDTO>>(cars);
         }
 
+        /// <summary>
+        /// Retrieves a specific car by ID.
+        /// </summary>
+        /// <param name="id">The car ID.</param>
+        /// <returns>The CarDTO if found, otherwise null.</returns>
         public async Task<CarDTO?> GetCarByIdAsync(int id)
         {
             var car = await _context.Cars.FirstOrDefaultAsync(c => c.ID == id);
             return car != null ? _mapper.Map<CarDTO>(car) : null;
         }
         
+        /// <summary>
+        /// Adds a new car to the database.
+        /// </summary>
+        /// <param name="createCarDto">The car data to be added.</param>
+        /// <returns>The created CarDTO.</returns>
         public async Task<CarDTO> AddCarAsync(CreateCarDTO createCarDto)
         {
             var car = _mapper.Map<Car>(createCarDto);
 
+            // Assign related entities using their IDs
             car.Brand = await _context.CarMakers.FindAsync(createCarDto.Brand);
             car.CarModel = await _context.CarModels.FindAsync(createCarDto.Model);
             car.BodyType = await _context.BodyTypes.FindAsync(createCarDto.BodyType);
@@ -43,6 +61,7 @@ namespace DealershipSystem.Services
             car.TransmissionType = await _context.TransmissionTypes.FindAsync(createCarDto.TransmissionType);
             car.Color = await _context.Colors.FindAsync(createCarDto.Color);
 
+            // Assign extras if provided
             if (createCarDto.Extras != null && createCarDto.Extras.Any())
             {
                 car.CarExtras = await _context.CarExtras
@@ -50,17 +69,12 @@ namespace DealershipSystem.Services
                     .ToListAsync();
             }
 
-            // Convert DateTime properties to UTC if they are not null and are in Unspecified time zone
+            // Ensure MOTExpiry is stored in UTC
             if (createCarDto.MOTExpiry.HasValue)
             {
-                if (createCarDto.MOTExpiry.Value.Kind == DateTimeKind.Unspecified)
-                {
-                    car.MOTExpiry = DateTime.SpecifyKind(createCarDto.MOTExpiry.Value, DateTimeKind.Utc);
-                }
-                else
-                {
-                    car.MOTExpiry = createCarDto.MOTExpiry.Value.ToUniversalTime();
-                }
+                car.MOTExpiry = createCarDto.MOTExpiry.Value.Kind == DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(createCarDto.MOTExpiry.Value, DateTimeKind.Utc)
+                    : createCarDto.MOTExpiry.Value.ToUniversalTime();
             }
 
             await _context.Cars.AddAsync(car);
@@ -69,8 +83,11 @@ namespace DealershipSystem.Services
             return _mapper.Map<Car, CarDTO>(car);
         }
 
-
-
+        /// <summary>
+        /// Deletes a car from the database by ID.
+        /// </summary>
+        /// <param name="id">The ID of the car to delete.</param>
+        /// <returns>True if deleted, false if not found.</returns>
         public async Task<bool> DeleteCarAsync(int id)
         {
             var car = await _context.Cars.FindAsync(id);
@@ -83,6 +100,13 @@ namespace DealershipSystem.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        /// <summary>
+        /// Updates an existing car record.
+        /// </summary>
+        /// <param name="id">The ID of the car to update.</param>
+        /// <param name="editCarDto">The updated car data.</param>
+        /// <returns>The updated CarDTO, or null if not found.</returns>
         public async Task<CarDTO?> EditCarAsync(int id, CreateCarDTO editCarDto)
         {
             var car = await _context.Cars.FindAsync(id);
@@ -93,6 +117,7 @@ namespace DealershipSystem.Services
 
             _mapper.Map(editCarDto, car);
 
+            // Assign related entities
             car.Brand = await _context.CarMakers.FindAsync(editCarDto.Brand);
             car.CarModel = await _context.CarModels.FindAsync(editCarDto.Model);
             car.BodyType = await _context.BodyTypes.FindAsync(editCarDto.BodyType);
@@ -103,6 +128,7 @@ namespace DealershipSystem.Services
             car.TransmissionType = await _context.TransmissionTypes.FindAsync(editCarDto.TransmissionType);
             car.Color = await _context.Colors.FindAsync(editCarDto.Color);
 
+            // Assign extras if provided
             if (editCarDto.Extras != null && editCarDto.Extras.Any())
             {
                 car.CarExtras = await _context.CarExtras
@@ -110,6 +136,7 @@ namespace DealershipSystem.Services
                     .ToListAsync();
             }
             
+            // Ensure MOTExpiry is stored in UTC
             if (car.MOTExpiry != null)
             {
                 car.MOTExpiry = car.MOTExpiry.Value.Kind == DateTimeKind.Unspecified 
@@ -117,14 +144,10 @@ namespace DealershipSystem.Services
                     : car.MOTExpiry.Value.ToUniversalTime();
             }
 
-            
             _context.Cars.Update(car);
             await _context.SaveChangesAsync();
 
             return _mapper.Map<CarDTO>(car);
         }
-        
-       
-
     }
 }

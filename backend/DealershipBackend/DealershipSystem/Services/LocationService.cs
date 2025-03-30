@@ -7,24 +7,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DealershipSystem.Services;
 
+/// <summary>
+/// Service for managing locations within the dealership system.
+/// </summary>
 public class LocationService
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LocationService"/> class.
+    /// </summary>
+    /// <param name="mapper">The mapper for mapping entities.</param>
+    /// <param name="context">The application database context.</param>
     public LocationService(IMapper mapper, ApplicationDbContext context)
     {
         _mapper = mapper;
         _context = context;
     }
 
+    /// <summary>
+    /// Gets all locations asynchronously.
+    /// </summary>
+    /// <returns>A list of all locations.</returns>
     public async Task<List<Location>> GetAllLocationsAsync()
     {
         var locations = await _context.Locations.ToListAsync();
-
         return locations;
     }
 
+    /// <summary>
+    /// Gets a location by ID asynchronously.
+    /// </summary>
+    /// <param name="id">The ID of the location.</param>
+    /// <returns>The location DTO if found; otherwise, null.</returns>
     public async Task<LocationDto> GetLocationByIdAsync(int id)
     {
         var location = await _context.Locations.FirstOrDefaultAsync(i => i.ID == id);
@@ -36,6 +52,11 @@ public class LocationService
         return _mapper.Map<LocationDto>(location);
     }
 
+    /// <summary>
+    /// Creates a new location asynchronously.
+    /// </summary>
+    /// <param name="location">The location DTO.</param>
+    /// <returns>An action result indicating the outcome of the creation.</returns>
     public async Task<IActionResult> CreateLocationAsync(LocationDto location)
     {
         var entity = _mapper.Map<Models.Location>(location);
@@ -55,7 +76,12 @@ public class LocationService
 
         return new CreatedAtActionResult("GetById", "Location", new { id = entity.ID }, location);
     }
-    
+
+    /// <summary>
+    /// Updates an existing location asynchronously.
+    /// </summary>
+    /// <param name="locationDto">The location DTO with updated information.</param>
+    /// <returns>The updated location if successful; otherwise, null.</returns>
     public async Task<Location> UpdateLocationAsync(LocationDto locationDto)
     {
         var existingLocation = await _context.Locations
@@ -101,12 +127,21 @@ public class LocationService
         }
     }
 
+    /// <summary>
+    /// Gets all prefectures asynchronously.
+    /// </summary>
+    /// <returns>A list of all prefectures.</returns>
     public async Task<List<PrefectureDTO>> GetAllPrefectures()
     {
         var prefectures = await _context.Prefectures.ToListAsync();
         return _mapper.Map<List<PrefectureDTO>>(prefectures);
     }
-    
+
+    /// <summary>
+    /// Deletes a location asynchronously.
+    /// </summary>
+    /// <param name="locationId">The ID of the location to delete.</param>
+    /// <returns>True if the location was deleted; otherwise, false.</returns>
     public async Task<bool> DeleteLocationAsync(int locationId)
     {
         var location = await _context.Locations.FindAsync(locationId);
@@ -127,7 +162,12 @@ public class LocationService
             throw new InvalidOperationException("Error deleting location", ex);
         }
     }
-    
+
+    /// <summary>
+    /// Gets the car usage in a location asynchronously.
+    /// </summary>
+    /// <param name="locationId">The ID of the location.</param>
+    /// <returns>A tuple containing the maximum capacity and current usage if found; otherwise, null.</returns>
     public async Task<(int MaxCapacity, int CurrentUsage)?> GetCarUsageInLocationAsync(int locationId)
     {
         var location = await _context.Locations

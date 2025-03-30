@@ -19,12 +19,16 @@ public class UserController : ControllerBase
     private readonly IUserService _userService;
     private readonly UserManager<User> _userManager;
     private readonly IMapper _mapper;
+    private readonly EmployeeLocationService _employeeLocationService;
+    private readonly LocationService _locationService;
 
-    public UserController(IUserService userService, UserManager<User> userManager, IMapper mapper)
+    public UserController(IUserService userService, UserManager<User> userManager, IMapper mapper, EmployeeLocationService employeeLocationService, LocationService locationService)
     {
         _userService = userService;
         _userManager = userManager;
         _mapper = mapper;
+        _employeeLocationService = employeeLocationService;
+        _locationService = locationService;
     }
 
     [HttpPost("register")]
@@ -100,28 +104,86 @@ public class UserController : ControllerBase
 
         return Unauthorized();
     }
-
-    [HttpGet("{id}")]
-    [Authorize]
-    public async Task<IActionResult> GetUserByIdAsync(Guid id)
-    {
-        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-
-        if (userIdFromToken == null || (userIdFromToken != id.ToString() && !User.IsInRole("Admin")))
-        {
-            return Unauthorized(new { Message = "You are not authorized to access this user." });
-        }
-
-        var user = await _userService.GetUserByIdAsync(id);
     
-        if (user == null)
+    [HttpPost("dealer-login")]
+    public async Task<IActionResult> DealerLogin([FromBody] UserLoginDTO loginDto)
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(loginDto);
+        if (!Validator.TryValidateObject(loginDto, validationContext, validationResults, true))
         {
-            return NotFound(new { Message = "User not found." });
+            return BadRequest(validationResults.Select(vr => vr.ErrorMessage));
         }
 
-        var userDto = _mapper.Map<UserDTO>(user);
-        return Ok(userDto);
+        var user = await _userManager.FindByEmailAsync(loginDto.Email);
+
+        if (user != null && await _userManager.CheckPasswordAsync(user, loginDto.Password))
+        {
+            var (accessToken, refreshToken) = await _userService.GenerateTokensAsync(user);
+            var userDto = _mapper.Map<UserDTO>(user);
+
+            // Fetch the role and location
+            var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault(); // Assuming only one role per user
+            var location = await _employeeLocationService.GetEmployeeLocationByEmployeeIdAsync(Guid.Parse(user.Id)); // Assuming you have a method to fetch the location
+
+            // Set cookies
+            Response.Cookies.Append("RefreshToken", refreshToken, new CookieOptions
+            {
+                Path = "/",
+                HttpOnly = false,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(30)
+            });
+
+            Response.Cookies.Append("AccessToken", accessToken, new CookieOptions
+            {
+                Path = "/",
+                HttpOnly = false,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddMinutes(320)
+            });
+
+            Response.Cookies.Append("userId", user.Id, new CookieOptions
+            {
+                Path = "/",
+                HttpOnly = false,
+                Secure = true,
+                SameSite = SameSiteMode.None, // CSRF protection
+                Expires = DateTime.UtcNow.AddDays(30) // Cookie expiration
+            });
+
+            var loginResponse = new DealerLoginResponseDTO
+            {
+                User = userDto,
+                Role = role,
+                Location = location != null ? _mapper.Map<LocationDto>(location) : null // Map location to LocationDto if found
+            };
+
+            return Ok(loginResponse);
+        }
+
+        return Unauthorized("Invalid email or password.");
     }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> AdminCreateUser([FromBody] AdminUserCreateDTO dto)
+    {
+        // Call the service to create the user
+        var result = await _userService.AdminCreateUserAsync(dto);
+
+        // Handle the result of user creation
+        if (!result.Success)
+        {
+            return BadRequest(result.ErrorMessage);
+        }
+
+        // Return the created user with a 201 Created response
+        return Ok(User);
+    }
+
 
 
     [HttpPut("update")]
@@ -154,7 +216,86 @@ public class UserController : ControllerBase
 
         return Ok(new { Message = "User updated successfully." });
     }
+    
+    [HttpPut("adminupdate/{userId}")]
+    public async Task<IActionResult> UpdateUserAsync(Guid userId, [FromBody] AdminUserUpdateDTO dto)
+    {
+        if (dto == null)
+        {
+            return BadRequest("Invalid data.");
+        }
 
+        var (success, errorMessage) = await _userService.UpdateAdminUserAsync(userId, dto);
+
+        if (!success)
+        {
+            return BadRequest(errorMessage);  // Return the error message in case of failure
+        }
+
+        return Ok("User updated successfully.");  // Return success message if the update is successful
+    }
+
+    [HttpGet("{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetUserByIdAsync(Guid id)
+    {
+        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+
+        // Check if the user is authorized to access the data (self or admin)
+        if (userIdFromToken == null || (userIdFromToken != id.ToString() && !User.IsInRole("Admin")))
+        {
+            return Unauthorized(new { Message = "You are not authorized to access this user." });
+        }
+
+        // Get the user from the service
+        var user = await _userService.GetUserByIdAsync(id);
+
+        if (user == null)
+        {
+            return NotFound(new { Message = "User not found." });
+        }
+
+        // Check the role of the user and map accordingly
+        if (User.IsInRole("Dealer") || User.IsInRole("Admin"))
+        {
+            // Manually create DealerUserDTO and map basic properties
+            var dealerUserDto = new DealerUserDTO
+            {
+                ID = Guid.Parse(user.Id),
+                Name = user.Name,
+                NameKanji = user.NameKanji,
+                Email = user.Email,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                PreferredLanguage = user.PreferredLanguage
+            };
+
+            // Get the employee location if the user is a Dealer or Admin
+            var employeeLocation = await _employeeLocationService.GetEmployeeLocationByEmployeeIdAsync(id);
+
+            if (employeeLocation != null && employeeLocation.LocationId != null)
+            {
+                // Fetch the full location using the LocationService
+                var locationDto = await _locationService.GetLocationByIdAsync(employeeLocation.LocationId);
+
+                // Assign the location data to the DealerUserDTO if it exists
+                if (locationDto != null)
+                {
+                    dealerUserDto.Location = locationDto;
+                }
+            }
+
+            return Ok(dealerUserDto);
+        }
+
+        // If the user is not a Dealer or Admin, return the standard UserDTO
+        var userDto = _mapper.Map<UserDTO>(user);
+        return Ok(userDto);
+    }
+
+
+
+    
     [HttpPost("change-password-admin")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ChangePasswordAdmin([FromBody] ChangePasswordAdminDTO changePasswordDto)
@@ -206,10 +347,17 @@ public class UserController : ControllerBase
             });
         }
 
-        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id").Value;
+        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
         if (userIdFromToken == null)
         {
             return NoContent();
+        }
+
+        // Check if the user is deleting their own account or if they are an Admin
+        var isAdmin = User.IsInRole("Admin"); // Ensure "Admin" is the role you use for admin users
+        if (userIdFromToken != userDto.ID.ToString() && !isAdmin)
+        {
+            return Unauthorized(new { Message = "You are not authorized to delete this user." });
         }
 
         var didSucceed = await _userService.DeleteUserAsync(Guid.Parse(userIdFromToken), userDto);
@@ -221,6 +369,37 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+
+    [HttpDelete("delete-dealer")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteDealerAsync([FromBody] UserDTO userDto)
+    {
+        var (isValid, validationErrors) = await _userService.ValidateUserDtoAsync(userDto);
+        if (!isValid)
+        {
+            return BadRequest(new
+            {
+                Message = "Validation failed.",
+                Errors = validationErrors.Select(v => v.ErrorMessage)
+            });
+        }
+
+        var userIdFromToken = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+        if (userIdFromToken == null)
+        {
+            return NoContent();
+        }
+
+        var didSucceed = await _userService.DeleteDealerAsync(Guid.Parse(userIdFromToken), userDto);
+        if (!didSucceed)
+        {
+            return StatusCode(400, new { Message = "Couldn't delete dealer" });
+        }
+
+        return Ok();
+    }
+
+    
     [HttpGet]
     [Authorize(Roles = "Admin")]
 
@@ -267,7 +446,7 @@ public class UserController : ControllerBase
     [HttpPut("updatePreferredLanguage/{targetUserId}")]
     public async Task<IActionResult> UpdatePreferredLanguage(Guid targetUserId, [FromBody] string language)
     {
-        var requesterId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); // Get authenticated user's ID
+        var requesterId = Guid.Parse(User.FindFirstValue("Id"));
 
         bool success = await _userService.UpdatePreferredLanguageAsync(requesterId, targetUserId, language);
 

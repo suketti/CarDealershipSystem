@@ -1,5 +1,6 @@
 using DealershipSystem.Models;
 using DealershipSystem.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DealershipSystem.Controllers;
@@ -17,6 +18,7 @@ public class EmployeeLocationController : ControllerBase
 
     // GET: api/employeeLocations
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<List<EmployeeLocation>>> GetEmployeeLocations()
     {
         var employeeLocations = await _employeeLocationService.GetAllEmployeeLocationsAsync();
@@ -25,7 +27,8 @@ public class EmployeeLocationController : ControllerBase
 
     // GET: api/employeeLocations/{employeeId}
     [HttpGet("{employeeId}")]
-    public async Task<ActionResult<EmployeeLocation>> GetEmployeeLocation(int employeeId)
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<EmployeeLocation>> GetEmployeeLocation(Guid employeeId)
     {
         var employeeLocation = await _employeeLocationService.GetEmployeeLocationByEmployeeIdAsync(employeeId);
 
@@ -37,6 +40,7 @@ public class EmployeeLocationController : ControllerBase
 
     // POST: api/employeeLocations
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddEmployeeLocation(EmployeeLocation employeeLocation)
     {
         var success = await _employeeLocationService.AddEmployeeLocationAsync(employeeLocation);

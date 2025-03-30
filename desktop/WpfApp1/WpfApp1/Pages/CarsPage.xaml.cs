@@ -27,7 +27,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching cars: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Hiba az autók lekérése közben: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -41,8 +41,8 @@ namespace WpfApp1
 
         private void CarsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // This method is triggered when the ListView selection is changed.
-            // Add necessary code here if needed.
+            // Ez a metódus akkor hívódik meg, amikor a ListView kiválasztása megváltozik.
+            // Ha szükséges, itt adhatsz hozzá kódot.
         }
 
         private void AddCar_Click(object sender, RoutedEventArgs e)
@@ -85,19 +85,19 @@ namespace WpfApp1
                 CarDTO selectedCar = deleteButton.DataContext as CarDTO;
                 if (selectedCar != null)
                 {
-                    var result = MessageBox.Show($"Are you sure you want to delete the car {selectedCar.CarModel.ModelNameEnglish}?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    var result = MessageBox.Show($"Biztosan törölni szeretné a(z) {selectedCar.CarModel.ModelNameEnglish} autót?", "Törlés megerősítése", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.Yes)
                     {
                         try
                         {
                             HttpResponseMessage response = await HttpClientService.Client.DeleteAsync($"/api/cars/{selectedCar.ID}");
                             response.EnsureSuccessStatusCode();
-                            MessageBox.Show("Car deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("Az autó sikeresen törölve!", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
                             LoadCarsAsync();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error deleting car: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show($"Hiba az autó törlése közben: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                 }

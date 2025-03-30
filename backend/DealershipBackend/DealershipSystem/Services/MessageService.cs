@@ -4,17 +4,30 @@ using DealershipSystem.Context;
 using DealershipSystem.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
+/// <summary>
+/// Service for managing messages within the dealership system.
+/// </summary>
 public class MessageService : IMessageService
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="MessageService"/> class.
+    /// </summary>
+    /// <param name="dbContext">The application database context.</param>
+    /// <param name="httpContextAccessor">The HTTP context accessor.</param>
     public MessageService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
     {
         _dbContext = dbContext;
         _httpContextAccessor = httpContextAccessor;
     }
 
+    /// <summary>
+    /// Creates a new message asynchronously.
+    /// </summary>
+    /// <param name="content">The content of the message.</param>
+    /// <param name="recipient">The recipient's ID.</param>
     public async Task CreateMessageAsync(string content, Guid recipient)
     {
         var message = new Message
@@ -28,6 +41,12 @@ public class MessageService : IMessageService
         await _dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Gets messages by user ID asynchronously.
+    /// </summary>
+    /// <param name="userId">The user's ID.</param>
+    /// <returns>A list of messages for the specified user.</returns>
+    /// <exception cref="UnauthorizedAccessException">Thrown if the current user is not authorized to view the messages.</exception>
     public async Task<List<Message>> GetMessagesByUserAsync(Guid userId)
     {
         var currentUserId = GetUserIdFromJwt();
@@ -42,6 +61,11 @@ public class MessageService : IMessageService
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Gets the user ID from the JWT.
+    /// </summary>
+    /// <returns>The user ID as a Guid.</returns>
+    /// <exception cref="UnauthorizedAccessException">Thrown if the user ID is not found in the JWT.</exception>
     private Guid GetUserIdFromJwt()
     {
         var userIdClaim = _httpContextAccessor.HttpContext.User.Claims
@@ -56,6 +80,12 @@ public class MessageService : IMessageService
         return Guid.Parse(userIdClaim.Value);
     }
 
+    /// <summary>
+    /// Deletes a message asynchronously.
+    /// </summary>
+    /// <param name="messageId">The ID of the message to delete.</param>
+    /// <exception cref="KeyNotFoundException">Thrown if the message is not found.</exception>
+    /// <exception cref="UnauthorizedAccessException">Thrown if the current user is not authorized to delete the message.</exception>
     public async Task DeleteMessageAsync(int messageId)
     {
         var currentUserId = GetUserIdFromJwt();
@@ -79,6 +109,4 @@ public class MessageService : IMessageService
         _dbContext.Messages.Remove(message);
         await _dbContext.SaveChangesAsync();
     }
-
-    
 }

@@ -100,6 +100,9 @@
     <Compile Include="AddLocationWindow.xaml.cs">
       <DependentUpon>AddLocationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddUserWindow.xaml.cs">
+      <DependentUpon>AddUserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AuthenticatedHttpClientHandler.cs" />
     <Compile Include="CreateNewCarModelWindow.xaml.cs">
       <DependentUpon>CreateNewCarModelWindow.xaml</DependentUpon>
@@ -126,9 +129,12 @@
     <Compile Include="Pages\CarModelPage.xaml.cs">
       <DependentUpon>CarModelPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TokenService.cs" />
+    <Compile Include="TokenRefreshHttpHandler.cs" />
     <Compile Include="Pages\UserPage.xaml.cs">
       <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditUserWindow.xaml.cs">
+      <DependentUpon>EditUserWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="AddCarWindow.xaml">
       <SubType>Designer</SubType>
@@ -139,6 +145,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddLocationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +212,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\UserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

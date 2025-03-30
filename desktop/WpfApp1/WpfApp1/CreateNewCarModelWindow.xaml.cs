@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -92,40 +93,132 @@ namespace WpfApp1.Views
 
         private async void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            var model = new CreateCarModelDTO
+            try
             {
-                MakerID = (int)cbMakers.SelectedValue,
-                ModelNameEnglish = tbModelNameEnglish.Text,
-                ModelNameJapanese = tbModelNameJapanese.Text,
-                ModelCode = tbModelCode.Text,
-                ManufacturingStartYear = int.Parse(tbManufacturingStartYear.Text),
-                ManufacturingEndYear = int.Parse(tbManufacturingEndYear.Text),
-                PassengerCount = int.Parse(tbPassengerCount.Text),
-                Length = int.Parse(tbLength.Text),
-                Width = int.Parse(tbWidth.Text),
-                Height = int.Parse(tbHeight.Text),
-                Mass = int.Parse(tbMass.Text)
-            };
+                // Validate inputs before proceeding
+                if (cbMakers.SelectedValue == null)
+                {
+                    MessageBox.Show("Kérem válasszon egy gyártót.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-            HttpResponseMessage response;
-            if (_modelId.HasValue)
-            {
-                response = await _httpClient.PutAsync($"/api/cars/models/{_modelId}", new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
-            }
-            else
-            {
-                response = await _httpClient.PostAsync("/api/cars/models", new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
+                if (string.IsNullOrWhiteSpace(tbModelNameEnglish.Text) || string.IsNullOrWhiteSpace(tbModelNameJapanese.Text))
+                {
+                    MessageBox.Show("A modell neve nem lehet üres.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(tbModelCode.Text))
+                {
+                    MessageBox.Show("A modell kód megadása kötelező.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Attempt to parse each numeric field
+                if (!int.TryParse(tbManufacturingStartYear.Text, out int manufacturingStartYear))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes gyártási kezdő évet.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(tbManufacturingEndYear.Text, out int manufacturingEndYear))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes gyártási befejező évet.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(tbPassengerCount.Text, out int passengerCount))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes utasok számát.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(tbLength.Text, out int length))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes hosszúságot.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(tbWidth.Text, out int width))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes szélességet.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(tbHeight.Text, out int height))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes magasságot.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(tbMass.Text, out int mass))
+                {
+                    MessageBox.Show("Kérem adja meg érvényes tömeget.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Prepare the model object
+                var model = new CreateCarModelDTO
+                {
+                    MakerID = (int)cbMakers.SelectedValue,
+                    ModelNameEnglish = tbModelNameEnglish.Text,
+                    ModelNameJapanese = tbModelNameJapanese.Text,
+                    ModelCode = tbModelCode.Text,
+                    ManufacturingStartYear = manufacturingStartYear,
+                    ManufacturingEndYear = manufacturingEndYear,
+                    PassengerCount = passengerCount,
+                    Length = length,
+                    Width = width,
+                    Height = height,
+                    Mass = mass
+                };
+
+                HttpResponseMessage response;
+
+                // Perform the appropriate API call (PUT if modelId exists, else POST)
+                if (_modelId.HasValue)
+                {
+                    // Update existing car model
+                    response = await _httpClient.PutAsync($"/api/cars/models/{_modelId}", new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
+                }
+                else
+                {
+                    // Create new car model
+                    response = await _httpClient.PostAsync("/api/cars/models", new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json"));
+                }
+
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     var createdModel = JsonSerializer.Deserialize<CarModelDTO>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    await AddEnginesToModel(createdModel.ID);
-                    this.DialogResult = true;
-                    MessageBox.Show("Sikeresen hozzaadva!");
-                    this.Close();
+
+                    // If creating a new model, add engines
+                    if (createdModel != null)
+                    {
+                        await AddEnginesToModel(createdModel.ID);
+                        this.DialogResult = true;
+                        MessageBox.Show("Sikeresen hozzaadva!");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hiba történt a válasz feldolgozása során.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    // Handle unsuccessful response
+                    string errorMessage = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Hiba történt: {errorMessage}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+            catch (Exception ex)
+            {
+                // Catch any unexpected exceptions
+                MessageBox.Show($"Hiba történt: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
 
         private async Task AddEnginesToModel(int modelId)

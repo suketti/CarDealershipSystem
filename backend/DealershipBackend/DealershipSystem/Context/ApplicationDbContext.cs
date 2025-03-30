@@ -4,6 +4,7 @@ using DealershipSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DealershipSystem.Context;
 
@@ -32,6 +33,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<SavedCar> SavedCars { get; set; } = null!;
     public DbSet<Reservation> Reservations { get; set; } = null!;
     public DbSet<EmployeeLocation> EmployeeLocations { get; set; } = null!;
+    
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new PrefectureConfiguration());
@@ -81,8 +84,11 @@ public class ApplicationDbContext : IdentityDbContext<User>
             .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<EmployeeLocation>()
-            .HasIndex(el => el.EmployeeId) // Index for faster lookup
-            .IsUnique(false);
+            .HasOne(el => el.Location)        // EmployeeLocation has one Location
+            .WithMany()                        // Location can have many EmployeeLocations
+            .HasForeignKey(el => el.LocationId) // ForeignKey in EmployeeLocation
+            .OnDelete(DeleteBehavior.Cascade); // Or whatever behavior you want for delete
+
         
         modelBuilder.Entity<Prefecture>().HasData(
             new Prefecture { Id = 1, Name = "Hokkaido", NameJP = "北海道" },
@@ -191,5 +197,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     {
         optionsBuilder.UseLazyLoadingProxies();
     }
+    
+    
 }
 

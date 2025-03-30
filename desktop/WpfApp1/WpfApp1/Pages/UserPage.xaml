@@ -6,22 +6,36 @@
       xmlns:local="clr-namespace:WpfApp1"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="UserPage">
+      Title="Felhasználók Kezelése">
 
     <Grid>
         <StackPanel Orientation="Vertical" Margin="10">
-            <Button Content="Add User" Click="AddUser_Click" Width="100" Height="30" Margin="0,0,0,10"/>
-            <ListView x:Name="UsersListView" Height="300">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Text="{Binding Username}" Width="200"/>
-                            <Button Content="Edit" Click="EditUser_Click" DataContext="{Binding}" Width="50" Margin="5,0,0,0"/>
-                            <Button Content="Delete" Click="DeleteUser_Click" DataContext="{Binding}" Width="50" Margin="5,0,0,0"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <!-- Button to Add User -->
+            <Button Content="Új felhasználó hozzáadása" Click="AddUser_Click" Width="150" Height="30" Margin="0,0,0,10"/>
+
+            <!-- DataGrid to display users -->
+            <DataGrid x:Name="UsersDataGrid" Height="300" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,0,0,10">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Felhasználónév" Binding="{Binding UserName}" />
+                    <DataGridTextColumn Header="Név" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Név (Kanji)" Binding="{Binding NameKanji}" />
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                    <DataGridTextColumn Header="Telefonszám" Binding="{Binding PhoneNumber}" />
+                    <DataGridTextColumn Header="Preferált nyelv" Binding="{Binding PreferredLanguage}" />
+                    <DataGridTemplateColumn Header="Műveletek">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <!-- Edit button -->
+                                    <Button Content="Szerkesztés" Click="EditUser_Click" DataContext="{Binding}" Width="70" Margin="5,0,0,0"/>
+                                    <!-- Delete button -->
+                                    <Button Content="Törlés" Click="DeleteUser_Click" DataContext="{Binding}" Width="70" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </StackPanel>
     </Grid>
 </Page>

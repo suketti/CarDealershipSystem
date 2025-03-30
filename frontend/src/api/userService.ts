@@ -128,7 +128,7 @@ export const changePassword = async (
 
 export const changePreferredLanguage = async (userId: string, preferredLanguage: string): Promise<boolean> => {
     try {
-        const response = await api.put(`/users/updatePreferredLanguage/${userId}`, { preferredLanguage });
+        const response = await api.put(`/users/updatePreferredLanguage/${userId}`, preferredLanguage);
 
         return response.status === 200;
     } catch (error) {
@@ -136,3 +136,4 @@ export const changePreferredLanguage = async (userId: string, preferredLanguage:
         return false;
     }
 };
+

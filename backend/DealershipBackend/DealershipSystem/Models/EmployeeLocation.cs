@@ -7,11 +7,16 @@ namespace DealershipSystem.Models;
 public class EmployeeLocation
 {
     [Key]
-    public int Id { get; set; } // Primary key
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }  // Primary key
 
     [Required]
-    public int EmployeeId { get; set; } // Employee ID
+    public Guid EmployeeId { get; set; }  // Employee ID (string as IdentityUser uses string)
 
     [Required]
-    public string Location { get; set; } // Assigned location
+    public int LocationId { get; set; }  // Assigned Location ID (foreign key to Location table)
+
+    // Navigation property to the Location
+    [ForeignKey("LocationId")]
+    public virtual Location Location { get; set; }
 }

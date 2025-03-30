@@ -28,7 +28,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching locations: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Hiba történt a helyek betöltése közben: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -70,6 +70,10 @@ namespace WpfApp1
                     editLocationWindow.LocationEdited += EditLocationWindow_LocationEdited;
                     editLocationWindow.ShowDialog();
                 }
+                else
+                {
+                    MessageBox.Show("A kiválasztott hely nem érvényes.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
 
@@ -86,21 +90,25 @@ namespace WpfApp1
                 LocationDTO selectedLocation = deleteButton.DataContext as LocationDTO;
                 if (selectedLocation != null)
                 {
-                    var result = MessageBox.Show($"Are you sure you want to delete the location {selectedLocation.LocationName}?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    var result = MessageBox.Show($"Biztosan törölni szeretné a helyet: {selectedLocation.LocationName}?", "Törlés megerősítése", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.Yes)
                     {
                         try
                         {
                             HttpResponseMessage response = await HttpClientService.Client.DeleteAsync($"/api/locations/{selectedLocation.Id}");
                             response.EnsureSuccessStatusCode();
-                            MessageBox.Show("Location deleted successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("Hely törölve sikeresen!", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
                             LoadLocationsAsync();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error deleting location: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show($"Hiba történt a hely törlése közben: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("A kiválasztott hely nem érvényes.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

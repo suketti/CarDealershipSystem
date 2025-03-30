@@ -110,7 +110,7 @@ namespace WpfApp1
             ColorComboBox.IsEnabled = enable;
             PriceTextBox.IsEnabled = enable;
             LicensePlateNumberTextBox.IsEnabled = enable;
-            MOTExpiryTextBox.IsEnabled = enable;
+            MOTExpiryDatePicker.IsEnabled = enable;
             VINNumTextBox.IsEnabled = enable;
             RepairHistoryCheckBox.IsEnabled = enable;
             IsInTransferCheckBox.IsEnabled = enable;
@@ -281,6 +281,95 @@ namespace WpfApp1
 
         private async void AddCar_Click(object sender, RoutedEventArgs e)
         {
+            // Validate mandatory fields
+            if (string.IsNullOrEmpty(BrandComboBox.Text))
+            {
+                MessageBox.Show("A márka mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ModelComboBox.Text))
+            {
+                MessageBox.Show("A modell mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(GradeComboBox.Text))
+            {
+                MessageBox.Show("Az osztályzat mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(BodyTypeComboBox.Text))
+            {
+                MessageBox.Show("A karosszéria típus mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(LocationComboBox.Text))
+            {
+                MessageBox.Show("A helyszín mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(EngineSizeComboBox.Text))
+            {
+                MessageBox.Show("A motor méret mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(DriveTrainComboBox.Text))
+            {
+                MessageBox.Show("A meghajtás mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(TransmissionTypeComboBox.Text))
+            {
+                MessageBox.Show("A sebességváltó típus mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ColorComboBox.Text))
+            {
+                MessageBox.Show("A szín mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(PriceTextBox.Text))
+            {
+                MessageBox.Show("Az ár mező kitöltése kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // Validate optional fields
+            if (string.IsNullOrEmpty(LicensePlateNumberTextBox.Text))
+            {
+                LicensePlateNumberTextBox.Text = null;  // Optional, if left empty
+            }
+
+            DateTime? MOTExpiry = MOTExpiryDatePicker.SelectedDate;
+            if (MOTExpiry == null)
+            {
+                MOTExpiry = null;  // Optional, if left empty
+            }
+
+            if (string.IsNullOrEmpty(VINNumTextBox.Text))
+            {
+                VINNumTextBox.Text = null;  // Optional, if left empty
+            }
+
+            if (string.IsNullOrEmpty(MileageTextBox.Text))
+            {
+                MileageTextBox.Text = null;  // Optional, if left empty
+            }
+
+            // Optional checkboxes
+            bool RepairHistory = RepairHistoryCheckBox.IsChecked ?? false;
+            bool IsInTransfer = IsInTransferCheckBox.IsChecked ?? false;
+            bool IsSmoking = IsSmokingCheckBox.IsChecked ?? false;
+
+
             try
             {
                 var newCar = new CreateCarDTO
@@ -297,7 +386,7 @@ namespace WpfApp1
                     Color = (int)ColorComboBox.SelectedValue,
                     Price = PriceTextBox.Text,
                     LicensePlateNumber = LicensePlateNumberTextBox.Text,
-                    MOTExpiry = DateTime.TryParse(MOTExpiryTextBox.Text, out DateTime motExpiry) ? motExpiry : (DateTime?)null,
+                    MOTExpiry = MOTExpiryDatePicker.SelectedDate ?? null,
                     VINNum = VINNumTextBox.Text,
                     RepairHistory = RepairHistoryCheckBox.IsChecked ?? false,
                     IsInTransfer = IsInTransferCheckBox.IsChecked ?? false,

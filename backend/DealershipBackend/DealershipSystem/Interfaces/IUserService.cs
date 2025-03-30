@@ -21,4 +21,12 @@ public interface IUserService
     Task<IdentityResult> ChangePasswordAdminAsync(Guid userId, string newPassword);
     Task<string> GetPreferredLanguageAsync(Guid userId);
     Task<bool> UpdatePreferredLanguageAsync(Guid requesterId, Guid targetUserId, string language);
+    
+    Task<(bool Success, string ErrorMessage, UserDTO User)> AdminCreateUserAsync(AdminUserCreateDTO dto);
+    Task<UserDTO> GetUserDTOByIdAsync(string id);
+    Task<(bool Success, string ErrorMessage)> UpdateAdminUserAsync(Guid id, AdminUserUpdateDTO dto);
+    Task<bool> DeleteDealerAsync(Guid id, UserDTO userDto);
+    Task<bool> DeleteSelfAsync(User deletingUser, User userToDelete);
+    Task<bool> DeleteOtherUserAsync(User deletingUser, User userToDelete);
+        
 }

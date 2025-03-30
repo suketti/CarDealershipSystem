@@ -5,7 +5,6 @@ import { MobileMenuContext } from '../App';
 import { LanguageCtx } from '../App';
 import { translations } from '../translations';
 import LoginModal from './LoginModal';
-import MessagesModal from './AppointmentsModal';
 import SavedCarsModal from './SavedCarsModal';
 import { useUser } from '../UserContext';
 

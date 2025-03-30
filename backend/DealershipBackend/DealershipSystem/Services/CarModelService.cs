@@ -20,6 +20,11 @@ public class CarModelService : ICarModelService
         _mapper = mapper;
     }
     
+    /// <summary>
+    /// Creates a new car model.
+    /// </summary>
+    /// <param name="carModelDTO">The car model data transfer object.</param>
+    /// <returns>The created CarModelDTO.</returns>
     public async Task<CarModelDTO> CreateCarModelAsync(CreateCarModelDTO carModelDTO)
     {
         var validationResults = new List<ValidationResult>();
@@ -34,7 +39,6 @@ public class CarModelService : ICarModelService
         {
             throw new Exception("Maker doesn't exist");
         }
-        
         
         var carModel = new CarModel
         {
@@ -56,12 +60,25 @@ public class CarModelService : ICarModelService
         return _mapper.Map<CarModelDTO>(carModel);
     }
     
+    /// <summary>
+    /// Retrieves a car model by its ID.
+    /// </summary>
+    /// <param name="id">The car model ID.</param>
+    /// <returns>The CarModelDTO if found, otherwise null.</returns>
     public async Task<CarModelDTO?> GetCarModelAsync(int id)
     {
         var model = await _context.CarModels.FirstOrDefaultAsync(x => x.ID == id);
         return _mapper.Map<CarModelDTO>(model);
     }
 
+    /// <summary>
+    /// Retrieves car models filtered by optional parameters.
+    /// </summary>
+    /// <param name="makerID">The maker ID to filter by.</param>
+    /// <param name="startYear">The manufacturing start year to filter by.</param>
+    /// <param name="endYear">The manufacturing end year to filter by.</param>
+    /// <param name="passengerCount">The passenger count to filter by.</param>
+    /// <returns>A list of filtered CarModelDTOs.</returns>
     public async Task<List<CarModelDTO>> GetCarModelsFilteredAsync(int? makerID = null, int? startYear = null, int? endYear = null,
         int? passengerCount = null)
     {
@@ -87,54 +104,57 @@ public class CarModelService : ICarModelService
         return  _mapper.Map<List<CarModelDTO>>(await query.ToListAsync());
     }
 
+    /// <summary>
+    /// Retrieves all car models.
+    /// </summary>
+    /// <returns>A list of CarModelDTOs.</returns>
     public async Task<List<CarModelDTO>> GetAllCarModelsAsync()
     {
         var models = await _context.CarModels.ToListAsync();
         return _mapper.Map<List<CarModelDTO>>(models); 
     }
 
+    /// <summary>
+    /// Updates an existing car model.
+    /// </summary>
+    /// <param name="id">The ID of the car model to update.</param>
+    /// <param name="updatedCarModel">The updated car model data.</param>
+    /// <returns>The updated CarModelDTO, or null if not found.</returns>
     public async Task<CarModelDTO?> UpdateCarModelAsync(int id, UpdateCarModelDTO updatedCarModel)
-{
-    var carModel = await _context.CarModels.FirstOrDefaultAsync(c => c.ID == id);
-    if (carModel == null)
     {
-        return null; 
-    }
-
-    // Validate updated model
-    var validationResults = new List<ValidationResult>();
-    var validationContext = new ValidationContext(updatedCarModel);
-    if (!Validator.TryValidateObject(updatedCarModel, validationContext, validationResults, true))
-    {
-        throw new ValidationException(string.Join(", ", validationResults.Select(x => x.ErrorMessage)));
-    }
-    
-    if (carModel.MakerID != updatedCarModel.MakerID)
-    {
-        var makerExists = await _context.CarMakers.AnyAsync(x => x.ID == updatedCarModel.MakerID);
-        if (!makerExists)
+        var carModel = await _context.CarModels.FirstOrDefaultAsync(c => c.ID == id);
+        if (carModel == null)
         {
-            throw new Exception("Maker doesn't exist");
+            return null; 
         }
-    }
-    
-    carModel.MakerID = updatedCarModel.MakerID;
-    carModel.ModelNameJapanese = updatedCarModel.ModelNameJapanese;
-    carModel.ModelNameEnglish = updatedCarModel.ModelNameEnglish;
-    carModel.ModelCode = updatedCarModel.ModelCode;
-    carModel.ManufacturingStartYear = updatedCarModel.ManufacturingStartYear;
-    carModel.ManufacturingEndYear = updatedCarModel.ManufacturingEndYear;
-    carModel.PassengerCount = updatedCarModel.PassengerCount;
-    carModel.Length = updatedCarModel.Length;
-    carModel.Width = updatedCarModel.Width;
-    carModel.Height = updatedCarModel.Height;
-    carModel.Mass = updatedCarModel.Mass;
-    
-    await _context.SaveChangesAsync();
-    
-    return _mapper.Map<CarModelDTO>(carModel);
-}
 
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(updatedCarModel);
+        if (!Validator.TryValidateObject(updatedCarModel, validationContext, validationResults, true))
+        {
+            throw new ValidationException(string.Join(", ", validationResults.Select(x => x.ErrorMessage)));
+        }
+        
+        if (carModel.MakerID != updatedCarModel.MakerID)
+        {
+            var makerExists = await _context.CarMakers.AnyAsync(x => x.ID == updatedCarModel.MakerID);
+            if (!makerExists)
+            {
+                throw new Exception("Maker doesn't exist");
+            }
+        }
+        
+        _mapper.Map(updatedCarModel, carModel);
+        await _context.SaveChangesAsync();
+        
+        return _mapper.Map<CarModelDTO>(carModel);
+    }
+
+    /// <summary>
+    /// Deletes a car model by ID.
+    /// </summary>
+    /// <param name="id">The ID of the car model to delete.</param>
+    /// <returns>True if deleted, false if not found.</returns>
     public async Task<bool> DeleteCarModelAsync(int id)
     {
         var carModel = await _context.CarModels.FirstOrDefaultAsync(c => c.ID == id);
@@ -148,6 +168,11 @@ public class CarModelService : ICarModelService
         return true;
     }
     
+    /// <summary>
+    /// Retrieves all car models for a given maker ID.
+    /// </summary>
+    /// <param name="makerId">The maker ID.</param>
+    /// <returns>A list of CarModelDTOs.</returns>
     public async Task<List<CarModelDTO>> GetCarsByMakerIdAsync(int makerId)
     {
         var cars = await _context.CarModels
