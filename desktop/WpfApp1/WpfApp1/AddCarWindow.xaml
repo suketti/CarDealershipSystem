@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfApp1.AddCarWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Add Car" Height="800" Width="820">
+        Title="Add Car" Height="863" Width="820">
     <Grid Margin="10">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
@@ -53,34 +53,35 @@
 
                 <!-- License Plate Number TextBox -->
                 <Label Content="Rendszám" Margin="5"/>
-                <TextBox Name="LicensePlateNumberTextBox" Margin="5" IsEnabled="False"/>
+                <TextBox Name="LicensePlateNumberTextBox" Margin="5" IsEnabled="True"/>
 
-                <!-- MOT Expiry Date TextBox -->
+                <!-- MOT Expiry Date DatePicker -->
                 <Label Content="Muszaki lejárati dátuma (yyyy-MM-dd)" Margin="5"/>
-                <TextBox Name="MOTExpiryTextBox" Margin="5" IsEnabled="False"/>
+                <DatePicker Name="MOTExpiryDatePicker" Margin="5"/>
 
                 <!-- VIN Number TextBox -->
                 <Label Content="Alvázszám" Margin="5"/>
-                <TextBox Name="VINNumTextBox" Margin="5" IsEnabled="False"/>
-                <Label Content="Futásteljesitmeny"></Label>
-                <TextBox Name="MileageTextBox" PreviewTextInput="MileageTextBox_PreviewTextInput"
-             TextChanged="MileageTextBox_TextChanged" IsEnabled="False"
-             Margin="5"/>   
+                <TextBox Name="VINNumTextBox" Margin="5" IsEnabled="True"/>
 
+                <!-- Mileage TextBox -->
+                <Label Content="Futásteljesitmeny" Margin="5"/>
+                <TextBox Name="MileageTextBox" PreviewTextInput="MileageTextBox_PreviewTextInput"
+                          TextChanged="MileageTextBox_TextChanged" IsEnabled="True"
+                          Margin="5"/>
 
                 <!-- Repair History, In Transfer, Smoking Checkboxes -->
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <StackPanel Margin="5">
                         <Label Content="Javítási előzmény"/>
-                        <CheckBox Name="RepairHistoryCheckBox" IsEnabled="False"/>
+                        <CheckBox Name="RepairHistoryCheckBox"/>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <Label Content="Átadás alatt"/>
-                        <CheckBox Name="IsInTransferCheckBox" IsEnabled="False"/>
+                        <CheckBox Name="IsInTransferCheckBox"/>
                     </StackPanel>
                     <StackPanel Margin="5">
                         <Label Content="Dohányzott"/>
-                        <CheckBox Name="IsSmokingCheckBox" IsEnabled="False"/>
+                        <CheckBox Name="IsSmokingCheckBox"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -102,7 +103,6 @@
                                     <Button Content="Eltávolítás" Click="RemoveImage_Click" Tag="{Binding}" Margin="5"/>
                                     <Button Content="Megnyitás" Click="OpenImage_Click" Tag="{Binding}" Margin="5"/>
                                 </StackPanel>
-
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
