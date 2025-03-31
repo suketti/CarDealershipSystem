@@ -24,7 +24,7 @@ namespace WpfApp1
 
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Please fill in all fields.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Kérlek töltsd ki az összes mezőt.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -41,19 +41,19 @@ namespace WpfApp1
 
                 if (accessToken != null && refreshToken != null && userId != null)
                 {
-                    MessageBox.Show($"Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Sikeres bejelentkezés!", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
                     MainWindow mainWindow = new MainWindow(accessToken, refreshToken, userId, HttpClientService.Client.BaseAddress.ToString());
                     mainWindow.Show();
                     Close();
                 }
                 else
                 {
-                    MessageBox.Show("Login failed: Missing tokens.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Bejelentkezés sikertelen: Hiányzó tokenek.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Invalid email or password!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Érvénytelen e-mail vagy jelszó!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -89,7 +89,7 @@ namespace WpfApp1
             }
             catch (HttpRequestException ex)
             {
-                MessageBox.Show($"Request error: {ex.Message}");
+                MessageBox.Show($"Kérési hiba: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }

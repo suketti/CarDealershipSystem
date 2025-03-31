@@ -35,30 +35,18 @@ public class CarModelService : ICarModelService
             throw new ValidationException(string.Join(", ", validationResults.Select(x => x.ErrorMessage)));
         }
 
-        if (_context.CarMakers.FirstOrDefaultAsync(x => x.ID == carModelDTO.MakerID) == null)
+        if (!await _context.CarMakers.AnyAsync(x => x.ID == carModelDTO.MakerID))
         {
             throw new Exception("Maker doesn't exist");
         }
-        
-        var carModel = new CarModel
-        {
-            MakerID = carModelDTO.MakerID,
-            ModelNameJapanese = carModelDTO.ModelNameJapanese,
-            ModelNameEnglish = carModelDTO.ModelNameEnglish,
-            ModelCode = carModelDTO.ModelCode,
-            ManufacturingStartYear = carModelDTO.ManufacturingStartYear,
-            ManufacturingEndYear = carModelDTO.ManufacturingEndYear,
-            PassengerCount = carModelDTO.PassengerCount,
-            Length = carModelDTO.Length,
-            Width = carModelDTO.Width,
-            Height = carModelDTO.Height,
-            Mass = carModelDTO.Mass
-        };
 
+        var carModel = _mapper.Map<CarModel>(carModelDTO);
+    
         await _context.CarModels.AddAsync(carModel);
         await _context.SaveChangesAsync();
         return _mapper.Map<CarModelDTO>(carModel);
     }
+
     
     /// <summary>
     /// Retrieves a car model by its ID.

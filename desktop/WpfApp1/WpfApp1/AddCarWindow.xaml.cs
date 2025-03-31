@@ -65,7 +65,7 @@ namespace WpfApp1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error loading models: {ex.Message}");
+                    MessageBox.Show($"Hiba a modellek betöltése közben: {ex.Message}");
                 }
             }
             else
@@ -139,7 +139,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading data: {ex.Message}");
+                MessageBox.Show($"Hiba az adatok betöltése közben: {ex.Message}");
             }
         }
 
@@ -168,20 +168,20 @@ namespace WpfApp1
                     else
                     {
                         // Other 404s are considered errors
-                        MessageBox.Show("Error: The requested resource was not found.");
+                        MessageBox.Show("Hiba: A kért erőforrás nem található.");
                         return new List<T>(); // Return an empty list for other errors
                     }
                 }
                 else
                 {
                     // Handle other error codes (e.g., 500, 400)
-                    MessageBox.Show($"Error: {response.StatusCode.ToString()}");
+                    MessageBox.Show($"Hiba: {response.StatusCode.ToString()}");
                     return new List<T>(); // Return an empty list in case of other errors
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error while fetching data: {ex.Message}");
+                MessageBox.Show($"Hiba az adatok lekérése közben: {ex.Message}");
                 return new List<T>(); // Return an empty list in case of an exception
             }
         }
@@ -197,7 +197,7 @@ namespace WpfApp1
             colors = await FetchDataAsync<ColorDTO>("/api/cars/metadata/colors");
         }
 
-        
+
 
         private async Task LoadModelsForSelectedBrand()
         {
@@ -221,7 +221,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading models: {ex.Message}");
+                MessageBox.Show($"Hiba a modellek betöltése közben: {ex.Message}");
             }
         }
 
@@ -274,7 +274,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading dependent data: {ex.Message}");
+                MessageBox.Show($"Hiba a függő adatok betöltése közben: {ex.Message}");
             }
         }
 
@@ -408,11 +408,12 @@ namespace WpfApp1
 
                 await UploadImagesForCar(carId);
 
-                MessageBox.Show("Car added successfully!");
+                MessageBox.Show("Az autó sikeresen hozzáadva!");
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding car: {ex.Message}");
+                MessageBox.Show($"Hiba az autó hozzáadása közben: {ex.Message}");
             }
         }
 
@@ -420,9 +421,9 @@ namespace WpfApp1
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
+                Filter = "Képfájlok|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
                 Multiselect = true,
-                Title = "Select Images"
+                Title = "Képek kiválasztása"
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -469,11 +470,11 @@ namespace WpfApp1
                     imageResponse.EnsureSuccessStatusCode();
                 }
 
-                MessageBox.Show("Images uploaded successfully!");
+                MessageBox.Show("A képek sikeresen feltöltve!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error uploading images: {ex.Message}");
+                MessageBox.Show($"Hiba a képek feltöltése közben: {ex.Message}");
             }
         }
         private void MileageTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)

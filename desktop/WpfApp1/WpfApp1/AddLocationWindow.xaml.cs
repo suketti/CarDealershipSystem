@@ -31,7 +31,7 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error fetching prefectures: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Hiba a prefektúrák lekérésekor: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -73,9 +73,55 @@ namespace WpfApp1
             isSyncing = false;
         }
 
-
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
+            // Validate inputs
+            if (string.IsNullOrWhiteSpace(LocationNameTextBox.Text))
+            {
+                MessageBox.Show("A helyszín neve kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (PrefectureComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("A prefektúra kiválasztása kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(PostalCodeTextBox.Text))
+            {
+                MessageBox.Show("Az irányítószám kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(CityTextBox.Text))
+            {
+                MessageBox.Show("A város neve kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(CityRomanizedTextBox.Text))
+            {
+                MessageBox.Show("A város romanizált neve kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(StreetTextBox.Text))
+            {
+                MessageBox.Show("Az utca neve kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(StreetRomanizedTextBox.Text))
+            {
+                MessageBox.Show("Az utca romanizált neve kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!int.TryParse(CapacityTextBox.Text, out int maxCapacity) || maxCapacity <= 0)
+            {
+                MessageBox.Show("A maximális kapacitás érvényes pozitív szám kell legyen!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(PhoneTextBox.Text))
+            {
+                MessageBox.Show("A telefonszám kötelező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var location = new
             {
                 id = 0,
@@ -93,7 +139,7 @@ namespace WpfApp1
                     street = StreetTextBox.Text,
                     streetRomanized = StreetRomanizedTextBox.Text
                 },
-                maxCapacity = int.Parse(CapacityTextBox.Text),
+                maxCapacity = maxCapacity,
                 phoneNumber = PhoneTextBox.Text
             };
 
@@ -104,14 +150,14 @@ namespace WpfApp1
             {
                 var response = await HttpClientService.Client.PostAsync("/api/locations", content);
                 response.EnsureSuccessStatusCode();
-                MessageBox.Show("Location added successfully!");
+                MessageBox.Show("A helyszín sikeresen hozzáadva!", "Siker", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 LocationAdded?.Invoke(this, EventArgs.Empty);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error adding location: {ex.Message}");
+                MessageBox.Show($"Hiba a helyszín hozzáadásakor: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

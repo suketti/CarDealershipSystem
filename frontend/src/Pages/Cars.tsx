@@ -508,11 +508,12 @@ function Cars() {
                 <p className="card-description">
                   {langCtx?.translate.engineSize} {car?.engineSize?.engineSize ?? "N/A"} cm³
                 </p>
-                
-<a href={`/Car-Details?carId=${encodeURIComponent(car?.id)}`} className="details-button">
-  {langCtx?.translate.details || "Részletek"}
-</a>
-                    </div>
+
+                <Link to={`/Car-Details?carId=${encodeURIComponent(car?.id)}`} className="details-button">
+                  {langCtx?.translate.details || "Részletek"}
+                </Link>
+
+              </div>
                   </div>
     );
   })

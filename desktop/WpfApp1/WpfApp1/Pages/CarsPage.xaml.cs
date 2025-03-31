@@ -49,12 +49,18 @@ namespace WpfApp1
         {
             AddCarWindow addCarWindow = new AddCarWindow();
             addCarWindow.CarAdded += AddCarWindow_CarAdded;
+            addCarWindow.Closed += AddCarWindow_Closed; // Ensure refresh when closed
             addCarWindow.ShowDialog();
         }
 
         private void AddCarWindow_CarAdded(object sender, EventArgs e)
         {
             LoadCarsAsync();
+        }
+
+        private void AddCarWindow_Closed(object sender, EventArgs e)
+        {
+            LoadCarsAsync(); // Reload cars when the add window is closed
         }
 
         private void EditCar_Click(object sender, RoutedEventArgs e)

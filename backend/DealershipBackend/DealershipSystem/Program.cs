@@ -81,7 +81,7 @@ public class Program
         
         
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")));
+            options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnection")), ServiceLifetime.Scoped);
 
         builder.Services.AddResponseCompression();
         

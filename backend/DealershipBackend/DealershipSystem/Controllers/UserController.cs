@@ -204,7 +204,7 @@ public class UserController : ControllerBase
         }
 
         // Return the created user with a 201 Created response
-        return Ok(User);
+        return Ok(result.User);
     }
 
 

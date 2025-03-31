@@ -26,6 +26,7 @@ public class MappingProfile : Profile
         CreateMap<Car, CarDTO>();
         CreateMap<Image, ImageDTO>();
 
+        
         //Reverse mappings
         CreateMap<LocationDto, Location>();
         CreateMap<AddressDto, Address>();
@@ -36,6 +37,8 @@ public class MappingProfile : Profile
         CreateMap<FuelTypeDTO, FuelType>();
         CreateMap<DrivetrainTypeDTO, DrivetrainType>();
         CreateMap<CarMakerDTO, CarMaker>();
+        CreateMap<CreateCarModelDTO, CarModel>();
+        CreateMap<CarModel, CarModelDTO>();
         CreateMap<UpdateCarModelDTO, CarModel>();
         CreateMap<CreateCarDTO, Car>()
         .ForMember(dest => dest.BrandID, opt => opt.MapFrom(src => src.Brand))

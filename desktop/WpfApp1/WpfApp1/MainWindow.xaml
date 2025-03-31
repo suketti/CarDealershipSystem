@@ -6,8 +6,8 @@
         <!-- Top Tab Navigation -->
         <TabControl SelectionChanged="TabControl_SelectionChanged" x:Name="tcPages" DockPanel.Dock="Top">
             <TabItem Header="Kocsik" Cursor="Hand"/>
-            <TabItem Header="Helysznek" Cursor="Hand"/>
-            <TabItem Header="Markak" Cursor="Hand"/>
+            <TabItem Header="Helyszínek" Cursor="Hand"/>
+            <TabItem Header="Markák" Cursor="Hand"/>
             <TabItem Header="Modellek" Cursor="Hand"/>
         </TabControl>
 
