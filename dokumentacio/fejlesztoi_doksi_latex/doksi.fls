@@ -1,8 +1,8 @@
-PWD /Users/sketchy/Documents/docs
+PWD /Users/sketchy/Developer/CarDealershipSystem/dokumentacio/fejlesztoi_doksi_latex
 INPUT /usr/local/texlive/2023/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/sketchy/Documents/docs/doksi.tex
+INPUT /Users/sketchy/Developer/CarDealershipSystem/dokumentacio/fejlesztoi_doksi_latex/doksi.tex
 OUTPUT doksi.log
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/report.cls
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/report.cls

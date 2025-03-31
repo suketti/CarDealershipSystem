@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1743449960 "/Users/sketchy/Documents/docs/doksi.tex" "doksi.pdf" "doksi" 1743449962 0
-  "/Users/sketchy/Documents/docs/doksi.tex" 1743449960 129973 8dad3a2df291d025d3a5999aafcb1abb ""
+["pdflatex"] 1743453261 "/Users/sketchy/Developer/CarDealershipSystem/dokumentacio/fejlesztoi_doksi_latex/doksi.tex" "doksi.pdf" "doksi" 1743453263 0
+  "/Users/sketchy/Developer/CarDealershipSystem/dokumentacio/fejlesztoi_doksi_latex/doksi.tex" 1743453259 132177 9b9c8a02557b4f6229e7439b9443fe27 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -105,10 +105,10 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1696077977 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1696077952 7883453 b5dde18c4de2fb2c37e646941de371d7 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "doksi.aux" 1743449962 35255 f26283f7ca7282c818fe7de233098348 "pdflatex"
-  "doksi.out" 1743449962 23504 ff613cc38deb1a94698986c8f26925fb "pdflatex"
-  "doksi.tex" 1743449960 129973 8dad3a2df291d025d3a5999aafcb1abb ""
-  "doksi.toc" 1743449962 22371 94fcedee0181b7ba27f892880927f893 "pdflatex"
+  "doksi.aux" 1743453263 36394 bb9ef9e88260ac0793908e1d8ea24585 "pdflatex"
+  "doksi.out" 1743453263 24868 eb76fd180b6484780e5b45a3b449ee90 "pdflatex"
+  "doksi.tex" 1743453259 132177 9b9c8a02557b4f6229e7439b9443fe27 ""
+  "doksi.toc" 1743453263 23230 c0395362cad8b89e517ac09156a618b8 "pdflatex"
   "figures/capacity_input_error.png" 1743448289 16805 7ce10f09675b2826ba903188f86f4e67 ""
   "figures/class_dependencies.png" 1743357162 113287 534fdf1e0fa63a56fe3cdce23491b286 ""
   "figures/db_create.png" 1743435530 119923 66fa4ba3fc343d332b094d353363d662 ""

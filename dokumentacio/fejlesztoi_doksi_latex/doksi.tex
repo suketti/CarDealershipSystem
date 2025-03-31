@@ -2751,6 +2751,70 @@ public static async Task<bool> RefreshTokenIfNeeded()
 Az alkalmazás a \texttt{TokenRefreshHttpHandler} és a \texttt{HttpClientService} osztályok segítségével biztosítja, hogy az autentikációs tokenek automatikusan frissüljenek, ha azok lejárnak, anélkül hogy a felhasználónak újra be kellene jelentkeznie. A \texttt{TokenRefreshHttpHandler} a HTTP kérések kezelésére szolgál, és ha \texttt{401 Unauthorized} válasz érkezik, megpróbálja frissíteni a hozzáférési tokent és újraküldi a kérést. A \texttt{HttpClientService} felelős az autentikációs sütik tárolásáért és a tokenek frissítéséért. A kód és a példák bemutatják, hogyan történik a tokenek kezelése és a kérések újraküldése a frissített tokenekkel.
 
 \chapter{Frontend}
+\section{Telepítési Útmutató}
+
+Ez az útmutató bemutatja, hogyan telepítheted és futtathatod a React alapú alkalmazást a fejlesztői környezetedben.
+
+\section{Előfeltételek}
+
+Mielőtt nekiállnál a telepítésnek, győződj meg róla, hogy az alábbi szoftverek telepítve vannak a gépeden:
+
+\begin{itemize}
+    \item \textbf{Node.js}: A React alkalmazás futtatásához szükséges. A Node.js letöltéséhez és telepítéséhez látogass el a \url{https://nodejs.org/} weboldalra.
+    \item \textbf{npm (Node Package Manager)}: Az npm alapértelmezés szerint telepítve van a Node.js-sel együtt.
+\end{itemize}
+
+A telepítés után ellenőrizheted, hogy a Node.js és az npm helyesen telepítve van a következő parancsok futtatásával:
+
+\begin{verbatim}
+node -v
+npm -v
+\end{verbatim}
+
+\section{Alkalmazás Telepítése}
+
+Miután a projektet klónoztad, kövesd az alábbi lépéseket:
+
+\subsection{Navigálj a frontend könyvtárba}
+
+A projekt mappájában lépj a frontend könyvtárba:
+
+\begin{verbatim}
+cd frontend
+\end{verbatim}
+
+\subsection{Függőségek telepítése}
+
+A projekt összes szükséges csomagját és függőségét az npm telepíti a következő parancs futtatásával:
+
+\begin{verbatim}
+npm install
+\end{verbatim}
+
+Ez letölti a projektben meghatározott összes függőséget a \texttt{node\_modules} mappába.
+
+\subsection{IP cím módosítása (ha szükséges)}
+
+A backend szerver IP-címét az alkalmazásban található \texttt{src/api/axiosInstance.ts} fájlban kell módosítanod, ha nem \texttt{localhost}-ot használsz. Keresd meg az alábbi sort:
+
+\begin{verbatim}
+const api = axios.create({
+  baseURL: 'http://localhost:5000/api',  % itt módosíthatod az IP címet
+});
+\end{verbatim}
+
+Cseréld ki \texttt{localhost} értékét a megfelelő IP címre, ha a backend szerver más gépen vagy IP címen fut.
+
+\subsection{Futtasd a fejlesztői szervert}
+
+A fejlesztés során a következő parancsot használhatod az alkalmazás elindításához a helyi környezetben:
+
+\begin{verbatim}
+npm run dev
+\end{verbatim}
+
+Ez elindítja a Vite alapú fejlesztői szervert, és elérheted az alkalmazást a böngészőben a \texttt{http://localhost:5173} címen.
+
 \subsection{Frontend Projektstruktúra}
 
 A frontend alkalmazás a React keretrendszerre épül, és a Vite fejlesztői környezetet használja. Az alábbiakban bemutatjuk a könyvtárstruktúrát és az egyes fájlok szerepét.
