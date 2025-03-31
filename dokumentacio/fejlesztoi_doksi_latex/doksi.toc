@@ -1,0 +1,186 @@
+\select@language {hungarian} \contentsline {chapter}{\numberline {1}Bevezetés}{5}{chapter.1}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {2}Csapatmunka}{7}{chapter.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {2.1}Csapatmunka és Kommunikáció}{7}{section.2.1}%
+\select@language {hungarian} \contentsline {subsubsection}{Kommunikációs Eszközök}{7}{section*.2}%
+\select@language {hungarian} \contentsline {subsubsection}{Feladatmegosztás}{7}{section*.3}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {3}Technológiai választások és fejlesztői eszközök}{9}{chapter.3}%
+\select@language {hungarian} \contentsline {section}{\numberline {3.1}Technológiai választások}{9}{section.3.1}%
+\select@language {hungarian} \contentsline {section}{\numberline {3.2}Fejlesztői eszközök}{9}{section.3.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {3.3}Külső csomagok és függőségek}{10}{section.3.3}%
+\select@language {hungarian} \contentsline {section}{\numberline {3.4}Egyéb eszközök és segédprogramok}{10}{section.3.4}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {4}Telepítés és konfiguráció}{12}{chapter.4}%
+\select@language {hungarian} \contentsline {section}{\numberline {4.1}Szerver Beállítások}{12}{section.4.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {4.1.1}Előfeltételek}{12}{subsection.4.1.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {4.1.2}Adatbázis Telepítése}{12}{subsection.4.1.2}%
+\select@language {hungarian} \contentsline {subsubsection}{2. Új adatbázis létrehozása}{12}{section*.4}%
+\select@language {hungarian} \contentsline {subsubsection}{3. Adatbázis dump importálása}{13}{section*.5}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {4.1.3}Szerver Beállítása}{14}{subsection.4.1.3}%
+\select@language {hungarian} \contentsline {subsubsection}{appSettings.json}{14}{section*.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {4.1.4}NuGet Függőségek Telepítése}{15}{subsection.4.1.4}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {4.1.5}Projekt Futtatása}{15}{subsection.4.1.5}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {5}Backend dokumentációja}{16}{chapter.5}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.1}Adatbázis felépítése}{16}{section.5.1}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.2}Fájlstruktúra}{18}{section.5.2}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.1}Root könyvtár}{18}{subsection.5.2.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.2}Dependencies}{18}{subsection.5.2.2}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.3}wwwroot}{19}{subsection.5.2.3}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.4}Configurations}{19}{subsection.5.2.4}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.5}Context}{19}{subsection.5.2.5}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.6}Controllers}{19}{subsection.5.2.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.7}DTO}{20}{subsection.5.2.7}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.8}Helpers}{21}{subsection.5.2.8}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.9}Interfaces}{22}{subsection.5.2.9}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.10}Mappings}{22}{subsection.5.2.10}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.11}Migrations}{22}{subsection.5.2.11}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.12}Models}{22}{subsection.5.2.12}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.2.13}Services}{27}{subsection.5.2.13}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.3}Osztályok}{27}{section.5.3}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.1}CarMakerService osztály}{27}{subsection.5.3.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.2}CarMakerService implementációja}{28}{subsection.5.3.2}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.3}CarMetadataService osztály}{29}{subsection.5.3.3}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.4}CarMakerService implementációja}{30}{subsection.5.3.4}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.5}CarModelService osztály}{33}{subsection.5.3.5}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.6}CarService osztály}{35}{subsection.5.3.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.7}EmployeeLocationService osztály}{37}{subsection.5.3.7}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.8}EmployeeLocationService implementációja}{37}{subsection.5.3.8}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.9}EngineSizeService osztály}{38}{subsection.5.3.9}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.10}EngineSizeService implementációja}{39}{subsection.5.3.10}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.11}ImageService osztály}{40}{subsection.5.3.11}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.12}ImageService implementációja}{40}{subsection.5.3.12}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.13}JWTService osztály}{41}{subsection.5.3.13}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.14}JWTService implementációja}{42}{subsection.5.3.14}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.15}MessageService osztály}{43}{subsection.5.3.15}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.3.16}MessageService implementációja}{43}{subsection.5.3.16}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.4}Bevezetés}{45}{section.5.4}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.5}Tesztkörnyezet}{45}{section.5.5}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.5.1}Használt technológiák}{45}{subsection.5.5.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.5.2}Tesztelési infrastruktúra}{45}{subsection.5.5.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.6}Tesztesetek}{45}{section.5.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.1}CreateLocationAsync - Helyszín létrehozása (prefektúra nem található)}{45}{subsection.5.6.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.2}DeleteLocationAsync - Helyszín törlése (nem található)}{45}{subsection.5.6.2}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.3}DeleteLocationAsync - Helyszín törlése (sikeres)}{46}{subsection.5.6.3}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.4}GetAllLocationsAsync - Az összes helyszín lekérdezése}{46}{subsection.5.6.4}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.5}GetLocationByIdAsync - Több eset kezelése}{46}{subsection.5.6.5}%
+\select@language {hungarian} \contentsline {subsubsection}{GetLocationByIdAsync - Helyszín lekérdezése azonosító alapján (megtalálva - első eset)}{46}{section*.63}%
+\select@language {hungarian} \contentsline {subsubsection}{GetLocationByIdAsync - Helyszín lekérdezése azonosító alapján (megtalálva - második eset)}{47}{section*.64}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.6}GetLocationByIdAsync - Helyszín lekérdezése azonosító alapján (megtalálva)}{47}{subsection.5.6.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.7}GetLocationByIdAsync - Helyszín lekérdezése azonosító alapján (nem található)}{47}{subsection.5.6.7}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.8}GetLocationByIdAsync - Helyszín lekérdezése azonosító alapján (nem található)}{48}{subsection.5.6.8}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.9}UpdateLocationAsync - Helyszín frissítése (nem található)}{48}{subsection.5.6.9}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.6.10}GetCarUsageInLocationAsync - Autók kapacitás telítettsége egy helyszínen}{48}{subsection.5.6.10}%
+\select@language {hungarian} \contentsline {section}{\numberline {5.7}API Végpontok}{49}{section.5.7}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.1}Autóval kapcsolatos végpontok}{49}{subsection.5.7.1}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/cars}{49}{section*.65}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/cars/{id}}{49}{section*.66}%
+\select@language {hungarian} \contentsline {subsubsection}{3. POST /api/cars}{50}{section*.67}%
+\select@language {hungarian} \contentsline {subsubsection}{4. PUT /api/cars/{id}}{50}{section*.68}%
+\select@language {hungarian} \contentsline {subsubsection}{5. DELETE /api/cars/{id}}{50}{section*.69}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.2}Autó gyártóval kapcsolatos végpontok}{50}{subsection.5.7.2}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/cars/makers}{51}{section*.70}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/cars/makers/{id}}{51}{section*.71}%
+\select@language {hungarian} \contentsline {subsubsection}{3. POST /api/cars/makers}{51}{section*.72}%
+\select@language {hungarian} \contentsline {subsubsection}{4. PUT /api/cars/makers}{51}{section*.73}%
+\select@language {hungarian} \contentsline {subsubsection}{5. DELETE /api/cars/makers/{id}}{52}{section*.74}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.3}Autó metaadatokkal kapcsolatos végpontok}{52}{subsection.5.7.3}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/cars/metadata/bodytypes}{52}{section*.75}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/cars/metadata/bodytypes/{id}}{52}{section*.76}%
+\select@language {hungarian} \contentsline {subsubsection}{3. GET /api/cars/metadata/transmissionTypes}{52}{section*.77}%
+\select@language {hungarian} \contentsline {subsubsection}{4. GET /api/cars/metadata/transmissionTypes/{id}}{53}{section*.78}%
+\select@language {hungarian} \contentsline {subsubsection}{5. GET /api/cars/metadata/fuelTypes}{53}{section*.79}%
+\select@language {hungarian} \contentsline {subsubsection}{6. GET /api/cars/metadata/fuelTypes/{id}}{53}{section*.80}%
+\select@language {hungarian} \contentsline {subsubsection}{7. GET /api/cars/metadata/drivetrainTypes}{53}{section*.81}%
+\select@language {hungarian} \contentsline {subsubsection}{8. GET /api/cars/metadata/drivetrainTypes/{id}}{53}{section*.82}%
+\select@language {hungarian} \contentsline {subsubsection}{9. GET /api/cars/metadata/colors}{54}{section*.83}%
+\select@language {hungarian} \contentsline {subsubsection}{10. GET /api/cars/metadata/colors/{id}}{54}{section*.84}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.4}Autómodellekkel kapcsolatos végpontok}{54}{subsection.5.7.4}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/cars/models}{54}{section*.85}%
+\select@language {hungarian} \contentsline {subsubsection}{2. POST /api/cars/models}{54}{section*.86}%
+\select@language {hungarian} \contentsline {subsubsection}{3. GET /api/cars/models/search}{55}{section*.87}%
+\select@language {hungarian} \contentsline {subsubsection}{4. PUT /api/cars/models/{id}}{55}{section*.88}%
+\select@language {hungarian} \contentsline {subsubsection}{5. DELETE /api/cars/models/{id}}{55}{section*.89}%
+\select@language {hungarian} \contentsline {subsubsection}{6. GET /api/cars/models/maker/{makerId}}{56}{section*.90}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.5}Alkalmazotti helyszínekkel kapcsolatos végpontok}{56}{subsection.5.7.5}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/employeeLocations}{56}{section*.91}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/employeeLocations/{employeeId}}{56}{section*.92}%
+\select@language {hungarian} \contentsline {subsubsection}{3. POST /api/employeeLocations}{57}{section*.93}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.6}Motortípusokkal kapcsolatos végpontok}{57}{subsection.5.7.6}%
+\select@language {hungarian} \contentsline {subsubsection}{1. POST /api/cars/engine}{57}{section*.94}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/cars/engine/model/\{modelId\}}{57}{section*.95}%
+\select@language {hungarian} \contentsline {subsubsection}{3. PUT /api/cars/engine/update}{58}{section*.96}%
+\select@language {hungarian} \contentsline {subsubsection}{4. DELETE /api/cars/engine/\{engineId\}}{58}{section*.97}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.7}Képkezeléssel kapcsolatos végpontok}{58}{subsection.5.7.7}%
+\select@language {hungarian} \contentsline {subsubsection}{1. POST /api/images/upload}{58}{section*.98}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/images/car/\{carId\}}{59}{section*.99}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.8}Telephelyekkel kapcsolatos végpontok}{59}{subsection.5.7.8}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/locations}{59}{section*.100}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/locations/prefectures}{59}{section*.101}%
+\select@language {hungarian} \contentsline {subsubsection}{3. GET /api/locations/\{id\}}{59}{section*.102}%
+\select@language {hungarian} \contentsline {subsubsection}{4. POST /api/locations}{60}{section*.103}%
+\select@language {hungarian} \contentsline {subsubsection}{5. PUT /api/locations/update}{60}{section*.104}%
+\select@language {hungarian} \contentsline {subsubsection}{6. DELETE /api/locations/\{locationId\}}{60}{section*.105}%
+\select@language {hungarian} \contentsline {subsubsection}{7. GET /api/locations/\{locationId\}/car-usage}{61}{section*.106}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.9}Üzenetekkel kapcsolatos végpontok}{61}{subsection.5.7.9}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/messages/\{userId\}}{61}{section*.107}%
+\select@language {hungarian} \contentsline {subsubsection}{2. DELETE /api/messages/\{messageId\}}{61}{section*.108}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.10}Foglalásokkal kapcsolatos végpontok}{61}{subsection.5.7.10}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/reservations}{62}{section*.109}%
+\select@language {hungarian} \contentsline {subsubsection}{2. GET /api/reservations/\{id\}}{62}{section*.110}%
+\select@language {hungarian} \contentsline {subsubsection}{3. POST /api/reservations}{62}{section*.111}%
+\select@language {hungarian} \contentsline {subsubsection}{4. PUT /api/reservations/\{id\}}{62}{section*.112}%
+\select@language {hungarian} \contentsline {subsubsection}{5. DELETE /api/reservations/\{id\}}{63}{section*.113}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.11}Mentett autókkal kapcsolatos végpontok}{63}{subsection.5.7.11}%
+\select@language {hungarian} \contentsline {subsubsection}{1. GET /api/savedcars/\{userId\}}{63}{section*.114}%
+\select@language {hungarian} \contentsline {subsubsection}{2. POST /api/savedcars/\{userId\}/save}{63}{section*.115}%
+\select@language {hungarian} \contentsline {subsubsection}{3. DELETE /api/savedcars/\{userId\}/remove/\{carId\}}{64}{section*.116}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {5.7.12}Felhasználókkal kapcsolatos végpontok}{64}{subsection.5.7.12}%
+\select@language {hungarian} \contentsline {subsubsection}{1. POST /api/users/register}{64}{section*.117}%
+\select@language {hungarian} \contentsline {subsubsection}{2. POST /api/users/login}{64}{section*.118}%
+\select@language {hungarian} \contentsline {subsubsection}{3. PUT /api/users/\{userId\}/update}{65}{section*.119}%
+\select@language {hungarian} \contentsline {subsubsection}{4. DELETE /api/users/\{userId\}}{65}{section*.120}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {6}WPF dokumentációja}{66}{chapter.6}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.1}Bevezetés}{66}{section.6.1}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.2}Telepítés és Konfiguráció}{66}{section.6.2}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.2.1}Forráskód és Fordítás}{66}{subsection.6.2.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.2.2}Függőségek}{66}{subsection.6.2.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.3}Felépítés és Ablakok}{66}{section.6.3}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.3.1}Ablakok (Windows)}{67}{subsection.6.3.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.3.2}Oldalak (Pages)}{67}{subsection.6.3.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.4}Első indítás és bejelentkezés}{67}{section.6.4}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.5}Autók kezelése}{68}{section.6.5}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.5.1}Új autó hozzáadása}{68}{subsection.6.5.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.5.2}Meglévő autó módosítása}{68}{subsection.6.5.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.6}Helyszínek kezelése}{69}{section.6.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.6.1}Új telephely hozzáadása}{69}{subsection.6.6.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.6.2}Telephely módosítása}{69}{subsection.6.6.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.7}Motoradatok, Márkák, Modellek szerkesztése}{69}{section.6.7}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.8}Gyakori hibák és megoldások}{69}{section.6.8}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.8.1}Szerverelérési problémák}{69}{subsection.6.8.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.8.2}Érvénytelen beviteli adatok}{69}{subsection.6.8.2}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.9}Tesztkörnyezet}{70}{section.6.9}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.10}Teszt Esetek}{70}{section.6.10}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.1}Üres modell név esetén hibaüzenet}{70}{subsection.6.10.1}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.2}Üres helyszín név esetén hibaüzenet}{70}{subsection.6.10.2}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.3}Nincs kiválasztva prefektúra}{71}{subsection.6.10.3}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.4}Üres irányítószám}{71}{subsection.6.10.4}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.5}Üres utcanév esetén hibaüzenet}{72}{subsection.6.10.5}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.6}Érvénytelen maximális kapacitás}{73}{subsection.6.10.6}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.10.7}Új felhasználó létrehozása név nélkül}{73}{subsection.6.10.7}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.11}További fejlesztési tervek}{74}{section.6.11}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.12}Backend Kommunikáció}{74}{section.6.12}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.13}Token Frissítés és HTTP Kérések Kezelése}{74}{section.6.13}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.13.1}TokenRefreshHttpHandler – Kérések és Token Frissítés Kezelése}{74}{subsection.6.13.1}%
+\select@language {hungarian} \contentsline {subsubsection}{Folyamat:}{74}{section*.121}%
+\select@language {hungarian} \contentsline {subsubsection}{Példa:}{75}{section*.122}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {6.13.2}HttpClientService – HTTP Kliens Kezelése}{75}{subsection.6.13.2}%
+\select@language {hungarian} \contentsline {subsubsection}{Fontos változók és objektumok:}{76}{section*.123}%
+\select@language {hungarian} \contentsline {subsubsection}{Token frissítés folyamata:}{76}{section*.124}%
+\select@language {hungarian} \contentsline {subsubsection}{Kód:}{76}{section*.125}%
+\select@language {hungarian} \contentsline {section}{\numberline {6.14}Összegzés}{77}{section.6.14}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {7}Frontend}{78}{chapter.7}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {7.0.1}Frontend Projektstruktúra}{78}{subsection.7.0.1}%
+\select@language {hungarian} \contentsline {subsubsection}{Főkönyvtár (\texttt {frontend})}{78}{section*.126}%
+\select@language {hungarian} \contentsline {subsubsection}{\texttt {src} Könyvtár (Forráskód)}{78}{section*.127}%
+\select@language {hungarian} \contentsline {subsubsection}{Konfigurációs és egyéb fájlok}{80}{section*.128}%
+\select@language {hungarian} \contentsline {section}{\numberline {7.1}Hitelesítés és API konfiguráció}{80}{section.7.1}%
+\select@language {hungarian} \contentsline {chapter}{\numberline {8}Záróösszegzés}{81}{chapter.8}%
+\select@language {hungarian} \contentsline {section}{\numberline {8.1}Köszönetnyilvánítás}{82}{section.8.1}%
