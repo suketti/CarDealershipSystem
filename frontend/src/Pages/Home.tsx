@@ -346,7 +346,7 @@ function Home({ language }: { language: "hu" | "en" | "jp"}) {
                                 <p>
                                     {langCtx?.translate.fuelType} {langCtx?.language === 'jp' ? car.fuelType.nameJapanese : car.fuelType.nameEnglish}
                                 </p>
-                                <p>{car.location.locationName}</p>
+                                <p>{langCtx?.translate.location}: {car.location.locationName}</p>
                                 <p>
                                     {langCtx?.translate.price} {Number(car.price).toLocaleString()} yen
                                 </p>

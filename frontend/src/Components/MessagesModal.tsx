@@ -111,7 +111,8 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
                 setMessages(fetchedMessages);
             } catch (err) {
                 console.error("Failed to fetch messages", err);
-                setError("Failed to load messages.");
+                {langCtx?.translate.fetchProblem}
+                    
             } finally {
                 setLoading(false);
             }
@@ -134,7 +135,8 @@ const MessagesModal: React.FC<MessagesModalProps> = ({ onClose, t }) => {
             setMessages(messages.filter(msg => msg.date !== messageId));
         } catch (err) {
             console.error("Failed to delete message", err);
-            setError("Failed to delete the message.");
+            {langCtx?.translate.deleteProblem}
+            
         }
     };
 

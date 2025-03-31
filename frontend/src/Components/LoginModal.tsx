@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./LoginModal.module.css";
 import { useUser } from "../UserContext";
+import { useContext } from "react";
+import { LanguageCtx } from "../App.tsx";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -10,6 +12,7 @@ interface LoginModalProps {
 
 const LoginModal: React.FC<LoginModalProps> = ({ onClose, t, language }) => {
   const { loginUser, registerUser } = useUser(); // Access login and registration functions
+  const langCtx = useContext(LanguageCtx);
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -42,7 +45,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, t, language }) => {
         onClose();
       }
     } catch (error) {
-      setErrorMessage("An error occurred. Please try again.");
+      {langCtx?.translate.loginProblem};
     }
   };
 

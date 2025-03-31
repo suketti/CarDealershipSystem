@@ -7,6 +7,7 @@ import { translations } from '../translations';
 import LoginModal from './LoginModal';
 import SavedCarsModal from './SavedCarsModal';
 import { useUser } from '../UserContext';
+import MessagesModal from './MessagesModal';
 
 const MobileMenu = () => {
   const { isMenuOpen, toggleMenu } = useContext(MobileMenuContext);

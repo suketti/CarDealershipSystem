@@ -180,6 +180,13 @@ export type TranslationType = {
   currentAppointment: string;
   newAppointmentDate: string;
   wrongPassword: string;
+  view: string;
+  remove: string;
+  fetchProblem: string;
+  deleteProblem: string;
+  loginProblem: string;
+  savedCarsProblem: string;
+  savedDeleteProblem: string;
 };
 
 
@@ -365,6 +372,13 @@ export const translations = {
   newAppointmentDate: "New Appointment Date and Time",
   currentAppointment: "Current Appointment",
     wrongPassword: "Wrong Password",
+    view: "View",
+  remove: "Remove",
+  fetchProblem: "Failed to fetch messages",
+  deleteProblem: "Failed to delete message",
+  loginProblem: "An error occurred. Please try again.",
+  savedCarsProblem: "Failed to load saved cars.",
+  savedDeleteProblem: "Failed to remove car from saved list.",
 },
   hu: {
     searchTitle: "Autókereső",
@@ -547,7 +561,14 @@ export const translations = {
   deleteMessage: "Üzenet törlése",
   newAppointmentDate: "Új időpont Dátum és Idő",
   currentAppointment: "Jelenlegi időpont",
-    wrongPassword: "Hibás jelszó!"
+    wrongPassword: "Hibás jelszó!",
+    view: "Megtekintés",
+  remove: "Eltávolítás",
+  fetchProblem: "Hiba az üzenetek fetchelése közben",
+  deleteProblem: "Hiba az üzenet törlése közben",
+  loginProblem: "Hiba lépett fel. Próbáld újra.",
+  savedCarsProblem: "Hiba az autó betöltése közben.",
+  savedDeleteProblem: "Hiba az autó eltávolítása közben.",
   },
   jp: {
     searchTitle: "検索",
@@ -728,6 +749,13 @@ export const translations = {
   deleteMessage: "メッセージを削除",
   newAppointmentDate: "新しい予約日時",
   currentAppointment: "現在の予約",
-    wrongPassword: "パスワードが間違えてます"
+    wrongPassword: "パスワードが間違えてます",
+    view: "",
+  remove: "",
+  fetchProblem: "",
+  deleteProblem: "",
+  loginProblem: "",
+  savedCarsProblem: "",
+  savedDeleteProblem: "",
   }
 };

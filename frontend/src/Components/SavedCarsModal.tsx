@@ -31,7 +31,7 @@ const SavedCarsModal: React.FC<SavedCarsModalProps> = ({ onClose, t }) => {
                 setSavedCars(fetchedCars);
             } catch (err) {
                 console.error("Failed to fetch saved cars", err);
-                setError("Failed to load saved cars.");
+                {langCtx?.translate.savedCarsProblem};
             } finally {
                 setLoading(false);
             }
@@ -60,7 +60,7 @@ const SavedCarsModal: React.FC<SavedCarsModalProps> = ({ onClose, t }) => {
             setSavedCars(savedCars.filter(car => car.id !== carId));
         } catch (err) {
             console.error("Failed to remove saved car", err);
-            setError("Failed to remove car from saved list.");
+            {langCtx?.translate.savedDeleteProblem};
         }
     };
 
@@ -103,7 +103,7 @@ const SavedCarsModal: React.FC<SavedCarsModalProps> = ({ onClose, t }) => {
                                         {car.brand.brandEnglish} {car.carModel.modelNameEnglish}
                                     </div>
                                     <div className="saved-car-price">
-                                        {Number(car.price).toLocaleString()} Ft
+                                        {Number(car.price).toLocaleString()} yen
                                     </div>
                                 </div>
                                 <div className="saved-car-actions">
@@ -127,7 +127,7 @@ const SavedCarsModal: React.FC<SavedCarsModalProps> = ({ onClose, t }) => {
                 
                 <div className="modal-footer">
                     <button className="btn btn-secondary" onClick={onClose}>
-                        {langCtx?.translate.close || "Close"}
+                        {langCtx?.translate.closed || "Close"}
                     </button>
                 </div>
             </div>
