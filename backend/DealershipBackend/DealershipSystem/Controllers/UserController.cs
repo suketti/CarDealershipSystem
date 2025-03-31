@@ -105,6 +105,29 @@ public class UserController : ControllerBase
         return Unauthorized();
     }
     
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout([FromBody] Guid userId)
+    {
+        // Retrieve the current authenticated user's ID
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (currentUserId == null || Guid.Parse(currentUserId) != userId)
+        {
+            return Unauthorized(new { message = "You are not authorized to log out this user." });
+        }
+
+        // Perform the logout
+        var result = await _userService.LogoutAsync(userId);
+
+        if (result)
+        {
+            return Ok(new { message = "Logout successful." });
+        }
+        else
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Logout failed." });
+        }
+    }
+    
     [HttpPost("dealer-login")]
     public async Task<IActionResult> DealerLogin([FromBody] UserLoginDTO loginDto)
     {

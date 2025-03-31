@@ -99,7 +99,13 @@ const LocationPage: React.FC = () => {
         <div className="map-embed-container">
           <div className="map-selected-info">
             <h3 className="map-location-name">{location.locationName}</h3>
-            <p className="map-selected-address">{location.address.prefecture.nameJP + location.address.city + location.address.street}</p>
+            <p className="map-selected-address"><span>
+                            {["en", "hu"].includes(langCtx?.language)
+                                ? `${location.address.streetRomanized}, ${location.address.cityRomanized}, ${location.address.prefecture.name}, ${location.address.postalCode}`
+                                : langCtx?.language === "jp"
+                                    ? `${location.address.prefecture.nameJP}${location.address.city}${location.address.street}`
+                                    : location.address.street}
+                          </span></p>
           </div>
           <iframe
             className="map-iframe"
@@ -154,10 +160,12 @@ const LocationPage: React.FC = () => {
                         <div className="location-address">
                           <span className="location-address-icon">📍</span>
                           <span>
-          {["en", "hu"].includes(langCtx?.language)
-              ? location.address.streetRomanized
-              : location.address.street}
-        </span>
+                            {["en", "hu"].includes(langCtx?.language)
+                                ? `${location.address.streetRomanized}, ${location.address.cityRomanized}, ${location.address.prefecture.name}, ${location.address.postalCode}`
+                                : langCtx?.language === "jp"
+                                    ? `${location.address.prefecture.nameJP}${location.address.city}${location.address.street}`
+                                    : location.address.street}
+                          </span>
                         </div>
 
                         <div className="location-phone">

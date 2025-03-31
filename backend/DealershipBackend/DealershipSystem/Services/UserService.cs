@@ -606,4 +606,28 @@ public class UserService : IUserService
         await _context.SaveChangesAsync();
         return true;
     }
+    
+    /// <summary>
+    /// Logs out the user asynchronously.
+    /// </summary>
+    /// <param name="userId">The ID of the user to log out.</param>
+    /// <returns>True if the logout was successful; otherwise, false.</returns>
+    public async Task<bool> LogoutAsync(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null)
+        {
+            return false; // User not found
+        }
+
+        await _jwtService.RevokeRefreshToken(user.RefreshToken);
+
+        await _userManager.UpdateAsync(user);
+
+        // Additional cleanup actions can be added here if necessary
+
+        return true; // Logout successful
+    }
+    
+    
 }

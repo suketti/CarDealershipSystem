@@ -53,9 +53,26 @@ const Header = () => {
   };
 
   // Handle logout
+  const clearCookies = () => {
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
+    });
+  };
+
+  // Handle logout
   const handleLogout = () => {
-    logoutUser();
-    setShowUserMenu(false);
+    if (user && user.id) {
+      logoutUser(user.id);
+      clearCookies();
+      localStorage.removeItem("AccessToken");
+      localStorage.removeItem("RefreshToken");
+      setShowUserMenu(false);
+      window.location.reload();
+    } else {
+      console.error("User ID is not available");
+    }
   };
 
   return (

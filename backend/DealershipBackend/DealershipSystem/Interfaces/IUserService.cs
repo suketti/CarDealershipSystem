@@ -28,5 +28,5 @@ public interface IUserService
     Task<bool> DeleteDealerAsync(Guid id, UserDTO userDto);
     Task<bool> DeleteSelfAsync(User deletingUser, User userToDelete);
     Task<bool> DeleteOtherUserAsync(User deletingUser, User userToDelete);
-        
+    Task<bool> LogoutAsync(Guid userId);
 }

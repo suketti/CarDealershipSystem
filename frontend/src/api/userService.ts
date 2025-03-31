@@ -61,16 +61,15 @@ function getAccessTokenFromCookie(): string | null {
 }
 
 
-export const logout = async () => {
+export const logout = async (userId: string) => {
     try {
-        await api.post("/users/logout");
+        await api.post("/api/user/logout", { userId: userId.toString() });
         localStorage.removeItem("AccessToken");
         localStorage.removeItem("RefreshToken");
     } catch (error) {
         console.error("Error logging out", error);
     }
 };
-
 
 interface RegisterData {
     name: string;
