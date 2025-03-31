@@ -542,7 +542,7 @@ export const translations = {
     yes: "Igen",
     no: "Nem",
     motExpiry: "Műszaki viszga lejárat",
-    isSmoking: "Dohányzázott jármű",
+    isSmoking: "Dohányzott jármű",
     loadingLocation: "Helyszínek betöltése...",
     locationDealership: "Autókereskedésünk helyszínei",
     noLocation: "Nincs helyszín",
