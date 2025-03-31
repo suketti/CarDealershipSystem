@@ -57,24 +57,33 @@ public class LocationService
     /// </summary>
     /// <param name="location">The location DTO.</param>
     /// <returns>An action result indicating the outcome of the creation.</returns>
-    public async Task<IActionResult> CreateLocationAsync(LocationDto location)
+
+    public async Task<LocationDto> CreateLocationAsync(LocationDto location)
     {
-        var entity = _mapper.Map<Models.Location>(location);
+        if (location == null || location.Address == null || location.Address.Prefecture == null)
+        {
+            throw new ArgumentNullException(nameof(location), "Location, Address, or Prefecture is null.");
+        }
+
+        // Check if the prefecture exists
         var prefecture = await _context.Prefectures.AsNoTracking()
-            .FirstOrDefaultAsync(x => x.NameJP == entity.Address.Prefecture.NameJP);
+            .FirstOrDefaultAsync(x => x.NameJP == location.Address.Prefecture.NameJP);
 
         if (prefecture == null)
         {
-            return new StatusCodeResult(422); // Unprocessable Entity
+            return null; // Return null if prefecture does not exist
         }
 
+        // Perform the mapping after ensuring the prefecture exists
+        var entity = _mapper.Map<Models.Location>(location);
+        
         entity.Address.PrefectureId = prefecture.Id;
         entity.Address.Prefecture = null;
 
         _context.Locations.Add(entity);
         await _context.SaveChangesAsync();
 
-        return new CreatedAtActionResult("GetById", "Location", new { id = entity.ID }, location);
+        return location;
     }
 
     /// <summary>
@@ -82,16 +91,23 @@ public class LocationService
     /// </summary>
     /// <param name="locationDto">The location DTO with updated information.</param>
     /// <returns>The updated location if successful; otherwise, null.</returns>
-    public async Task<Location> UpdateLocationAsync(LocationDto locationDto)
+   public async Task<Location> UpdateLocationAsync(LocationDto locationDto)
     {
+        // Fetch the existing location with Address and Prefecture details
         var existingLocation = await _context.Locations
             .Include(l => l.Address)
-            .ThenInclude(a => a.Prefecture)
+                .ThenInclude(a => a.Prefecture)
             .FirstOrDefaultAsync(l => l.ID == locationDto.Id);
 
         if (existingLocation == null)
         {
             return null; // Location not found
+        }
+
+        // Ensure that Address is loaded and not null
+        if (existingLocation.Address == null)
+        {
+            return null; // Address not found for this location
         }
 
         // Check if the new prefecture already exists
@@ -103,6 +119,9 @@ public class LocationService
         {
             return null; // Prefecture not found, handle this case as needed
         }
+
+        // Log before update (optional for debugging)
+        Console.WriteLine($"Updating Location ID: {existingLocation.ID}, Prefecture ID: {existingPrefecture.Id}");
 
         // Update the location details
         existingLocation.LocationName = locationDto.LocationName;
@@ -116,16 +135,20 @@ public class LocationService
 
         try
         {
+            // Save changes to the database
             _context.Locations.Update(existingLocation);
             await _context.SaveChangesAsync();
 
-            return existingLocation; 
+            return existingLocation; // Return the updated location
         }
         catch (Exception ex)
         {
+            // Log and throw exception for debugging
+            Console.WriteLine($"Error: {ex.Message}");
             throw new InvalidOperationException("Error updating location", ex);
         }
     }
+
 
     /// <summary>
     /// Gets all prefectures asynchronously.

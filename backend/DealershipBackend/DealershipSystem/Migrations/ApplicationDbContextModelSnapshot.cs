@@ -3,7 +3,6 @@ using System;
 using DealershipSystem.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DealershipSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250313175115_addMileage")]
-    partial class addMileage
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,6 +132,12 @@ namespace DealershipSystem.Migrations
                             ID = 8,
                             NameEnglish = "Truck/Van",
                             NameJapanese = "トラック/バン"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            NameEnglish = "Hatchback",
+                            NameJapanese = "ハッチバック"
                         });
                 });
 
@@ -478,6 +481,27 @@ namespace DealershipSystem.Migrations
                             ID = 4,
                             Type = "4WD"
                         });
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.EmployeeLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("EmployeeLocations");
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>
@@ -1338,6 +1362,17 @@ namespace DealershipSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Maker");
+                });
+
+            modelBuilder.Entity("DealershipSystem.Models.EmployeeLocation", b =>
+                {
+                    b.HasOne("DealershipSystem.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("DealershipSystem.Models.EngineSizeModel", b =>

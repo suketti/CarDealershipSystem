@@ -48,11 +48,16 @@ public class LocationController : ControllerBase
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateLocation([FromBody] LocationDto location)
     {
         var result = await _locationService.CreateLocationAsync(location);
-        return result;
+        if (result == null)
+        {
+            return new StatusCodeResult(422); // Unprocessable Entity
+        }
+
+        return Ok(result); // Return Ok for successful creation
     }
     [Authorize(Roles = "Admin")]
     [HttpPut("update")]

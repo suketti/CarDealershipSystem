@@ -1,0 +1,70 @@
+﻿<Window x:Class="WpfApp1.EditUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Felhasználó frissítése" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- For Labels -->
+            <RowDefinition Height="Auto"/>
+            <!-- For Name TextBox, NameKanji TextBox, etc. -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- For Buttons -->
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Név -->
+        <Label Content="Név:" Grid.Row="0" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="NameTextBox" Grid.Row="0" Grid.Column="1" Margin="10"/>
+
+        <!-- Név (Kanji) -->
+        <Label Content="Név (Kanji):" Grid.Row="1" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="NameKanjiTextBox" Grid.Row="1" Grid.Column="1" Margin="10"/>
+
+        <!-- Email -->
+        <Label Content="Email:" Grid.Row="2" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="EmailTextBox" Grid.Row="2" Grid.Column="1" Margin="10"/>
+
+        <!-- Telefonszám -->
+        <Label Content="Telefonszám:" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <TextBox x:Name="PhoneNumberTextBox" Grid.Row="3" Grid.Column="1" Margin="10" PreviewTextInput="PhoneNumberTextBox_PreviewTextInput"/>
+
+        <!-- Preferált nyelv -->
+        <Label Content="Preferált nyelv:" Grid.Row="4" Grid.Column="0" Margin="10"/>
+        <ComboBox x:Name="PreferredLanguageComboBox" Grid.Row="4" Grid.Column="1" Margin="10">
+            <ComboBoxItem Content="Angol" Tag="en"/>
+            <ComboBoxItem Content="Magyar" Tag="hu"/>
+            <ComboBoxItem Content="Japán" Tag="jp"/>
+        </ComboBox>
+
+        <!-- Szerep -->
+        <Label Content="Szerep:" Grid.Row="5" Grid.Column="0" Margin="10"/>
+        <ComboBox x:Name="RoleComboBox" Grid.Row="5" Grid.Column="1" Margin="10" SelectionChanged="RoleComboBox_SelectionChanged">
+            <ComboBoxItem Content="Admin"/>
+            <ComboBoxItem Content="Dealer"/>
+        </ComboBox>
+
+        <!-- Helyszín -->
+        <Label Content="Helyszín:" Grid.Row="6" Grid.Column="0" Margin="10"/>
+        <ComboBox x:Name="LocationComboBox" Grid.Row="6" Grid.Column="1" Margin="10" IsEnabled="False" DisplayMemberPath="LocationName"/>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Felhasználó frissítése" Width="150" Margin="10" Click="UpdateUser_Click"/>
+            <Button Content="Mégse" Width="100" Margin="10" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
