@@ -30,6 +30,9 @@ A telepítési útmutató és a szükséges technikai részletek a `dokumentacio
 - **Munkatársak (WPF-alkalmazás)**:  
   1. Indítsák el az asztali klienst, jelentkezzenek be adminjoggal.  
   2. Új autókat vihetnek fel (képekkel, adatlapokkal), szerkeszthetik a meglévőket.  
-  3. Menedzselhetik a felhasználókat, telephelyeket, motoradatokat, és figyelhetik a visszajelzéseket.  
+  3. Menedzselhetik a felhasználókat, telephelyeket, motoradatokat, és figyelhetik a visszajelzéseket.
+ 
+  Felhasználónév: yt@example.co.jp
+  Jelszó: testPassword9!
 
 Ezzel a megoldással **nincs lehetőség arra**, hogy külső, ismeretlen személyek maguk töltsenek fel hirdetéseket;
